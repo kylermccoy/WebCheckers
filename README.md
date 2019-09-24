@@ -7,7 +7,7 @@ a web micro-framework.
 ## Team
 
 - Brian Mirabito
-- MEMBER2
+- Justin Yau
 - MEMBER3
 - MEMBER4
 
