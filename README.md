@@ -6,8 +6,8 @@ a web micro-framework.
 
 ## Team
 
-- Luyang Lin
-- Justin Yau
+- 
+- Justin Yau - CMD 
 - Brian Mirabito
 - MEMBER4
 
