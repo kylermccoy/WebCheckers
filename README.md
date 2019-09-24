@@ -9,7 +9,7 @@ a web micro-framework.
 - 
 - Justin Yau
 - Brian Mirabito
-- MEMBER4
+- Kyle McCoy
 
 
 ## Prerequisites
