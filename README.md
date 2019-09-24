@@ -7,7 +7,7 @@ a web micro-framework.
 ## Team
 
 - 
-- Justin Yau
+- Justin Yau - CMD 
 - Brian Mirabito
 - Kyle McCoy
 
