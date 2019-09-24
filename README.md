@@ -6,10 +6,11 @@ a web micro-framework.
 
 ## Team
 
-- 
 - Justin Yau - CMD 
 - Brian Mirabito
 - Luyang Lin
+- Kyle McCoy
+
 
 
 ## Prerequisites
