@@ -6,7 +6,7 @@ a web micro-framework.
 
 ## Team
 
-- 
+- Luyang Lin
 - Justin Yau
 - Brian Mirabito
 - MEMBER4
