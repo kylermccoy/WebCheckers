@@ -6,9 +6,9 @@ a web micro-framework.
 
 ## Team
 
-- Brian Mirabito
+- 
 - Justin Yau
-- MEMBER3
+- Brian Mirabito
 - MEMBER4
 
 
