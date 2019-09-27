@@ -25,9 +25,10 @@
             spectating active games,
             or replay archived games
     -->
-    <p>
+    <h2 id="players-list">Players Online</h2>
+    <ul id="p-list">
       ${playerList}
-    </p>
+    </ul>
 
   </div>
 

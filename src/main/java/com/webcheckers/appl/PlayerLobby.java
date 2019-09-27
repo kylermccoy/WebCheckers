@@ -80,13 +80,13 @@ public class PlayerLobby {
    *      The current number of signed-in users excluding the currentPlayer if they're signed in
    */
   public String lobbySize(Player p) {
-    String ret = "There are currently ";
+    String ret = "<li class='player-item'> There are currently ";
     if(p == null) {
       ret += this.players.size(); // User is not logged in so we can display the full number of players
     } else {
       ret += (this.players.size() - 1); // User is logged in so we need to subtract one
     }
-    return (ret + " players signed in and ready to play!");
+    return (ret + " players signed in and ready to play! </li>");
   }
 
   /**
@@ -97,12 +97,12 @@ public class PlayerLobby {
    */
   public String giveRoster(Player p) {
     if(this.players.size() <= 1) {
-      return "There are no other players available to play at this time";
+      return "<li class='player-item'> There are no other players available to play at this time </li>";
     }
-    String lobbyList = "Players Online <br />";
+    String lobbyList = "";
     for(String entry : this.players.keySet()) {
       if(this.players.get(entry) != p) {
-        lobbyList += entry + "<br />";
+        lobbyList += "<li class='player-item'> <button class='player'>" + entry + " </button> </li>";
       }
     }
     return lobbyList;
