@@ -64,7 +64,7 @@ public class PlayerLobby {
    *          The player whose session ended.
    */
   public void playerLoggedOut(Player p) {
-    players.remove(p);
+    this.players.remove(p.getName());
   }
 
   /**
