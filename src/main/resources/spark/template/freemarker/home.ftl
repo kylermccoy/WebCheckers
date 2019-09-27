@@ -25,6 +25,9 @@
             spectating active games,
             or replay archived games
     -->
+    <p>
+      ${playerList}
+    </p>
 
   </div>
 

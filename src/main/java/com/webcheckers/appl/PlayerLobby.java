@@ -2,6 +2,7 @@ package com.webcheckers.appl;
 
 import com.webcheckers.model.Player;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -30,6 +31,9 @@ public class PlayerLobby {
   //
   // Constructors
   //
+  public PlayerLobby() {
+    players = new HashMap<String, Player>();
+  }
 
   //
   // Public methods
@@ -64,17 +68,42 @@ public class PlayerLobby {
   }
 
   /**
-   * Use the PlayerLobby Global Instance to display the current list of players
+   * Routine used to determine the current number of signed-in players
+   *
+   * CONDITIONS:
+   *    User is not logged in
+   *
+   * @param p
+   *        The currentUser object for the session
+   *
    * @return
+   *      The current number of signed-in users excluding the currentPlayer if they're signed in
    */
-  @Override
-  public String toString() {
+  public String lobbySize(Player p) {
+    String ret = "There are currently ";
+    if(p == null) {
+      ret += this.players.size(); // User is not logged in so we can display the full number of players
+    } else {
+      ret += (this.players.size() - 1); // User is logged in so we need to subtract one
+    }
+    return (ret + " players signed in and ready to play!");
+  }
+
+  /**
+   * Use the PlayerLobby Global Instance to display the current list of players
+   *
+   * @return
+   *    The full list of all signed-in players excluding the currentUser
+   */
+  public String giveRoster(Player p) {
     if(this.players.size() <= 1) {
       return "There are no other players available to play at this time";
     }
-    String lobbyList = "Current Lobby: <br />";
+    String lobbyList = "Players Online <br />";
     for(String entry : this.players.keySet()) {
-      lobbyList += entry + "<br />";
+      if(this.players.get(entry) != p) {
+        lobbyList += entry + "<br />";
+      }
     }
     return lobbyList;
   }

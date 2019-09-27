@@ -6,11 +6,8 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import com.webcheckers.appl.PlayerLobby;
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.TemplateEngine;
+import com.webcheckers.model.Player;
+import spark.*;
 
 import com.webcheckers.util.Message;
 
@@ -22,8 +19,17 @@ import com.webcheckers.util.Message;
 public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
-  private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+  // CONSTANT KEYS TO KEEP TRACK OF VIEW ATTRIBUTES AND IMPORTANT INFORMATION
+  public static final String MESSAGE_ATTR = "message";
+  public static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+  public static final String CURRENT_USER_KEY = "CURRENT_USER";
+  public static final String CURRENT_USER_ATTR = "currentUser";
+  public static final String PLAYER_LIST_ATTR = "playerList";
+  public static final String TITLE_ATTR = "title";
+  public static final String TITLE = "Welcome!";
+  public static final String VIEW_NAME = "home.ftl";
 
+  // WebServer provided information
   private final TemplateEngine templateEngine;
   private final PlayerLobby lobby;
 
@@ -56,14 +62,30 @@ public class GetHomeRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     LOG.finer("GetHomeRoute is invoked.");
-    //
-    Map<String, Object> vm = new HashMap<>();
-    vm.put("title", "Welcome!");
 
+    // retrieve the HTTP session
+    final Session httpSession = request.session();
+    // retrieve the player object
+    final Player player = httpSession.attribute(GetHomeRoute.CURRENT_USER_KEY);
+
+    // Create the view map to insert objects into
+    Map<String, Object> vm = new HashMap<>();
+
+    // update the title of the page
+    vm.put(TITLE_ATTR, TITLE);
     // display a user message in the Home page
-    vm.put("message", WELCOME_MSG);
+    vm.put(MESSAGE_ATTR, WELCOME_MSG);
+    // update the currentPlayer attribute so the page can dynamically change accordingly
+    vm.put(CURRENT_USER_ATTR, player);
+
+    // If player is already logged in, display the current list of signed-in players
+    if(player != null) {
+      vm.put(PLAYER_LIST_ATTR, lobby.giveRoster(player));
+    } else {
+      vm.put(PLAYER_LIST_ATTR, lobby.lobbySize(player));
+    }
 
     // render the View
-    return templateEngine.render(new ModelAndView(vm , "home.ftl"));
+    return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
   }
 }
