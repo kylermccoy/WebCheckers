@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.util.Message;
 import spark.*;
 
 import java.util.HashMap;
@@ -10,11 +11,16 @@ import java.util.logging.Logger;
 /**
  * The UI controller to GET the SIGN-IN Page
  *
- * @author Justin Yau
+ * @author Justin Yau @ RIT CS Student
  */
 public class GetSignInRoute implements Route {
 
   private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
+
+  private static final Message SIGN_IN_REQUEST = Message.info("To sign in, please enter a unique username!");
+
+  public static final String TITLE_ATTR = "title";
+  public static final String TITLE = "Sign in!";
 
   private final TemplateEngine templateEngine;
 
@@ -40,6 +46,9 @@ public class GetSignInRoute implements Route {
     LOG.finer("GetSignInRoute is invoked.");
     //
     Map<String, Object> vm = new HashMap<>();
+
+    vm.put(TITLE_ATTR, TITLE);
+    vm.put("message", SIGN_IN_REQUEST);
 
     // render the View
     return templateEngine.render(new ModelAndView(vm , "signin.ftl"));

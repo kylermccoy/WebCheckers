@@ -3,8 +3,7 @@ package com.webcheckers.model;
 /**
  * This is the model for a single player entity.
  *
- * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
- * @author <a href='mailto:jrv@se.rit.edu'>Jim Vallino</a>
+ * @author Justin Yau @ RIT CS Student
  */
 public class Player {
 
@@ -19,6 +18,15 @@ public class Player {
    */
   public Player(String username) {
     this.username = username;
+  }
+
+  /**
+   * Returns the username of the player
+   * @return
+   *      The username of the player
+   */
+  public String getUsername() {
+    return this.username;
   }
 
   /**
