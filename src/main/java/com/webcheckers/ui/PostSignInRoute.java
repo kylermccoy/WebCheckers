@@ -59,7 +59,7 @@ public class PostSignInRoute implements Route {
    */
   @Override
   public Object handle(Request request, Response response) {
-    LOG.finer("PostSignInRoute is invoked.");
+    LOG.fine("PostSignInRoute is invoked.");
 
     // retrieve the game object
     final Session session = request.session();
@@ -102,6 +102,12 @@ public class PostSignInRoute implements Route {
    */
   private Object loginSuccess(Session s, Map<String, Object> vm, Player p) {
     s.attribute(GetHomeRoute.CURRENT_USER_KEY, p);
+    if(s.attribute(GetHomeRoute.TIMEOUT_SESSION_KEY) == null) {
+      // Session timeout routine. The valueUnbound() method in the SessionTimeoutWatchdog will
+      // be called when the session is invalidated.
+      s.attribute(GetHomeRoute.TIMEOUT_SESSION_KEY, new SessionTimeoutWatchdog(this.lobby, p, s));
+      s.maxInactiveInterval(GetHomeRoute.SESSION_TIMEOUT_PERIOD);
+    }
     vm.put(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
     vm.put(GetHomeRoute.MESSAGE_ATTR, GetHomeRoute.WELCOME_MSG);
     vm.put(GetHomeRoute.CURRENT_USER_ATTR, p);

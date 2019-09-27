@@ -53,7 +53,7 @@ public class PostSignOutRoute implements Route {
    */
   @Override
   public Object handle(Request request, Response response) {
-    LOG.finer("PostSignOutRoute is invoked.");
+    LOG.fine("PostSignOutRoute is invoked.");
 
     // retrieve the game object
     final Session session = request.session();

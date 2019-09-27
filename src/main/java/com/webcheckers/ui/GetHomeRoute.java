@@ -29,6 +29,12 @@ public class GetHomeRoute implements Route {
   public static final String TITLE = "Welcome!";
   public static final String VIEW_NAME = "home.ftl";
 
+  // The timeout session key
+  public static final String TIMEOUT_SESSION_KEY = "timeoutWatchdog";
+
+  // The length of the session timeout in seconds
+  public static final int SESSION_TIMEOUT_PERIOD = 120;
+
   // WebServer provided information
   private final TemplateEngine templateEngine;
   private final PlayerLobby lobby;
@@ -61,7 +67,7 @@ public class GetHomeRoute implements Route {
    */
   @Override
   public Object handle(Request request, Response response) {
-    LOG.finer("GetHomeRoute is invoked.");
+    LOG.fine("GetHomeRoute is invoked.");
 
     // retrieve the HTTP session
     final Session httpSession = request.session();
@@ -80,6 +86,12 @@ public class GetHomeRoute implements Route {
 
     // If player is already logged in, display the current list of signed-in players
     if(player != null) {
+      if(httpSession.attribute(TIMEOUT_SESSION_KEY) == null) {
+        // Session timeout routine. The valueUnbound() method in the SessionTimeoutWatchdog will
+        // be called when the session is invalidated.
+        httpSession.attribute(TIMEOUT_SESSION_KEY, new SessionTimeoutWatchdog(this.lobby, player, httpSession));
+        httpSession.maxInactiveInterval(SESSION_TIMEOUT_PERIOD);
+      }
       vm.put(PLAYER_LIST_ATTR, lobby.giveRoster(player));
     } else {
       vm.put(PLAYER_LIST_ATTR, lobby.lobbySize(player));
