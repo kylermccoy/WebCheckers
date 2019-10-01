@@ -125,6 +125,7 @@ div.INFO {
   display: flex;
   flex-flow: row wrap;
 }
+
 button.player {
   background-color: #f1f1f1;
   width: 100px;
@@ -134,4 +135,12 @@ button.game {
   background-color: #fff1f1;
   width: 100px;
   margin: 10px;
+}
+
+h2#players-list {
+  color: blue;
+}
+
+ul#p-list {
+    list-style-type: none;
 }
