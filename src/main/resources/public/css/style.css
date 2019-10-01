@@ -128,7 +128,7 @@ div.INFO {
 
 button.player {
   background-color: #f1f1f1;
-  width: 100px;
+  width: auto;
   margin: 10px;
 }
 button.game {

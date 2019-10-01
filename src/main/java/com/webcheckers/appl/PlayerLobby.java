@@ -48,7 +48,7 @@ public class PlayerLobby {
    *      The player instance if the request was successful
    */
   public Player newPlayerInstance(String username) {
-    if(this.players.containsKey(username) || username.length() < 1) {
+    if(this.players.containsKey(username) || username.length() < 1 || username.isBlank()) {
       return null;
     } else {
       Player p = new Player(username);
