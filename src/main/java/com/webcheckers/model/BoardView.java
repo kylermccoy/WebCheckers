@@ -9,9 +9,16 @@ import java.util.Iterator;
  */
 public class BoardView implements Iterable {
 
-    // ArrayList of rows
-    private ArrayList<Row> rows ;
+    // ArrayList of blank rows
+    private ArrayList<Row> rowsBlank ;
 
+    // ArrayList of filled rows from white view
+    private ArrayList<Row> rowsWhite ;
+
+    // ArrayList of filled rows from red view
+    private ArrayList<Row> rowsRed ;
+
+    //
     /**
      * Constructor for the BoardView
      */
@@ -20,31 +27,41 @@ public class BoardView implements Iterable {
         for(int i = 0; i < 8; i++){
             rows.add(new Row(i)) ;
         }
-        this.rows = rows ;
+        this.rowsBlank = rows ;
+        this.rowsRed = fillBoard(false) ;
+        this.rowsWhite = fillBoard(true) ;
     }
 
     /**
      * Places pieces on the board red on the bottom white on top
      */
-    public void fillBoard(){
-        ArrayList<Row> filled_copy = this.rows ;
+    public ArrayList<Row> fillBoard(boolean redTop){
+        ArrayList<Row> filled_copy = this.rowsBlank ;
         for(Row row: filled_copy ){
             for(Space space: row.getSpaces()){
-                if((space.isValid())&&(row.getIndex()>=0)&&(row.getIndex()<=2)){
-                    space.placePiece(new Piece(false));
-                } else if ((space.isValid()) && (row.getIndex() >= 5) && (row.getIndex() <= 7)) {
-                    space.placePiece(new Piece(true));
+                if(!redTop) {
+                    if ((space.isValid()) && (row.getIndex() >= 0) && (row.getIndex() <= 2)) {
+                        space.placePiece(new Piece(false));
+                    } else if ((space.isValid()) && (row.getIndex() >= 5) && (row.getIndex() <= 7)) {
+                        space.placePiece(new Piece(true));
+                    }
+                }else{
+                    if ((space.isValid()) && (row.getIndex() >= 0) && (row.getIndex() <= 2)) {
+                        space.placePiece(new Piece(true));
+                    } else if ((space.isValid()) && (row.getIndex() >= 5) && (row.getIndex() <= 7)) {
+                        space.placePiece(new Piece(false));
+                    }
                 }
             }
         }
-        this.rows = filled_copy;
+        return filled_copy;
     }
 
     /**
-     * iterator for the board, places eight rows
+     * iterator for the red perspective of the board
      * @return iterable rows
      */
     public Iterator<Row> iterator() {
-        return this.rows.iterator();
+        return this.rowsRed.iterator() ;
     }
 }
