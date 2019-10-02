@@ -21,11 +21,14 @@ public class BoardView implements Iterable {
     private int GameID;
     private int gamesCreated;
 
+    private enum color {
+        RED, WHITE
+    }
+
     /**
      * Constructor for the BoardView
      */
     public BoardView(boolean redPlayer, Player playerOne, Player playerTwo){
-        this.rows = iterator() ;
         this.redPlayer = playerOne;
         this.whitePlayer = playerTwo;
         this.activeColor = color.RED;
