@@ -28,6 +28,6 @@ public class GetGameRoute implements Route {
         final Player player = httpSession.attribute(GetHomeRoute.CURRENT_USER_KEY);
         Map<String, Object> vm = new HashMap<>();
 
-        return null;
+        return templateEngine.render(new ModelAndView(vm , "game.ftl"));
     }
 }
