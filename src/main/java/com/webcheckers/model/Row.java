@@ -17,9 +17,13 @@ public class Row implements Iterable {
      * Constructor for the rwo
      * @param index number of the row
      */
-    public Row(int index) {
+    public Row(int index, boolean redPlayer) {
         this.index = index ;
-        this.spaces = iterator() ;
+        ArrayList<Space> spaces = new ArrayList<>() ;
+        for(int i = 0; i < 8; i++){
+            spaces.add(new Space(index, i, redPlayer)) ;
+        }
+        this.spaces = spaces.iterator();
     }
 
     /**
@@ -27,10 +31,6 @@ public class Row implements Iterable {
      * @return iterable spaces
      */
     public Iterator<Space> iterator() {
-        ArrayList<Space> spaces = new ArrayList<>() ;
-        for(int i = 0; i < 8; i++){
-            spaces.add(new Space(this.index, i)) ;
-        }
-        return spaces.iterator() ;
+        return this.spaces ;
     }
 }

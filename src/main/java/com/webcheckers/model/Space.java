@@ -21,7 +21,7 @@ public class Space {
      * @param row the row number to determine the space color
      * @param cellIdx the column number to determine space color
      */
-    public Space(int row, int cellIdx){
+    public Space(int row, int cellIdx, boolean redPlayer){
         this.cellIdx = cellIdx ;
         this.piece = null ;
         if(row%2==0){
@@ -29,19 +29,35 @@ public class Space {
                 this.color = spaceColor.LIGHT ;
             }else{
                 this.color = spaceColor.DARK ;
-                if(row==0){
-                    this.piece = new Piece(true) ;
-                }else if(row==6){
-                    this.piece= new Piece(false) ;
+                if(!redPlayer) {
+                    if (row == 0) {
+                        this.piece = new Piece(true);
+                    } else if (row == 6) {
+                        this.piece = new Piece(false);
+                    }
+                }else{
+                    if (row == 0) {
+                        this.piece = new Piece(false);
+                    } else if (row == 6) {
+                        this.piece = new Piece(true);
+                    }
                 }
             }
         }else{
             if(cellIdx%2==0){
                 this.color = spaceColor.DARK ;
-                if(row==1){
-                    this.piece = new Piece(true) ;
-                }else if(row==7){
-                    this.piece= new Piece(false) ;
+                if(!redPlayer) {
+                    if (row == 1) {
+                        this.piece = new Piece(true);
+                    } else if (row == 7) {
+                        this.piece = new Piece(false);
+                    }
+                }else{
+                    if (row == 1) {
+                        this.piece = new Piece(false);
+                    } else if (row == 7) {
+                        this.piece = new Piece(true);
+                    }
                 }
             }else{
                 this.color = spaceColor.LIGHT ;

@@ -24,11 +24,17 @@ public class BoardView implements Iterable {
     /**
      * Constructor for the BoardView
      */
-    public BoardView(Player playerOne, Player playerTwo){
+    public BoardView(boolean redPlayer, Player playerOne, Player playerTwo){
         this.rows = iterator() ;
         this.redPlayer = playerOne;
         this.whitePlayer = playerTwo;
         this.activeColor = color.RED;
+
+        ArrayList<Row> rows = new ArrayList<>();
+        for(int i = 0; i < 8; i++){
+            rows.add(new Row(i, redPlayer)) ;
+        }
+        this.rows = rows.iterator() ;
 
         // Creates a unique GameID for each game created
         synchronized (BoardView.class){
@@ -41,11 +47,7 @@ public class BoardView implements Iterable {
      * @return iterable rows
      */
     public Iterator<Row> iterator() {
-        ArrayList<Row> rows = new ArrayList<>();
-        for(int i = 0; i < 8; i++){
-            rows.add(new Row(i)) ;
-        }
-        return rows.iterator() ;
+        return this.rows ;
     }
 
     //
