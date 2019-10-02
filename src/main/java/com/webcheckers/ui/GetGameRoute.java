@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.appl.GameCenter;
+import com.webcheckers.model.BoardView;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -27,7 +28,6 @@ public class GetGameRoute implements Route {
         final Session httpSession = request.session();
         final Player player = httpSession.attribute(GetHomeRoute.CURRENT_USER_KEY);
         Map<String, Object> vm = new HashMap<>();
-
         return templateEngine.render(new ModelAndView(vm , "game.ftl"));
     }
 }

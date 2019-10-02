@@ -8,14 +8,14 @@ public class Piece {
     /**
      * enum type represents the regular checker or the king checker
      */
-    private enum type{
+    public enum type{
         SINGLE, KING
     }
 
     /**
      * enum color represents the color for the team
      */
-    private enum color{
+    public enum color{
         RED, WHITE
     }
     // enum that represents the piece's type
