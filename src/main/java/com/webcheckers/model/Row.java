@@ -11,19 +11,28 @@ public class Row implements Iterable {
     // the row number
     private int index ;
     // iterable value of the eight spaces
-    private Iterator<Space> spaces ;
+    private ArrayList<Space> spaces ;
 
     /**
      * Constructor for the rwo
      * @param index number of the row
      */
-    public Row(int index, boolean redPlayer) {
+    public Row(int index) {
         this.index = index ;
         ArrayList<Space> spaces = new ArrayList<>() ;
         for(int i = 0; i < 8; i++){
-            spaces.add(new Space(index, i, redPlayer)) ;
+            spaces.add(new Space(index, i)) ;
         }
-        this.spaces = spaces.iterator();
+        this.spaces = spaces;
+    }
+    // GETTERS
+
+    public int getIndex(){
+        return this.index ;
+    }
+
+    public ArrayList<Space> getSpaces(){
+        return this.spaces ;
     }
 
     /**
@@ -31,6 +40,6 @@ public class Row implements Iterable {
      * @return iterable spaces
      */
     public Iterator<Space> iterator() {
-        return this.spaces ;
+        return this.spaces.iterator() ;
     }
 }

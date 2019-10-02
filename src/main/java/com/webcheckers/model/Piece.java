@@ -25,11 +25,11 @@ public class Piece {
 
     /**
      * constructor for the piece
-     * @param redWhite if true the piece is red else the piece is white
+     * @param isRed if true the piece is red else the piece is white
      */
-    public Piece(boolean redWhite) {
+    public Piece(boolean isRed) {
         this.pieceType = Piece.type.SINGLE ;
-        if(redWhite){
+        if(isRed){
             this.pieceColor = color.RED ;
         }else{
             this.pieceColor = color.WHITE ;
