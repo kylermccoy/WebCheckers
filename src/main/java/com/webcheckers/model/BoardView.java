@@ -15,18 +15,18 @@ public class BoardView implements Iterable {
     /**
      * Constructor for the BoardView
      */
-    public BoardView(){
-        this.rows = iterator() ;
+    public BoardView(boolean redPlayer){
+        ArrayList<Row> rows = new ArrayList<>();
+        for(int i = 0; i < 8; i++){
+            rows.add(new Row(i, redPlayer)) ;
+        }
+        this.rows = rows.iterator() ;
     }
     /**
      * iterator for the board, places eight rows
      * @return iterable rows
      */
     public Iterator<Row> iterator() {
-        ArrayList<Row> rows = new ArrayList<>();
-        for(int i = 0; i < 8; i++){
-            rows.add(new Row(i)) ;
-        }
-        return rows.iterator() ;
+        return this.rows ;
     }
 }
