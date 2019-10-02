@@ -58,6 +58,14 @@ public class Space {
     }
 
     /**
+     * is the space tile Dark?
+     * @return boolean
+     */
+    public boolean isDark(){
+        return this.color==spaceColor.DARK ;
+    }
+
+    /**
      * get the space column number
      * @return int
      */
