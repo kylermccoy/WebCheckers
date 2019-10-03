@@ -51,11 +51,6 @@ public class BoardView implements Iterable {
                 } else if ((space.isValid()) && (row.getIndex() >= 5) && (row.getIndex() <= 7)) {
                     space.placePiece(new Piece(true));
                 }
-                if ((space.isValid()) && (row.getIndex() >= 0) && (row.getIndex() <= 2)) {
-                    space.placePiece(new Piece(true));
-                } else if ((space.isValid()) && (row.getIndex() >= 5) && (row.getIndex() <= 7)) {
-                    space.placePiece(new Piece(false));
-                }
             }
         }
         return board;
@@ -155,7 +150,6 @@ public class BoardView implements Iterable {
             board = board + "\n" ;
         }
         System.out.println(board);
-
     }
     /**
      * iterator for the red perspective of the board
