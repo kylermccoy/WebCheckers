@@ -5,6 +5,11 @@ import com.webcheckers.model.Player;
 
 import java.util.HashMap;
 
+/**
+ * Class for handling the creation of a game and management of who is in a game and what game specifically they are in
+ * @author Brian Mirabito
+ */
+
 public class GameCenter {
 
     // map of active games

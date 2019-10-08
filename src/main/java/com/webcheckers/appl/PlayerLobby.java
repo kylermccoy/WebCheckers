@@ -108,4 +108,13 @@ public class PlayerLobby {
     return lobbyList;
   }
 
+  /**
+   * Method for getting a player instance from string value
+   * @param name username of player
+   * @return player instance
+   */
+  public Player getPlayer(String name){
+    return players.get(name);
+  }
+
 }
