@@ -58,29 +58,6 @@ public class PlayerLobby {
   }
 
   /**
-   * Handles requests to query the current game state of a player
-   * @param username - The username of the player that you want to query
-   * @return - Whether or not the player is in-game or not
-   */
-  public boolean isPlayerInGame(String username) {
-    if(this.players.containsKey(username)){
-      return this.players.get(username).isInGame();
-    }
-    return true;
-  }
-
-  /**
-   * Handles a change in the current game state of the player
-   * @param username - The username of the player whose state has changed
-   * @param state - The new game state of the player
-   */
-  public void togglePlayerInGame(String username, boolean state) {
-    if(this.players.containsKey(username)) {
-      this.players.get(username).toggleGame(state);
-    }
-  }
-
-  /**
    * Routine called when the player signs out of their session
    *
    * @param p
