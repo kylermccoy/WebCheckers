@@ -58,15 +58,15 @@ public class PlayerLobby {
   }
 
   /**
-   * Handles requests to query the current state of a player
+   * Handles requests to query the current game state of a player
    * @param username - The username of the player that you want to query
-   * @return - The player object containing information
+   * @return - Whether or not the player is in-game or not
    */
-  public Player retrievePlayerInfo(String username) {
+  public boolean isPlayerInGame(String username) {
     if(this.players.containsKey(username)){
-      return this.players.get(username);
+      return this.players.get(username).isInGame();
     }
-    return null;
+    return true;
   }
 
   /**
