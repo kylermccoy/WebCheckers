@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 
+import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
 import spark.TemplateEngine;
 
@@ -65,10 +66,21 @@ public class WebServer {
    */
   public static final String SIGN_OUT_URL = "/signout";
 
+  /**
+   * The URL pattern to request the game page
+   */
+  public static final String GAME_URL = "/game";
+
+  /**
+   * The URL pattern to start the game process
+   */
+  public static final String REQUEST_GAME_URL = "/requestgame";
+
   //
   // Attributes
   //
 
+  private final GameCenter gameCenter;
   private final TemplateEngine templateEngine;
   private final Gson gson;
   private final PlayerLobby lobby;
@@ -99,6 +111,7 @@ public class WebServer {
     this.templateEngine = templateEngine;
     this.gson = gson;
     this.lobby = lobby;
+    this.gameCenter = new GameCenter();
   }
 
   //
@@ -157,6 +170,10 @@ public class WebServer {
 
     // Shows the Checkers game Sign-in page.
     get(SIGN_IN_URL, new GetSignInRoute(templateEngine));
+
+    post(REQUEST_GAME_URL, new PostGameRoute(templateEngine, lobby, gameCenter));
+
+    get(GAME_URL, new GetGameRoute(templateEngine, gameCenter, lobby));
 
     // Post sign-in request
     post(SIGN_IN_URL, new PostSignInRoute(this.lobby, templateEngine));

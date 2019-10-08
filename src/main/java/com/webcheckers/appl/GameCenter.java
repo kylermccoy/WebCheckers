@@ -17,12 +17,10 @@ public class GameCenter {
     // map of players in a game with keys being a player and the value being opponent
     private HashMap<Player, Player> playersInGame;
 
-    private PlayerLobby playerLobby;
 
-    public GameCenter(PlayerLobby playerLobby) {
+    public GameCenter() {
         playersInGame = new HashMap<>() ;
         activeGames = new HashMap<>();
-        this.playerLobby = playerLobby;
     }
 
     public CheckersGame startGame(Player one, Player two){
