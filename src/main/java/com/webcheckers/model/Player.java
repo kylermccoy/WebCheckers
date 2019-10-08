@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import com.sun.tools.javac.comp.Check;
+
 /**
  * This is the model for a single player entity.
  *

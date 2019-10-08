@@ -27,12 +27,14 @@ public class PlayerLobby {
   //
 
   private Map<String, Player> players; // This keeps a list of all the players in the lobby
+  private GameCenter center; // The gamecenter that keeps track the game state of players
 
   //
   // Constructors
   //
-  public PlayerLobby() {
+  public PlayerLobby(GameCenter center) {
     players = new HashMap<String, Player>();
+    this.center = center;
   }
 
   //
@@ -101,8 +103,10 @@ public class PlayerLobby {
     }
     String lobbyList = "";
     for(String entry : this.players.keySet()) {
-      if(this.players.get(entry) != p) {
-        lobbyList += "<li class='player-item'> <a class='player' href='/game'>" + entry + " </a> </li>";
+      Player play = this.players.get(entry);
+      if(play != p && center.getCheckersGame(play) == null) { // Player is not the current player and not in-game
+        lobbyList += "<li class='player-item'> <a class='player' href='/game?opponentName=" +
+                      play.getName() + "'>" + entry + " </a> </li>";
       }
     }
     return lobbyList;
@@ -114,6 +118,9 @@ public class PlayerLobby {
    * @return player instance
    */
   public Player getPlayer(String name){
+    if(name == null || name.length() == 0) {
+      return null;
+    }
     return players.get(name);
   }
 

@@ -20,6 +20,8 @@ public class CheckersGame {
 
     //BoardView
     private BoardView board ;
+    // Inverted BoardView
+    private BoardView invertedBoard;
 
     private enum viewMode {
         PLAY, SPECTATOR, REPLAY
@@ -40,13 +42,15 @@ public class CheckersGame {
         // Creates a unique GameID for each game created
         synchronized (BoardView.class){
             gamesCreated++;
-            GameID = gamesCreated;
+            this.GameID = gamesCreated;
         }
     }
 
     //
     // Public Getters
     //
+
+    public BoardView getBoard() { return this.board; }
 
     public int getGameID(){
         return GameID;

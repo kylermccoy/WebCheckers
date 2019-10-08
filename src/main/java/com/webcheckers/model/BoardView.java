@@ -28,6 +28,14 @@ public class BoardView implements Iterable {
         this.rowsWhite = rotateBoard(this.rowsRed) ;
     }
 
+    public ArrayList<Row> getRedBoard() {
+        return this.rowsRed;
+    }
+
+    public ArrayList<Row> getWhiteBoard() {
+        return this.rowsWhite;
+    }
+
     /**
      * makes blank rows of the game board, used to make red and white clones
      * @return arraylist of rows
@@ -151,11 +159,19 @@ public class BoardView implements Iterable {
         }
         System.out.println(board);
     }
+
     /**
-     * iterator for the red perspective of the board
-     * @return iterable rows
+     * SHUT UP
+     * @return
      */
     public Iterator<Row> iterator() {
+        return null;
+    }
+
+    public Iterator<Row> iterator(boolean inverted) {
+        if(inverted) {
+            return this.rowsWhite.iterator();
+        }
         return this.rowsRed.iterator();
     }
 

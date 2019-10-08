@@ -16,18 +16,23 @@ public class GameCenter {
     private HashMap<Player, CheckersGame> activeGames;
     // map of players in a game with keys being a player and the value being opponent
     private HashMap<Player, Player> playersInGame;
+    // map of players that will may have inverted views
+    private HashMap<Player, Boolean> playersInverted;
 
 
     public GameCenter() {
         playersInGame = new HashMap<>() ;
         activeGames = new HashMap<>();
+        playersInverted = new HashMap<>();
     }
 
     public CheckersGame startGame(Player one, Player two){
         CheckersGame game = new CheckersGame(one, two);
         addInGamePlayers(one, two);
         addToGame(one, game);
-        addToGame(two, game);
+        playersInverted.put(one, false);
+        playersInverted.put(two, true);
+        addToGame(two, game); // Pass inverted game view here
         return game;
     }
 
@@ -39,6 +44,25 @@ public class GameCenter {
     public void addInGamePlayers(Player one, Player two){
         playersInGame.put(one, two);
         playersInGame.put(two, one);
+    }
+
+    public void playerLeftGame(Player one) {
+        CheckersGame exitGame = getCheckersGame(one);
+        this.activeGames.remove(one);
+        this.playersInGame.remove(one);
+        this.playersInverted.remove(one);
+        Player opponent = null;
+        for(Player p: this.activeGames.keySet()) {
+            if(getCheckersGame(p) == exitGame) {
+                opponent = p;
+                break;
+            }
+        }
+        if(opponent != null) {
+            this.activeGames.remove(opponent);
+            this.playersInGame.remove(opponent);
+            this.playersInverted.remove(opponent);
+        }
     }
 
     /**
@@ -57,6 +81,18 @@ public class GameCenter {
      */
     public CheckersGame getCheckersGame(Player p){
         return activeGames.get(p);
+    }
+
+    /**
+     * Returns whether or not the player view is inverted
+     * @param p - The player
+     * @return
+     */
+    public boolean isPlayerViewInverted(Player p) {
+        if(playersInverted.containsKey(p)) {
+            return playersInverted.get(p);
+        }
+        return false;
     }
 
     /**
