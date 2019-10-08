@@ -70,6 +70,17 @@ public class PlayerLobby {
   }
 
   /**
+   * Handles a change in the current game state of the player
+   * @param username - The username of the player whose state has changed
+   * @param state - The new game state of the player
+   */
+  public void togglePlayerInGame(String username, boolean state) {
+    if(this.players.containsKey(username)) {
+      this.players.get(username).toggleGame(state);
+    }
+  }
+
+  /**
    * Routine called when the player signs out of their session
    *
    * @param p
