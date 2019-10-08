@@ -58,6 +58,18 @@ public class PlayerLobby {
   }
 
   /**
+   * Handles requests to query the current state of a player
+   * @param username - The username of the player that you want to query
+   * @return - The player object containing information
+   */
+  public Player retrievePlayerInfo(String username) {
+    if(this.players.containsKey(username)){
+      return this.players.get(username);
+    }
+    return null;
+  }
+
+  /**
    * Routine called when the player signs out of their session
    *
    * @param p
