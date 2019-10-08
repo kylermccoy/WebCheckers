@@ -102,7 +102,7 @@ public class PlayerLobby {
     String lobbyList = "";
     for(String entry : this.players.keySet()) {
       if(this.players.get(entry) != p) {
-        lobbyList += "<li class='player-item'> <button class='player'>" + entry + " </button> </li>";
+        lobbyList += "<li class='player-item'> <a class='player' href='/game'>" + entry + " </a> </li>";
       }
     }
     return lobbyList;
