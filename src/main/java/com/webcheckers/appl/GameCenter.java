@@ -19,13 +19,21 @@ public class GameCenter {
     // map of players that will may have inverted views
     private HashMap<Player, Boolean> playersInverted;
 
-
+    /**
+     * Constructor to initiate a new GameCenter
+     */
     public GameCenter() {
         playersInGame = new HashMap<>() ;
         activeGames = new HashMap<>();
         playersInverted = new HashMap<>();
     }
 
+    /***
+     * Method to generate a new CheckersGame object, with the needed players.
+     * @param one Player one, who gets the regular view of the board
+     * @param two Player two, who gets the inverted view of board
+     * @return CheckersGame
+     */
     public CheckersGame startGame(Player one, Player two){
         CheckersGame game = new CheckersGame(one, two);
         addInGamePlayers(one, two);
@@ -46,6 +54,10 @@ public class GameCenter {
         playersInGame.put(two, one);
     }
 
+    /**
+     * Removes the Player object from the current game.
+     * @param one Player to be removed
+     */
     public void playerLeftGame(Player one) {
         CheckersGame exitGame = getCheckersGame(one);
         this.activeGames.remove(one);
@@ -86,7 +98,7 @@ public class GameCenter {
     /**
      * Returns whether or not the player view is inverted
      * @param p - The player
-     * @return
+     * @return Boolean
      */
     public boolean isPlayerViewInverted(Player p) {
         if(playersInverted.containsKey(p)) {
