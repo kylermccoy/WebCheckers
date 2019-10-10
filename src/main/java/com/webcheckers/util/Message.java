@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
  */
-public final class Message {
+public final class    Message {
   private static final Logger LOG = Logger.getLogger(Message.class.getName());
 
   //

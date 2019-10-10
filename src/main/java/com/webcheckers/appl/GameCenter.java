@@ -19,13 +19,21 @@ public class GameCenter {
     // map of players that will may have inverted views
     private HashMap<Player, Boolean> playersInverted;
 
-
+    /**
+     * Constructor to initiate a new GameCenter
+     */
     public GameCenter() {
         playersInGame = new HashMap<>() ;
         activeGames = new HashMap<>();
         playersInverted = new HashMap<>();
     }
 
+    /***
+     * Method to generate a new CheckersGame object, with the needed players.
+     * @param one Player one, who gets the regular view of the board
+     * @param two Player two, who gets the inverted view of board
+     * @return CheckersGame
+     */
     public CheckersGame startGame(Player one, Player two){
         CheckersGame game = new CheckersGame(one, two);
         addInGamePlayers(one, two);
@@ -46,23 +54,14 @@ public class GameCenter {
         playersInGame.put(two, one);
     }
 
+    /**
+     * Removes the Player object from the current game.
+     * @param one Player to be removed
+     */
     public void playerLeftGame(Player one) {
-        CheckersGame exitGame = getCheckersGame(one);
-        this.activeGames.remove(one);
         this.playersInGame.remove(one);
         this.playersInverted.remove(one);
-        Player opponent = null;
-        for(Player p: this.activeGames.keySet()) {
-            if(getCheckersGame(p) == exitGame) {
-                opponent = p;
-                break;
-            }
-        }
-        if(opponent != null) {
-            this.activeGames.remove(opponent);
-            this.playersInGame.remove(opponent);
-            this.playersInverted.remove(opponent);
-        }
+        this.activeGames.remove(one);
     }
 
     /**
@@ -86,13 +85,22 @@ public class GameCenter {
     /**
      * Returns whether or not the player view is inverted
      * @param p - The player
-     * @return
+     * @return Boolean
      */
     public boolean isPlayerViewInverted(Player p) {
         if(playersInverted.containsKey(p)) {
             return playersInverted.get(p);
         }
         return false;
+    }
+
+    /**
+     * Returns whether or not the player is in-game or not
+     * @param p - The player p
+     * @return - Whether or not the player is in-game
+     */
+    public boolean isPlayerInGame(Player p) {
+        return playersInGame.containsKey(p);
     }
 
     /**

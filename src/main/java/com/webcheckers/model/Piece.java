@@ -38,7 +38,7 @@ public class Piece {
 
     /**
      * returns the enum type of the piece
-     * @return
+     * @return piece type
      */
     public type getType(){
         return this.pieceType ;
@@ -46,7 +46,7 @@ public class Piece {
 
     /**
      * returns the enum color of the piece
-     * @return
+     * @return piece color
      */
     public color getColor(){
         return this.pieceColor ;

@@ -27,10 +27,18 @@ public class Row implements Iterable {
     }
     // GETTERS
 
+    /***
+     * gets the Index of the row.
+     * @return index of row (int)
+     */
     public int getIndex(){
         return this.index ;
     }
 
+    /***
+     * gets an array list of all the spaces contained in this row
+     * @return array list of spaces
+     */
     public ArrayList<Space> getSpaces(){
         return this.spaces ;
     }
