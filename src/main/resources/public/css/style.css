@@ -126,11 +126,14 @@ div.INFO {
   flex-flow: row wrap;
 }
 
-button.player {
+a.player {
   background-color: #f1f1f1;
   width: auto;
   margin: 10px;
+  color: black;
+  text-decoration: none;
 }
+
 button.game {
   background-color: #fff1f1;
   width: 100px;

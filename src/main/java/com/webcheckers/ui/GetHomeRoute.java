@@ -5,11 +5,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import spark.*;
 
 import com.webcheckers.util.Message;
+
+import static spark.Spark.halt;
 
 /**
  * The UI Controller to GET the Home page.
@@ -38,6 +41,7 @@ public class GetHomeRoute implements Route {
   // WebServer provided information
   private final TemplateEngine templateEngine;
   private final PlayerLobby lobby;
+  private final GameCenter center;
 
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -47,9 +51,10 @@ public class GetHomeRoute implements Route {
    * @param templateEngine
    *   the HTML template rendering engine
    */
-  public GetHomeRoute(final PlayerLobby lobby, final TemplateEngine templateEngine) {
+  public GetHomeRoute(final PlayerLobby lobby, final GameCenter center, final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
-    this.lobby = lobby;
+    this.lobby = Objects.requireNonNull(lobby, "playerLobby is required");
+    this.center = Objects.requireNonNull(center, "gameCenter is required");
     //
     LOG.config("GetHomeRoute is initialized.");
   }
@@ -86,6 +91,11 @@ public class GetHomeRoute implements Route {
 
     // If player is already logged in, display the current list of signed-in players
     if(player != null) {
+      if(center.getCheckersGame(player) != null) {
+        response.redirect(WebServer.GAME_URL);
+        halt();
+        return null;
+      }
       if(httpSession.attribute(TIMEOUT_SESSION_KEY) == null) {
         // Session timeout routine. The valueUnbound() method in the SessionTimeoutWatchdog will
         // be called when the session is invalidated.
