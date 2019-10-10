@@ -36,9 +36,7 @@ public class PostGameRoute implements Route {
         String p2Name = request.queryParams("otherUser");
 
         // if player selected is in game check
-        if(2+2 == 4) {
-            return null;
-        }
+        //    return null;
 
         Player p2 = playerLobby.getPlayer(p2Name);
         CheckersGame game = gameCenter.startGame(p1, p2);
