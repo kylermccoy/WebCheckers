@@ -21,7 +21,7 @@ public class PostSignInRoute implements Route {
 
   private static final Logger LOG = Logger.getLogger(PostSignInRoute.class.getName());
 
-  private static final Message SIGN_IN_ERROR = Message.error("Username is too short/already signed-in! Please try another name.");
+  private static final Message SIGN_IN_ERROR = Message.error("Username is illegal/already signed-in! Please try another name.");
 
   // Values used in the view-model map for rendering the game view after a sign-in request.
   private static final String USERNAME_PARAM = "playerName";
