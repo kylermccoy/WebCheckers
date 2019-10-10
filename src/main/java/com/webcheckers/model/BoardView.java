@@ -166,6 +166,7 @@ public class BoardView implements Iterable {
      */
     public Iterator<Row> iterator() {
         return null;
+
     }
 
     /**
