@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Class that represents the BoardView for checkers
+ * Class that represents the BoardView for checkers, which handles organizing the pieces on the board.
  * @ Kyle McCoy
  */
 public class BoardView implements Iterable {
@@ -38,7 +38,7 @@ public class BoardView implements Iterable {
 
     /**
      * makes blank rows of the game board, used to make red and white clones
-     * @return arraylist of rows
+     * @return array list of rows
      */
     public ArrayList<Row> makeRows(){
         ArrayList<Row> rows = new ArrayList<>();
@@ -161,13 +161,19 @@ public class BoardView implements Iterable {
     }
 
     /**
-     * SHUT UP
-     * @return
+     * Stand-in method to satisfy mission requirements, which defines such method named iterator
+     * @return nothing
      */
     public Iterator<Row> iterator() {
         return null;
+
     }
 
+    /**
+     * Actual Iterator method to give the board either inverted or not inverted, based on the parameter
+     * @param inverted whether or not to invert the board
+     * @return either inverted or not inverted board
+     */
     public Iterator<Row> iterator(boolean inverted) {
         if(inverted) {
             return this.rowsWhite.iterator();

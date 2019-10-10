@@ -9,11 +9,20 @@ import spark.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/***
+ * The {@code POST /game} route handler
+ */
 public class PostGameRoute implements Route {
     GameCenter gameCenter;
     PlayerLobby playerLobby;
     TemplateEngine templateEngine;
 
+    /***
+     * Constructor.
+     * @param templateEngine TemplateEngine
+     * @param playerLobby PlayerLobby
+     * @param gameCenter GameCenter
+     */
     public PostGameRoute(TemplateEngine templateEngine, PlayerLobby playerLobby, GameCenter gameCenter){
         this.templateEngine = templateEngine;
         this.playerLobby = playerLobby;

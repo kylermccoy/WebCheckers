@@ -3,14 +3,11 @@ package com.webcheckers.appl;
 import com.webcheckers.model.Player;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * The object of is to coordinate the state of the Web Application and keep track of active playerse.
- *
- *
+ * The object of this class is to coordinate the state of the Web Application and keep track of active players.
  * @author Justin Yau @ RIT CS STUDENT
  */
 public class PlayerLobby {

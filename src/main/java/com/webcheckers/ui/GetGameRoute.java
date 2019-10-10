@@ -27,6 +27,12 @@ public class GetGameRoute implements Route {
     public static final String CURRENT_OPPONENT_KEY = "CURRENT_OPPONENT_KEY";
     public static final String GAME_TITLE = "Checkers";
 
+    /***
+     * Constructor.
+     * @param templateEngine expected Template engine
+     * @param gameCenter GameCenter object
+     * @param playerLobby PlayerLobby (the web handler)
+     */
     public GetGameRoute(TemplateEngine templateEngine, GameCenter gameCenter, PlayerLobby playerLobby ) {
         this.templateEngine = templateEngine;
         this.gameCenter = gameCenter;
