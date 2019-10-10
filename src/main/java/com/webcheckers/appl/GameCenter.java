@@ -59,22 +59,9 @@ public class GameCenter {
      * @param one Player to be removed
      */
     public void playerLeftGame(Player one) {
-        CheckersGame exitGame = getCheckersGame(one);
-        this.activeGames.remove(one);
         this.playersInGame.remove(one);
         this.playersInverted.remove(one);
-        Player opponent = null;
-        for(Player p: this.activeGames.keySet()) {
-            if(getCheckersGame(p) == exitGame) {
-                opponent = p;
-                break;
-            }
-        }
-        if(opponent != null) {
-            this.activeGames.remove(opponent);
-            this.playersInGame.remove(opponent);
-            this.playersInverted.remove(opponent);
-        }
+        this.activeGames.remove(one);
     }
 
     /**
@@ -105,6 +92,15 @@ public class GameCenter {
             return playersInverted.get(p);
         }
         return false;
+    }
+
+    /**
+     * Returns whether or not the player is in-game or not
+     * @param p - The player p
+     * @return - Whether or not the player is in-game
+     */
+    public boolean isPlayerInGame(Player p) {
+        return playersInGame.containsKey(p);
     }
 
     /**
