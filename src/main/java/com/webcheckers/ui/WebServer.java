@@ -72,6 +72,11 @@ public class WebServer {
   public static final String RESIGN_GAME_URL = "/resignGame";
 
   /**
+   * The URL pattern to request the check turn page
+   */
+  public static final String CHECK_TURN_URL = "/checkTurn";
+
+  /**
    * The URL pattern to request the game page
    */
   public static final String GAME_URL = "/game";
@@ -188,6 +193,9 @@ public class WebServer {
 
     // Post resign-game request
     post(RESIGN_GAME_URL, new PostResignGameRoute(lobby, gameCenter, gson, templateEngine));
+
+    // Post check-turn request
+    post(CHECK_TURN_URL, new PostCheckTurnRoute(lobby, gameCenter, gson, templateEngine));
 
     //
     LOG.config("WebServer is initialized.");

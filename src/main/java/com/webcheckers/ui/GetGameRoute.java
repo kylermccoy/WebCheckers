@@ -53,6 +53,7 @@ public class GetGameRoute implements Route {
 
         final Map<String, Object> modeOptions = new HashMap<>(2);
         modeOptions.put("isGameOver", false);
+        modeOptions.put("gameOverMessage", "");
 
         if(gameCenter.getCheckersGame(player) == null) { // Game has not been initiated or a user logged out
             if(extractedPlayer == null) {
@@ -70,7 +71,7 @@ public class GetGameRoute implements Route {
               httpSession.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, game.getOpponent(player));
               opponent = httpSession.attribute(GetGameRoute.CURRENT_OPPONENT_KEY);
             }
-            if(!gameCenter.isPlayerInGame(opponent)) {
+            else if(!gameCenter.isPlayerInGame(opponent)) {
               modeOptions.put("isGameOver", true);
               modeOptions.put("gameOverMessage", opponent.getName() + " has resigned.");
               httpSession.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, null);

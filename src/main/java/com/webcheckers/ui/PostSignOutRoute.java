@@ -75,6 +75,7 @@ public class PostSignOutRoute implements Route {
           this.center.playerLeftGame(player);
       }
       session.attribute(GetHomeRoute.CURRENT_USER_KEY, null);
+      session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, null);
       response.redirect(WebServer.HOME_URL);
       halt();
       return null;
