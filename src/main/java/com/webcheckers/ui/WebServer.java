@@ -67,6 +67,11 @@ public class WebServer {
   public static final String SIGN_OUT_URL = "/signout";
 
   /**
+   * The URL pattern to request the resign game page.
+   */
+  public static final String RESIGN_GAME_URL = "/resignGame";
+
+  /**
    * The URL pattern to request the game page
    */
   public static final String GAME_URL = "/game";
@@ -173,13 +178,16 @@ public class WebServer {
 
     post(REQUEST_GAME_URL, new PostGameRoute(templateEngine, lobby, gameCenter));
 
-    get(GAME_URL, new GetGameRoute(templateEngine, gameCenter, lobby));
+    get(GAME_URL, new GetGameRoute(templateEngine, gameCenter, gson, lobby));
 
     // Post sign-in request
     post(SIGN_IN_URL, new PostSignInRoute(lobby, templateEngine));
 
     // Post sign-out request
     post(SIGN_OUT_URL, new PostSignOutRoute(lobby, gameCenter, templateEngine));
+
+    // Post resign-game request
+    post(RESIGN_GAME_URL, new PostResignGameRoute(lobby, gameCenter, gson, templateEngine));
 
     //
     LOG.config("WebServer is initialized.");

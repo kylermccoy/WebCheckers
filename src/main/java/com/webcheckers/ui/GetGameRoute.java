@@ -23,6 +23,7 @@ public class GetGameRoute implements Route {
     private final GameCenter gameCenter;
     private final TemplateEngine templateEngine;
     private final PlayerLobby playerLobby;
+    private final Gson gson;
 
     public static final String CURRENT_OPPONENT_KEY = "CURRENT_OPPONENT_KEY";
     public static final String GAME_TITLE = "Checkers";
@@ -33,10 +34,11 @@ public class GetGameRoute implements Route {
      * @param gameCenter GameCenter object
      * @param playerLobby PlayerLobby (the web handler)
      */
-    public GetGameRoute(TemplateEngine templateEngine, GameCenter gameCenter, PlayerLobby playerLobby ) {
+    public GetGameRoute(TemplateEngine templateEngine, GameCenter gameCenter, Gson gson, PlayerLobby playerLobby ) {
         this.templateEngine = templateEngine;
         this.gameCenter = gameCenter;
         this.playerLobby = playerLobby;
+        this.gson = gson;
     }
 
     @Override
@@ -85,8 +87,6 @@ public class GetGameRoute implements Route {
             vm.put("whitePlayer", game.getWhitePlayer());
             vm.put("activeColor", game.getActiveColor());
             vm.put("board", game.getBoard());
-            vm.put("stopRefresh", modeOptions.get("isGameOver"));
-            Gson gson = new Gson();
             vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
             vm.put("invertedView", this.gameCenter.isPlayerViewInverted(player));
             vm.put("viewMode", "PLAY");
