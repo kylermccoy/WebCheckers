@@ -10,8 +10,11 @@ import spark.*;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import static spark.Spark.halt;
-
+/**
+ * The UI controller to POST the resignGame Page
+ *
+ * @author Justin Yau @ RIT CS Student
+ */
 public class PostResignGameRoute implements Route {
 
   private static final Logger LOG = Logger.getLogger(PostResignGameRoute.class.getName());
@@ -27,6 +30,10 @@ public class PostResignGameRoute implements Route {
    *
    * @param lobby
    *   the PlayerLobby which contains a list of all players
+   * @param center
+   *    the GameCenter which contains all the game information and active players
+   * @param gson
+   *    the Gson object to convert objects into JSON
    * @param templateEngine
    *   the HTML template rendering engine
    */
@@ -39,6 +46,17 @@ public class PostResignGameRoute implements Route {
     LOG.config("PostResignGameRoute is initialized.");
   }
 
+  /**
+   * Updates the WebCheckers Game page.
+   *
+   * @param request
+   *   the HTTP request
+   * @param response
+   *   the HTTP response
+   *
+   * @return
+   *   AJAX Response with message Body containing a string of whether the player successfully resigned or not
+   */
   @Override
   public Object handle(Request request, Response response) {
     LOG.fine("PostResignGameRoute is invoked.");

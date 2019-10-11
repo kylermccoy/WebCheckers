@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
@@ -29,19 +30,23 @@ public class PostSignInRoute implements Route {
   // Webserver provided information
   private final TemplateEngine templateEngine;
   private final PlayerLobby lobby;
+  private final GameCenter center;
 
   /**
    * Create the Spark Route (UI controller) to handle all {@code POST /signin} HTTP requests.
    *
    * @param lobby
    *   the PlayerLobby which contains a list of all players
+   * @param center
+   *    the GameCenter which contains all the game information and active players
    * @param templateEngine
    *   the HTML template rendering engine
    */
-  public PostSignInRoute(final PlayerLobby lobby, final TemplateEngine templateEngine) {
+  public PostSignInRoute(final PlayerLobby lobby, final GameCenter center, final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
 
     this.lobby = lobby;
+    this.center = center;
     //
     LOG.config("PostSignInRoute is initialized.");
   }
@@ -105,7 +110,7 @@ public class PostSignInRoute implements Route {
     if(s.attribute(GetHomeRoute.TIMEOUT_SESSION_KEY) == null) {
       // Session timeout routine. The valueUnbound() method in the SessionTimeoutWatchdog will
       // be called when the session is invalidated.
-      s.attribute(GetHomeRoute.TIMEOUT_SESSION_KEY, new SessionTimeoutWatchdog(this.lobby, p, s));
+      s.attribute(GetHomeRoute.TIMEOUT_SESSION_KEY, new SessionTimeoutWatchdog(this.lobby, this.center, p, s));
       s.maxInactiveInterval(GetHomeRoute.SESSION_TIMEOUT_PERIOD);
     }
     vm.put(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);

@@ -11,6 +11,11 @@ import spark.*;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * The UI controller to POST the checkTurn Page
+ *
+ * @author Justin Yau @ RIT CS Student
+ */
 public class PostCheckTurnRoute implements Route {
 
   private static final Logger LOG = Logger.getLogger(PostCheckTurnRoute.class.getName());
@@ -22,10 +27,14 @@ public class PostCheckTurnRoute implements Route {
   private final Gson gson;
 
   /**
-   * Create the Spark Route (UI controller) to handle all {@code POST /signin} HTTP requests.
+   * Create the Spark Route (UI controller) to handle all {@code POST /checkTurn} HTTP requests.
    *
    * @param lobby
    *   the PlayerLobby which contains a list of all players
+   * @param center
+   *    the GameCenter which contains all the game information and active players
+   * @param gson
+   *    the Gson object to convert objects into JSON
    * @param templateEngine
    *   the HTML template rendering engine
    */
@@ -38,6 +47,18 @@ public class PostCheckTurnRoute implements Route {
     LOG.config("PostCheckTurnRoute is initialized.");
   }
 
+  /**
+   * Updates the WebCheckers Game page.
+   *
+   * @param request
+   *   the HTTP request
+   * @param response
+   *   the HTTP response
+   *
+   * @return
+   *   AJAX Response with message Body containing a string of whether it is the player's turn or not OR if their opponent
+   *   resigned.
+   */
   @Override
   public Object handle(Request request, Response response) {
     LOG.fine("PostCheckTurnRoute is invoked.");

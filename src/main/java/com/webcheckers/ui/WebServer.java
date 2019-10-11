@@ -186,7 +186,7 @@ public class WebServer {
     get(GAME_URL, new GetGameRoute(templateEngine, gameCenter, gson, lobby));
 
     // Post sign-in request
-    post(SIGN_IN_URL, new PostSignInRoute(lobby, templateEngine));
+    post(SIGN_IN_URL, new PostSignInRoute(lobby, gameCenter, templateEngine));
 
     // Post sign-out request
     post(SIGN_OUT_URL, new PostSignOutRoute(lobby, gameCenter, templateEngine));

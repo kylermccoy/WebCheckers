@@ -17,6 +17,7 @@ import static spark.Spark.halt;
  * The {@code GET /game} route handler.
  *
  * @author <a href='mailto:bjm9265@rit.edu'>Brian Mirabito</a>
+ * @author JUSTIN YAU @ RIT CS STUDENT
  */
 public class GetGameRoute implements Route {
 
