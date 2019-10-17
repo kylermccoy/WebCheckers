@@ -30,7 +30,7 @@ public class CheckersGame {
         PLAY, SPECTATOR, REPLAY
     }
 
-    private enum color {
+    public enum color {
         RED, WHITE
     }
 

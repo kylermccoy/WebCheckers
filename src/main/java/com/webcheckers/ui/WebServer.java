@@ -76,6 +76,11 @@ public class WebServer {
    */
   public static final String REQUEST_GAME_URL = "/requestgame";
 
+  /**
+   *  The URL pattern to validate the move
+   */
+  public static final String VALIDATE_MOVE_URL = "/validateMove" ;
+
   //
   // Attributes
   //
