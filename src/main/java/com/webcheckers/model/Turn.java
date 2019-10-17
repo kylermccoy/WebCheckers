@@ -55,4 +55,22 @@ public class Turn {
         LOG.fine(String.format("Turn initialized in [%s] state", this.state)) ;
     }
 
+    public Message validateMove(Move move){
+        LOG.info(String.format("%s Player [%s] is validating move %s", playerColor, player.getName(), move.toString()));
+
+        move.setPieceColor(playerColor) ;
+        move.setPlayer(player) ;
+
+        BoardView boardView = this.board.getBoard() ;
+
+        LOG.finest("The board we are using for this validateMove()");
+        LOG.finest(boardView.toString());
+
+        boolean isMoveValid = false ;
+
+        Message moveValidMsg = new Message("Move is invalid.", Message.MessageType.error) ;
+
+        //switch statements for each state
+        return null ;
+    }
 }

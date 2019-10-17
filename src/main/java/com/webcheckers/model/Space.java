@@ -57,6 +57,12 @@ public class Space {
         }
     }
 
+    public Piece removePiece(){
+        Piece temp = this.piece ;
+        this.piece = null ;
+        return temp ;
+    }
+
     /**
      * is the space tile Dark?
      * @return boolean
@@ -79,5 +85,9 @@ public class Space {
      */
     public Piece getPiece(){
         return this.piece ;
+    }
+
+    public boolean isOccupied(){
+        return this.getPiece() != null ;
     }
 }

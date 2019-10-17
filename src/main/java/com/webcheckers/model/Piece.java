@@ -51,4 +51,8 @@ public class Piece {
     public color getColor(){
         return this.pieceColor ;
     }
+
+    public boolean isRed(){
+        return this.pieceColor.equals(color.RED) ;
+    }
 }

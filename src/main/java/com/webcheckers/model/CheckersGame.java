@@ -31,7 +31,11 @@ public class CheckersGame {
     }
 
     public enum color {
-        RED, WHITE
+        RED, WHITE ;
+
+        public boolean isRed(){
+            return this.equals(color.RED) ;
+        }
     }
 
     /***

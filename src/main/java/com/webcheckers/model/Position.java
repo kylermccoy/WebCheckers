@@ -21,4 +21,8 @@ public class Position {
     public int getCell(){
         return this.cell ;
     }
+
+    public boolean isOnBoard(){
+        return (row <= 7 && row >= 0) && (cell <= 7 && cell >= 0) ;
+    }
 }
