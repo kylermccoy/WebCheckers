@@ -100,5 +100,157 @@ public class MoveValidator {
         return false ;
     }
 
+    private static void logMoveCoordinates(Move move){
+        LOG.finer(String.format("%s Player [%s] wants to move from %s", move.getColor(), move.getPlayer().getName(), move.toString()));
+    }
 
+    private static void logMove(ArrayList<Row> matrix, Move move){
+        Space startSpace = matrix.get(move.getStart().getRow()).getSpaces().get(move.getStart().getCell()) ;
+        Space endSpace = matrix.get(move.getEnd().getRow()).getSpaces().get(move.getEnd().getCell()) ;
+
+        LOG.finest(String.format("Starting position state is [%s] by a %s Piece", startSpace.getStatus(), startSpace.getPiece().getColor()));
+        LOG.finest(String.format("End position state is [%s]", endSpace.getStatus()));
+
+        // is logging even worth it?!?!?!?
+        LOG.finest(String.format("Validate move.isValid() - %s", move.isValid()));
+        LOG.finest(String.format("Validate     └─ start.isOnBoard() -  %s", move.getStart().isOnBoard()));
+        LOG.finest(String.format("Validate     └─ end.isOnBoard() -  %s", move.getEnd().isOnBoard()));
+        LOG.finest(String.format("Validate     └─ isSingleSpace() -  %s", move.isSingleSpace()));
+        LOG.finest(String.format("Validate     └─ isJump() -  %s", move.isJump()));
+    }
+
+    private static boolean isEndSpaceOpen(ArrayList<Row> board, Move move){
+        Space endSpace = board.get(move.getEnd().getRow()).getSpaces().get(move.getEnd().getCell()) ;
+        boolean conditionTruth = endSpace.isOpen() ;
+        LOG.finest(String.format("Validate isEndSpaceOpen(): %s", conditionTruth));
+        return conditionTruth ;
+    }
+
+    private static boolean isMoveInRightDirection(ArrayList<Row> matrix, Move move){
+        Piece piece = matrix.get(move.getStart().getRow()).getSpaces().get(move.getStart().getCell()).getPiece() ;
+        boolean conditionTruth = false ;
+
+        if (piece.isKing()){
+            conditionTruth = true ;
+        }else{
+            int startRow = move.getStart().getRow() ;
+            int endRow = move.getEnd().getRow() ;
+            if (move.getColor().isRed()){
+                conditionTruth = (endRow < startRow) ;
+            }else{
+                conditionTruth = (endRow > startRow) ;
+            }
+        }
+
+        LOG.finest(String.format("Validate isMoveInRightDirection(): %s", conditionTruth)) ;
+        return conditionTruth ;
+    }
+
+    private static boolean isMoveJumpingAPiece(ArrayList<Row> matrix, Move move){
+        boolean conditionTruth = false ;
+        if (move.isJump()){
+            Position position = move.getMidpoint() ;
+            Space space = matrix.get(position.getRow()).getSpaces().get(position.getCell()) ;
+            Piece piece = matrix.get(move.getStart().getRow()).getSpaces().get(move.getStart().getCell()).getPiece() ;
+            if(space.isOccupied()){
+                if (!(space.getPiece().isKing() && piece.isRed())){
+                    conditionTruth = true ;
+                }
+            }
+        }
+        LOG.finest(String.format("Validate isMoveJumpingAPiece(): %s", conditionTruth));
+
+        return conditionTruth ;
+    }
+
+    private static boolean areWeMovingMyPiece(ArrayList<Row> matrix, Move move){
+        boolean conditionTruth = false ;
+
+        Space start = matrix.get(move.getStart().getRow()).getSpaces().get(move.getStart().getCell()) ;
+        conditionTruth = (start.getPiece().isRed() == move.getColor().isRed()) ;
+
+        LOG.finest(String.format("Validate areWeMovingMyPiece(): %s", conditionTruth));
+        return conditionTruth ;
+    }
+
+    public static boolean areJumpsAvailableForPlayer(ArrayList<Row> matrix, CheckersGame.color color){
+        for (int row = 0; row < 8; row++){
+            for (int col = 0; col < 8; col++){
+                if (canJump(matrix, row, col, color)){
+                    return true ;
+                }
+            }
+        }
+        return false ;
+    }
+
+    public static boolean canContinueJump(ArrayList<Row> board, Position position, CheckersGame.color color){
+        boolean condition ;
+        int row = position.getRow() ;
+        int cell = position.getCell() ;
+        condition = canJump(board, row, cell, color) ;
+        LOG.fine(String.format("Can Multi-Jump: %b", condition));
+        return condition ;
+    }
+
+    private static boolean canJump(ArrayList<Row> board, int row, int cell, CheckersGame.color color){
+        Space current = board.get(row).getSpaces().get(cell) ;
+        if (current.isOccupied() && (current.getPiece().isRed() && color.isRed())){
+            Move testMove ;
+            Position start = new Position(row, cell) ;
+            if (cell + 2 < 8){
+                if (row + 2 < 8){
+                    testMove = new Move(start, new Position(row + JUMP_DIFFERENCE, cell + JUMP_DIFFERENCE)) ;
+                    if (board.get(testMove.getStart().getRow()).getSpaces().get(testMove.getStart().getCell()).getPiece().isRed()){
+                        testMove.setPieceColor(CheckersGame.color.RED);
+                    }else{
+                        testMove.setPieceColor(CheckersGame.color.WHITE);
+                    }
+                    if (canJumpValidation(board, testMove)){
+                        return true ;
+                    }
+                }
+                if (row - 2 >= 0){
+                    testMove = new Move(start, new Position(row - JUMP_DIFFERENCE, cell + JUMP_DIFFERENCE)) ;
+                    if (board.get(testMove.getStart().getRow()).getSpaces().get(testMove.getStart().getCell()).getPiece().isRed()){
+                        testMove.setPieceColor(CheckersGame.color.RED);
+                    }else{
+                        testMove.setPieceColor(CheckersGame.color.WHITE);
+                    }
+                    if (canJumpValidation(board, testMove)){
+                        return true ;
+                    }
+                }
+            }
+            if (cell - 2 >= 0){
+                if (row + 2 < 8){
+                    testMove = new Move(start, new Position(row + JUMP_DIFFERENCE, cell - JUMP_DIFFERENCE)) ;
+                    if (board.get(testMove.getStart().getRow()).getSpaces().get(testMove.getStart().getCell()).getPiece().isRed()){
+                        testMove.setPieceColor(CheckersGame.color.RED);
+                    }else{
+                        testMove.setPieceColor(CheckersGame.color.WHITE);
+                    }
+                    if (canJumpValidation(board, testMove)){
+                        return true ;
+                    }
+                }
+                if (row - 2 >= 0){
+                    testMove = new Move(start, new Position(row - JUMP_DIFFERENCE, cell + JUMP_DIFFERENCE)) ;
+                    if (board.get(testMove.getStart().getRow()).getSpaces().get(testMove.getStart().getCell()).getPiece().isRed()){
+                        testMove.setPieceColor(CheckersGame.color.RED);
+                    }else{
+                        testMove.setPieceColor(CheckersGame.color.WHITE);
+                    }
+                    if (canJumpValidation(board, testMove)){
+                        return true ;
+                    }
+                }
+            }
+        }
+        return false ;
+    }
+
+    public static  boolean canJumpValidation(ArrayList<Row> board, Move move){
+        return isMoveJumpingAPiece(board, move) && isEndSpaceOpen(board, move) && isMoveInRightDirection(board, move) ;
+    }
 }

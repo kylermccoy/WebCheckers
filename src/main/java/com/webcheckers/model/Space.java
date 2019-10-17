@@ -57,6 +57,20 @@ public class Space {
         }
     }
 
+    public String getStatus(){
+        if (this.isOccupied() && this.isDark()){
+            return "Occupied" ;
+        }else if (!this.isOccupied() && this.isDark()){
+            return "Open" ;
+        }else{
+            return "Invalid" ;
+        }
+    }
+
+    public boolean isOpen(){
+        return this.piece == null ;
+    }
+
     public Piece removePiece(){
         Piece temp = this.piece ;
         this.piece = null ;

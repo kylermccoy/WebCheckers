@@ -29,12 +29,27 @@ public class Move {
         return this.player ;
     }
 
+    public CheckersGame.color getColor(){
+        return this.color ;
+    }
+
     public void setPieceColor(CheckersGame.color color){
         this.color = color ;
     }
 
     public void setPlayer(Player player){
         this.player = player ;
+    }
+
+    public Position getMidpoint(){
+        if (!isSingleSpace()){
+            int midRow = getStart().getRow() + (getEnd().getRow() - getStart().getRow()) / 2 ;
+            int midCell = getStart().getCell() + (getEnd().getCell() - getStart().getCell()) / 2 ;
+
+            return new Position(midRow, midCell) ;
+        }else{
+            return start ;
+        }
     }
 
     /**
@@ -50,6 +65,11 @@ public class Move {
 
     public boolean isValid(){
         return this.start.isOnBoard() && this.end.isOnBoard() && this.player != null && this.color != null ;
+    }
+
+    public boolean isJump(){
+        Position diff = Position.absoluteDifference(end, start) ;
+        return diff.getCell() == 2 && diff.getRow() == 2 ;
     }
 
     public String toString(){

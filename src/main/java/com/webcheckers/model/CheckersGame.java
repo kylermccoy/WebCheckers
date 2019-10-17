@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import java.util.ArrayList;
+
 /**
  * Class for player and game logic
  * @ Brian Mirabito

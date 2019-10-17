@@ -55,4 +55,8 @@ public class Piece {
     public boolean isRed(){
         return this.pieceColor.equals(color.RED) ;
     }
+
+    public boolean isKing(){
+        return this.pieceType == type.KING ;
+    }
 }
