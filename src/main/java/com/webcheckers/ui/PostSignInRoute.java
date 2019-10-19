@@ -21,10 +21,11 @@ public class PostSignInRoute implements Route {
 
   private static final Logger LOG = Logger.getLogger(PostSignInRoute.class.getName());
 
-  private static final Message SIGN_IN_ERROR = Message.error("Username is illegal/already signed-in! Please try another name.");
+  public static final Message SIGN_IN_ERROR = Message.error("Username is illegal/already signed-in! Please try another name.");
+  public static final String MESSAGE_ATTR = "message";
 
   // Values used in the view-model map for rendering the game view after a sign-in request.
-  private static final String USERNAME_PARAM = "playerName";
+  public static final String USERNAME_PARAM = "playerName";
 
   // Webserver provided information
   private final TemplateEngine templateEngine;
@@ -81,7 +82,7 @@ public class PostSignInRoute implements Route {
     if(p != null) {
       return loginSuccess(session, vm, p);
     } else {
-      vm.put("message", SIGN_IN_ERROR);
+      vm.put(MESSAGE_ATTR, SIGN_IN_ERROR);
     }
 
     // render the View
