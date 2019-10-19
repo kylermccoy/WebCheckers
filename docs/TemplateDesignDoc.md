@@ -1,78 +1,65 @@
-
 ---
 geometry: margin=1in
 ---
 # PROJECT Design Documentation
 
+> _The following template provides the headings for your Design
+> Documentation.  As you edit each section make sure you remove these
+> commentary 'blockquotes'; the lines that start with a > character
+> and appear in the generated PDF in italics._
+
 ## Team Information
-* Team name: SuperAlphaGo
+* Team name: TEAMNAME
 * Team members
-  * JUSTIN YAU
-  * KYLE MCCOY
-  * BRIAN MIRABITO
-  * LUYANG LIN
+  * MEMBER1
+  * MEMBER2
+  * MEMBER3
+  * MEMBER4
 
 ## Executive Summary
 
-WebCheckers is a web based application that allows users to play a functional game of
-checkers with other signed-in players. The project utilizes the Spark Micro Web framework and FreeMarker Template Engine.
-The high level architecture of the project consists of the UI, Model, and Application tiers.
-These tiers provide a logical separation of responsibility. The Agile development cycle was used to gradually
-implement the different functionalities of the MVP and related enhancements.
+This is a summary of the project.
 
 ### Purpose
-The WebCheckers web application aims for users to play a fully functional game of checkers in a browser.
-This game of checkers will adhere to American Rules.
+> _Provide a very brief statement about the project and the most
+> important user group and user goals._
 
 ### Glossary and Acronyms
+> _Provide a table of terms and acronyms._
 
 | Term | Definition |
 |------|------------|
 | VO | Value Object |
-| MVP | Minimal Viable Product |
-| UI | User Interface |
 
 
 ## Requirements
 
 This section describes the features of the application.
 
+> _In this section you do not need to be exhaustive and list every
+> story.  Focus on top-level features from the Vision document and
+> maybe Epics and critical Stories._
+
 ### Definition of MVP
+> _Provide a simple description of the Minimum Viable Product._
 
 ### MVP Features
-The MVP is an web application where users can sign in, choose an opponent, and then play a game of Web Checkers adhering
-to the standard American Rules of Checkers. Players in-game user may choose to resign at any time, ending the game early.
-
-1.  **Sign In** Every player must sign-in before playing a game, and be able to sign-out when finished playing.
-2.  **Gameplay** This epic ensures the full functionality required for two players to be able to play a game of checkers
-based upon the  [American rules](http://www.se.rit.edu/~swen-261/projects/WebCheckers/American%20Rules.html).
-3.  **Resignation** Either player of a game may choose to resign, at any point, which ends the game.
-4.  **Validate Move** This epic ensures that moves are validated to be legal before being finalized by the application.
+> _Provide a list of top-level Epics and/or Stories of the MVP._
 
 ### Roadmap of Enhancements
-The enhancements of interest to Team D in order of preference are:
-
-1.  _Spectator Mode_: Other players may view an on-going game that they are not playing.
-2.  _Player Help_: Extend the Game View to support the ability to request help.
+> _Provide a list of top-level features in the order you plan to consider them._
 
 
 ## Application Domain
 
 This section describes the application domain.
 
-![The WebCheckers Domain Model](Domain Model Team D SWEN-261.png)
-_Figure 1: Domain analysis of the Web Application_
+![The WebCheckers Domain Model](domain-model-placeholder.png)
 
-#  Overview of the domain
+> _Provide a high-level overview of the domain for this application. You
+> can discuss the more important domain entities and their relationship
+> to each other._
 
-1. Players log into the web application using the login interface to then be able to start a checkers game with other players.
-2. The CheckersGame contains a state of the board which contains rows of spaces of white/black colors and can be occupied by
-pieces of red/black colors.
-3. Each Piece can be a normal piece or a king piece.
-4. Each player that is in-game would be able to make a move and update the state of the CheckersGame accordingly.
-5. A player can be spectating, to which they would be unable to make a move in a game, or a actual player, who would be able to play the game.
-6. A player can use a help interface to assist with the game.
-7. The CheckersGame adheres to the rules defined by the American Rules.
 
 ## Architecture and Design
 
@@ -100,7 +87,7 @@ Details of the components within these tiers are supplied below.
 This section describes the web interface flow; this is how the user views and interacts
 with the WebCheckers application.
 
-![The WebCheckers Web Interface Statechart](SWEN 261 State Diagram Team D.png)
+![The WebCheckers Web Interface Statechart](web-interface-placeholder.png)
 
 > _Provide a summary of the application's user interface.  Describe, from
 > the user's perspective, the flow of the pages in the web application._
