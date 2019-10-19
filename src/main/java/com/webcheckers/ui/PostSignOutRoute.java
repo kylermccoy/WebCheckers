@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import static com.webcheckers.ui.GetHomeRoute.TIMEOUT_SESSION_KEY;
 import static spark.Spark.halt;
 
 /**
@@ -31,6 +32,8 @@ public class PostSignOutRoute implements Route {
    *
    * @param lobby
    *   the PlayerLobby which contains a list of all players
+   * @param center
+   *    the GameCenter which contains all the game information and active players
    * @param templateEngine
    *   the HTML template rendering engine
    */
@@ -75,6 +78,8 @@ public class PostSignOutRoute implements Route {
           this.center.playerLeftGame(player);
       }
       session.attribute(GetHomeRoute.CURRENT_USER_KEY, null);
+      session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, null);
+      session.attribute(TIMEOUT_SESSION_KEY, null);
       response.redirect(WebServer.HOME_URL);
       halt();
       return null;

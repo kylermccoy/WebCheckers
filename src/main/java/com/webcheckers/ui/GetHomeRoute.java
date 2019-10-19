@@ -17,6 +17,7 @@ import static spark.Spark.halt;
 /**
  * The UI Controller to GET the Home page.
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author Justin Yau @ CS RIT STUDENT
  */
 public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
@@ -47,6 +48,8 @@ public class GetHomeRoute implements Route {
    *
    * @param lobby
    *   the PlayerLobby which contains a list of all players
+   * @param center
+   *    the GameCenter which contains all the game information and active players
    * @param templateEngine
    *   the HTML template rendering engine
    */
@@ -98,7 +101,7 @@ public class GetHomeRoute implements Route {
       if(httpSession.attribute(TIMEOUT_SESSION_KEY) == null) {
         // Session timeout routine. The valueUnbound() method in the SessionTimeoutWatchdog will
         // be called when the session is invalidated.
-        httpSession.attribute(TIMEOUT_SESSION_KEY, new SessionTimeoutWatchdog(this.lobby, player, httpSession));
+        httpSession.attribute(TIMEOUT_SESSION_KEY, new SessionTimeoutWatchdog(this.lobby, this.center, player, httpSession));
         httpSession.maxInactiveInterval(SESSION_TIMEOUT_PERIOD);
       }
       vm.put(PLAYER_LIST_ATTR, lobby.giveRoster(player));

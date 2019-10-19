@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import spark.Session;
@@ -22,6 +23,7 @@ public class SessionTimeoutWatchdog implements HttpSessionBindingListener {
   private final Player p;
   private final PlayerLobby lobby;
   private final Session session;
+  private final GameCenter center;
 
   /**
    * Creates a new watcher that will detect if the user is inactive and sign them out after a period
@@ -31,10 +33,11 @@ public class SessionTimeoutWatchdog implements HttpSessionBindingListener {
    * @param p - The currentUser of the session
    * @param session - The current session
    */
-  public SessionTimeoutWatchdog(final PlayerLobby lobby, final Player p, final Session session) {
+  public SessionTimeoutWatchdog(final PlayerLobby lobby, final GameCenter center, final Player p, final Session session) {
     LOG.fine("Watch dog created.");
     this.p = Objects.requireNonNull(p);
     this.lobby = Objects.requireNonNull(lobby);
+    this.center = Objects.requireNonNull(center);
     this.session = Objects.requireNonNull(session);
   }
 
@@ -47,7 +50,11 @@ public class SessionTimeoutWatchdog implements HttpSessionBindingListener {
   public void valueUnbound(HttpSessionBindingEvent event) {
     // the session is being terminated do some cleanup
     this.lobby.playerLoggedOut(p);
+    if(center.isPlayerInGame(p)) {
+      center.playerLeftGame(p);
+    }
     session.attribute(GetHomeRoute.CURRENT_USER_KEY, null);
+    session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, null);
     //
     LOG.fine(this.p + " has automatically signed out!");
   }

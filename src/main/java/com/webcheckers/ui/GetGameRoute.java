@@ -17,12 +17,14 @@ import static spark.Spark.halt;
  * The {@code GET /game} route handler.
  *
  * @author <a href='mailto:bjm9265@rit.edu'>Brian Mirabito</a>
+ * @author JUSTIN YAU @ RIT CS STUDENT
  */
 public class GetGameRoute implements Route {
 
     private final GameCenter gameCenter;
     private final TemplateEngine templateEngine;
     private final PlayerLobby playerLobby;
+    private final Gson gson;
 
     public static final String CURRENT_OPPONENT_KEY = "CURRENT_OPPONENT_KEY";
     public static final String GAME_TITLE = "Checkers";
@@ -33,10 +35,11 @@ public class GetGameRoute implements Route {
      * @param gameCenter GameCenter object
      * @param playerLobby PlayerLobby (the web handler)
      */
-    public GetGameRoute(TemplateEngine templateEngine, GameCenter gameCenter, PlayerLobby playerLobby ) {
+    public GetGameRoute(TemplateEngine templateEngine, GameCenter gameCenter, Gson gson, PlayerLobby playerLobby ) {
         this.templateEngine = templateEngine;
         this.gameCenter = gameCenter;
         this.playerLobby = playerLobby;
+        this.gson = gson;
     }
 
     @Override
@@ -51,6 +54,7 @@ public class GetGameRoute implements Route {
 
         final Map<String, Object> modeOptions = new HashMap<>(2);
         modeOptions.put("isGameOver", false);
+        modeOptions.put("gameOverMessage", "");
 
         if(gameCenter.getCheckersGame(player) == null) { // Game has not been initiated or a user logged out
             if(extractedPlayer == null) {
@@ -68,7 +72,7 @@ public class GetGameRoute implements Route {
               httpSession.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, game.getOpponent(player));
               opponent = httpSession.attribute(GetGameRoute.CURRENT_OPPONENT_KEY);
             }
-            if(!gameCenter.isPlayerInGame(opponent)) {
+            else if(!gameCenter.isPlayerInGame(opponent)) {
               modeOptions.put("isGameOver", true);
               modeOptions.put("gameOverMessage", opponent.getName() + " has resigned.");
               httpSession.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, null);
@@ -85,8 +89,6 @@ public class GetGameRoute implements Route {
             vm.put("whitePlayer", game.getWhitePlayer());
             vm.put("activeColor", game.getActiveColor());
             vm.put("board", game.getBoard());
-            vm.put("stopRefresh", modeOptions.get("isGameOver"));
-            Gson gson = new Gson();
             vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
             vm.put("invertedView", this.gameCenter.isPlayerViewInverted(player));
             vm.put("viewMode", "PLAY");
