@@ -60,7 +60,7 @@ The enhancements of interest to Team D in order of preference are:
 
 This section describes the application domain.
 
-![The WebCheckers Domain Model](Domain Model Team D SWEN-261.png)
+![The WebCheckers Domain Model](domain-model.png)
 _Figure 1: Domain analysis of the Web Application_
 
 #  Overview of the domain
@@ -100,7 +100,7 @@ Details of the components within these tiers are supplied below.
 This section describes the web interface flow; this is how the user views and interacts
 with the WebCheckers application.
 
-![The WebCheckers Web Interface Statechart](SWEN 261 State Diagram Team D.png)
+![The WebCheckers Web Interface Statechart](state-diagram.png)
 
 > _Provide a summary of the application's user interface.  Describe, from
 > the user's perspective, the flow of the pages in the web application._
