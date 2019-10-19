@@ -39,9 +39,10 @@ This section describes the features of the application.
 
 ### Definition of MVP
 
-### MVP Features
 The MVP is an web application where users can sign in, choose an opponent, and then play a game of Web Checkers adhering
 to the standard American Rules of Checkers. Players in-game user may choose to resign at any time, ending the game early.
+
+### MVP Features
 
 1.  **Sign In** Every player must sign-in before playing a game, and be able to sign-out when finished playing.
 2.  **Gameplay** This epic ensures the full functionality required for two players to be able to play a game of checkers
@@ -63,7 +64,7 @@ This section describes the application domain.
 ![The WebCheckers Domain Model](domain-model.png)
 _Figure 1: Domain analysis of the Web Application_
 
-#  Overview of the domain
+###  Overview of the domain
 
 1. Players log into the web application using the login interface to then be able to start a checkers game with other players.
 2. The CheckersGame contains a state of the board which contains rows of spaces of white/black colors and can be occupied by
@@ -83,6 +84,7 @@ This section describes the application architecture.
 The following Tiers/Layers model shows a high-level view of the webapp's architecture.
 
 ![The Tiers & Layers of the Architecture](architecture-tiers-and-layers.png)
+_Figure 2: Diagram of the WebCheckers Architectural Structure_
 
 As a web application, the user interacts with the system using a
 browser.  The client-side of the UI is composed of HTML pages with
@@ -101,45 +103,75 @@ This section describes the web interface flow; this is how the user views and in
 with the WebCheckers application.
 
 ![The WebCheckers Web Interface Statechart](state-diagram.png)
+_Figure 3: A State Chart that represents the different UI Views_
 
-> _Provide a summary of the application's user interface.  Describe, from
-> the user's perspective, the flow of the pages in the web application._
+### Flow of Pages
 
+A first time user would be welcomed to the homepage. From there this user can navigate to the sign-in page
+and sign in using a username. Given the username is legal and not in the system already, the user will be
+redirected back to the home page where they can view other users to start a game with. From the time that the
+user is signed-in, there is a session timeout watchdog listening for inactivity and will automatically log the user
+out and if they come back, they would be redirected to the homepage and prompted as if they were a first-time user.
+If the user starts a game, they would be directed to the game view and once that game ends, they would have the
+option to navigate back to the homepage or sign out and be redirected to the homepage.
 
 ### UI Tier
-> _Provide a summary of the Server-side UI tier of your architecture.
-> Describe the types of components in the tier and describe their
-> responsibilities.  This should be a narrative description, i.e. it has
-> a flow or "story line" that the reader can follow._
+The components of the UI Tier works to provide an interface to view content and provide input to users.
+Contents of the UI Tier is often pulled from other tiers. Sometimes, conversion of pulled data
+must be performed. The UI tier is responsible for this conversion as well as handling requests by the user.
 
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class structure or object diagrams) with some
-> details such as critical attributes and methods._
+The UI Tier of the WebCheckers project consists of several components that can be classified into the following:
 
-> _You must also provide any dynamic models, such as statechart and
-> sequence diagrams, as is relevant to a particular aspect of the design
-> that you are describing.  For example, in WebCheckers you might create
-> a sequence diagram of the `POST /validateMove` HTTP request processing
-> or you might show a statechart diagram if the Game component uses a
-> state machine to manage the game._
+AjaxRoutes: These routes enable the client's browser to exchange information with the server without refreshing during
+gameplay. Not refreshing helps to ensure a smoother experience where the client is not forced to load a new page for
+game actions (i.e. validating a move, checking the turn).
 
-> _If a dynamic model, such as a statechart describes a feature that is
-> not mostly in this tier and cuts across multiple tiers, you can
-> consider placing the narrative description of that feature in a
-> separate section for describing significant features. Place this after
-> you describe the design of the three tiers._
+*  PostCheckTurnRoute
+*  PostResignGameRoute
+
+HTTPRoutes: Unlike the Ajax routes, routes under this classification must be re-rendered each time. These HTTP routes are
+responsible for displaying views (a GET request) and updating data from the client (a POST request).
+
+* GetGameRoute
+* GetHomeRoute
+* GetSigninRoute
+* PostSignoutRoute
+* PostSigninRoute
+* WebServer
 
 
 ### Application Tier
-> _Provide a summary of the Application tier of your architecture. This
-> section will follow the same instructions that are given for the UI
-> Tier above._
+The Application Tier covers the manages logic and state of information of the general application as a whole.
+It provides client-specific services to the UI Tier so that it can generate the proper views.
+
+This tier in our application consists of the GameCenter and PlayerLobby components. GameCenter keeps a state of all
+active games and players in-game along with their opponents. This will prove crucial when it comes to determining if
+a player is in-game or not and retrieving game state. Handles to start and end a game are also a part of this component.
+PlayerLobby keeps a state of all signed-in players and determines legality of the usernames of the users trying to sign in.
+Handles to log in and log out are a part of this component. All of these components formats and provides their respective
+information to the UI Tier so it can generate the proper view.
 
 
 ### Model Tier
-> _Provide a summary of the Application tier of your architecture. This
-> section will follow the same instructions that are given for the UI
-> Tier above._
+The Model Tier contains components where it holds actual information pertaining to the state of the board. These components
+will be updated to update the state of the board with the aid of helper functions to translate information to the UI tier.
+This tier's main responsibility is to store the representations of the Board, Space, and Piece for the game.
+
+![The WebCheckers Structural Class Diagram for Model Tier](model-tier-structural-class-model.png)
+_Figure 4: Structural Class Diagram for Model Tier_
+
+The Board component stores the state of the red player's board and white player's board. This will be primarily used by the game
+view to retrieve the representation of the boards at a certain period of time to be displayed.
+
+The Piece component stores information regarding what color it is so that players can identify which are theirs to move.
+This information is also used by the other tiers to determine if a move is legal.
+
+The Space component stores the state of a space on the board. It can be occupied by a piece and keeps track of colors. This
+will be used to display each specific space on the board.
+
+There is also a player model component that represents a player. This component's primary responsibility is to store and
+return the username of a player. It will be primarily used by the PlayerLobby application tier component to display rosters
+and determine lobby size.
 
 ### Design Improvements
 > _Discuss design improvements that you would make if the project were
@@ -152,8 +184,9 @@ with the WebCheckers application.
 > suggested design improvements to address those hot spots._
 
 ## Testing
-> _This section will provide information about the testing performed
-> and the results of the testing._
+
+This section will provide information about the testing performed
+and the results of the testing._
 
 ### Acceptance Testing
 > _Report on the number of user stories that have passed all their
