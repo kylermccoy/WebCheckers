@@ -121,4 +121,21 @@ public class TestPostCheckTurnRoute {
     // Invoke the test
     assertEquals(gson.toJson(Message.info("false")), checkTurn.handle(request, response));
   }
+
+  /* This tests for when the route is subjected to a user that is signed in and in-game and it is not my turn */
+  @Test
+  public void test_signedInNotMyTurnColor() {
+    Player player = playerLobby.newPlayerInstance("Test");
+    Player player1 = playerLobby.newPlayerInstance("Test1");
+    center.startGame(player, player1);
+    when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(player1);
+    final Response response = mock(Response.class);
+
+    final TemplateEngineTester myModelView = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(myModelView.makeAnswer());
+
+    // Invoke the test
+    assertEquals(gson.toJson(Message.info("false")), checkTurn.handle(request, response));
+  }
+
 }

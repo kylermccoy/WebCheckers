@@ -39,7 +39,7 @@ public class TestPostSignInRoute {
     lobby = new PlayerLobby(center);
     watchdog = mock(SessionTimeoutWatchdog.class);
 
-    signIn = new PostSignInRoute(lobby, engine);
+    signIn = new PostSignInRoute(lobby, center, engine);
   }
 
   /* This section tests the route for when the player is signed in */
