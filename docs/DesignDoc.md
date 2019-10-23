@@ -40,7 +40,8 @@ This section describes the features of the application.
 ### Definition of MVP
 
 The MVP is an web application where users can sign in, choose an opponent, and then play a game of Web Checkers adhering
-to the standard American Rules of Checkers. Players in-game user may choose to resign at any time, ending the game early.
+to the standard American Rules of Checkers. Players in-game user may choose to resign at any time which will end the game
+early.
 
 ### MVP Features
 
@@ -124,7 +125,7 @@ The UI Tier of the WebCheckers project consists of several components that can b
 
 AjaxRoutes: These routes enable the client's browser to exchange information with the server without refreshing during
 gameplay. Not refreshing helps to ensure a smoother experience where the client is not forced to load a new page for
-game actions (i.e. validating a move, checking the turn).
+game actions, like validating a move, checking the turn.
 
 *  PostCheckTurnRoute
 *  PostResignGameRoute
@@ -141,7 +142,7 @@ responsible for displaying views (a GET request) and updating data from the clie
 
 
 ### Application Tier
-The Application Tier covers the manages logic and state of information of the general application as a whole.
+The Application Tier manages logic and state of information of the general application as a whole.
 It provides client-specific services to the UI Tier so that it can generate the proper views.
 
 This tier in our application consists of the GameCenter and PlayerLobby components. GameCenter keeps a state of all
@@ -172,6 +173,28 @@ will be used to display each specific space on the board.
 There is also a player model component that represents a player. This component's primary responsibility is to store and
 return the username of a player. It will be primarily used by the PlayerLobby application tier component to display rosters
 and determine lobby size.
+
+## System: Player Sign-In and Player Sign-Out
+
+This section will describe the functionality of the Player Sign-In/Sign-Out.
+
+### Purpose of system
+
+This system aims to allow the players to sign into the web application with a unique username that allows other users
+to identify them with. Users can enter a username which will be checked to not match any online players' usernames and
+with success, they would be able to play a game of checkers adhering to American Rules. With username input failures,
+the player would be prompted to enter another username after being notified of the error. Users can then log out at any
+point to which the system would handle all necessary clean up to allow another user to log in with the same username.
+
+### Static Models
+
+![Static Model for Login System](login-system-static-model.png)
+_Figure 5: Static Model for Login System_
+
+### Dynamic Models
+
+![Sequence Diagram for Login System](login-system-sequence-model.png)
+_Figure 6: Sequence Diagram for Login System_
 
 ### Design Improvements
 > _Discuss design improvements that you would make if the project were
