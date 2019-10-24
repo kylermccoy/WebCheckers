@@ -57,6 +57,26 @@ public class Space {
         }
     }
 
+    public String getStatus(){
+        if (this.isOccupied() && this.isDark()){
+            return "Occupied" ;
+        }else if (!this.isOccupied() && this.isDark()){
+            return "Open" ;
+        }else{
+            return "Invalid" ;
+        }
+    }
+
+    public boolean isOpen(){
+        return this.piece == null ;
+    }
+
+    public Piece removePiece(){
+        Piece temp = this.piece ;
+        this.piece = null ;
+        return temp ;
+    }
+
     /**
      * is the space tile Dark?
      * @return boolean
@@ -79,5 +99,18 @@ public class Space {
      */
     public Piece getPiece(){
         return this.piece ;
+    }
+
+    public boolean isOccupied(){
+        return this.getPiece() != null ;
+    }
+
+    @Override
+    public boolean equals(Object object){
+        if (object instanceof Space){
+            Space temp = (Space)(object) ;
+            return temp.cellIdx==this.cellIdx && temp.color==this.color && temp.piece==this.piece ;
+        }
+        return false ;
     }
 }
