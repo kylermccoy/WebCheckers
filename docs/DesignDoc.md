@@ -210,6 +210,7 @@ This system aims to allow the player to start a checkers game by clicking on the
 ### Static Models
 
 ![Static Model for Game System](GameSystemStatic.png)
+
 _Figure 7: Static Model for Game System_
 
 ### Dynamic Models
