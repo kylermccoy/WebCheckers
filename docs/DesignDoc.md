@@ -199,6 +199,24 @@ _Figure 5: Static Model for Login System_
 ![Sequence Diagram for Login System](login-system-sequence-model.png)
 _Figure 6: Sequence Diagram for Login System_
 
+## System: Start Game
+
+This section will describe the functionality of how we start a checkers game.
+
+### Purpose of system
+
+This system aims to allow the player to start a checkers game by clicking on the name of another user in the player lobby. When the user does this, on success, the user will be launched into the game route and be shown a board with the user as the white player and the opposing player as the red player. They will then be able to play a game of checkers adhering to American Rules. If one of the players is in a game or leaves the lobby, then the game route will redirect the user back to the home screen. The game route will also redirect the user back to the home page if they click the home button inside the game view.
+
+### Static Models
+
+![Static Model for Game System](GameSystemStatic.png)
+_Figure 7: Static Model for Game System_
+
+### Dynamic Models
+
+![Sequence Diagram for Game System](game-system-sequence-model.png)
+_Figure 8: Sequence Diagram for Game System_
+
 ### Design Improvements
 > _Discuss design improvements that you would make if the project were
 > to continue. These improvement should be based on your direct
