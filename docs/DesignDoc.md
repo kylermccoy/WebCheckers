@@ -152,6 +152,9 @@ PlayerLobby keeps a state of all signed-in players and determines legality of th
 Handles to log in and log out are a part of this component. All of these components formats and provides their respective
 information to the UI Tier so it can generate the proper view.
 
+Here is a UML Diagram that illustrates how the classes in the Application Tier work together:
+
+![Application Tier UML](ApplicationTierUML.png)
 
 ### Model Tier
 The Model Tier contains components where it holds actual information pertaining to the state of the board. These components
