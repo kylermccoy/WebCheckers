@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 import spark.*;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Name: TestGetGameRoute
@@ -37,6 +36,7 @@ public class TestGetGameRoute {
     private TemplateEngine engine;
     private Request request;
     private Session session;
+    private Player nullPlayer;
 
     /* This section initializes mocked objects to test with */
     @BeforeEach
@@ -52,12 +52,13 @@ public class TestGetGameRoute {
         checkersGame = mock(CheckersGame.class);
         user = new Player("Brian");
         opponent = new Player("Kyle");
+        nullPlayer = null;
 
         gameRoute = new GetGameRoute(engine, gameCenter, gson, playerLobby);
     }
 
     @Test
-    public void test_GameFax(){
+    public void test_GameFax() {
         final TemplateEngineTester engineTester = new TemplateEngineTester();
         when(engine.render(any(ModelAndView.class))).thenAnswer(engineTester.makeAnswer());
         // Return the current user when asked
@@ -71,11 +72,15 @@ public class TestGetGameRoute {
         // Return the mocked game when referenced
         when(gameCenter.getCheckersGame(any(Player.class))).thenReturn(checkersGame);
 
+        when(gameCenter.getCheckersGame(nullPlayer)).thenReturn(null);
+
         // Test statements
         gameRoute.handle(request, response);
         engineTester.assertViewModelExists();
         engineTester.assertViewModelIsaMap();
+        engineTester.assertViewName("game.ftl");
         engineTester.assertViewModelAttribute("currentUser", user);
+        engineTester.assertViewModelAttribute("gameID", null);
         engineTester.assertViewModelAttribute("redPlayer", user);
         engineTester.assertViewModelAttribute("whitePlayer", opponent);
         engineTester.assertViewModelAttribute("activeColor", CheckersGame.color.RED);
