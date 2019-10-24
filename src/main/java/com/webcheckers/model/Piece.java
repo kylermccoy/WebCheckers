@@ -59,4 +59,17 @@ public class Piece {
     public boolean isKing(){
         return this.pieceType == type.KING ;
     }
+
+    public void makeKing(){
+        this.pieceType = type.KING ;
+    }
+
+    @Override
+    public boolean equals(Object object){
+        if (object instanceof Piece){
+            Piece temp = (Piece)(object) ;
+            return this.pieceColor==temp.pieceColor && this.pieceType==temp.pieceType ;
+        }
+        return false ;
+    }
 }

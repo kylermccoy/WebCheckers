@@ -104,4 +104,13 @@ public class Space {
     public boolean isOccupied(){
         return this.getPiece() != null ;
     }
+
+    @Override
+    public boolean equals(Object object){
+        if (object instanceof Space){
+            Space temp = (Space)(object) ;
+            return temp.cellIdx==this.cellIdx && temp.color==this.color && temp.piece==this.piece ;
+        }
+        return false ;
+    }
 }
