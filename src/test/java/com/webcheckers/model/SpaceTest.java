@@ -59,8 +59,8 @@ public class SpaceTest {
 
     @Test
     public void test_NonEmptySpace() {
-        final Space space = new Space(0,0) ;
-        final Space spaceValid = new Space(0,1) ;
+        final Space space = new Space(1,1) ;
+        final Space spaceValid = new Space(1,0) ;
 
         //place piece in space
         Piece piece = new Piece(true) ;
@@ -77,6 +77,32 @@ public class SpaceTest {
         assertEquals(null, space.getPiece());
         assertSame(piece, spaceValid.getPiece());
         assertEquals(piece, spaceValid.getPiece());
+    }
+
+    @Test
+    public void test_Equals(){
+        final Space space = new Space(0,1) ;
+        final Space spaceCopy = new Space(0,1);
+
+        // check equality
+        assertTrue(space.equals(spaceCopy));
+        assertTrue(spaceCopy.equals(space));
+
+        // place piece
+        Piece piece = new Piece(true) ;
+        space.placePiece(piece);
+
+        // check equality
+        assertFalse(space.equals(spaceCopy));
+        assertFalse(spaceCopy.equals(space));
+        assertFalse(space.equals(piece));
+
+        //remove piece
+        space.removePiece() ;
+
+        //check equality
+        assertTrue(space.equals(spaceCopy));
+        assertTrue(spaceCopy.equals(space));
     }
 
     @Test

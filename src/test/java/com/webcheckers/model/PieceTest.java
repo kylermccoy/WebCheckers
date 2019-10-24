@@ -46,6 +46,8 @@ public class PieceTest {
         final Piece pieceRedTwo = new Piece(true);
         final Piece pieceWhiteTwo = new Piece(false);
 
+        Space space = new Space(0,0) ;
+
         // check pieces are equal
         assertEquals(pieceRed, pieceRedTwo);
         assertEquals(pieceWhite, pieceWhiteTwo);
@@ -53,6 +55,9 @@ public class PieceTest {
         assertNotEquals(pieceRed, pieceWhiteTwo);
         assertNotEquals(pieceRedTwo, pieceWhite);
         assertNotEquals(pieceRedTwo, pieceWhiteTwo);
+
+        assertFalse(pieceRed.equals(space));
+        assertTrue(pieceRed.equals(pieceRedTwo));
 
         //make kings
         pieceRedTwo.makeKing();
