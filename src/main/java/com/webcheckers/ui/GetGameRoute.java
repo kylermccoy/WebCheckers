@@ -43,7 +43,7 @@ public class GetGameRoute implements Route {
     }
 
     @Override
-    public Object handle(Request request, Response response) throws Exception {
+    public Object handle(Request request, Response response) {
 
         final Session httpSession = request.session();
         final Player player = httpSession.attribute(GetHomeRoute.CURRENT_USER_KEY);
