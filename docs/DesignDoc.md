@@ -222,11 +222,6 @@ and the results of the testing._
 > acceptance testing and if there are any concerns._
 
 ### Unit Testing and Code Coverage
-> _Discuss your unit testing strategy. Report on the code coverage
-> achieved from unit testing of the code base. Discuss the team's
-> coverage targets, why you selected those values, and how well your
-> code coverage met your targets. If there are any anomalies, discuss
-> those._
 For unit testing, we tried to achieve full coverage for each of the classes that we wrote unit tests for. 
 We tried accounting for all possible cases when it comes to testing to ensure that our web application
 is bug-free. Currently there are some issues with getting coverage after a route redirect. We've tried
