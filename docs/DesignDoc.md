@@ -227,3 +227,8 @@ and the results of the testing._
 > coverage targets, why you selected those values, and how well your
 > code coverage met your targets. If there are any anomalies, discuss
 > those._
+For unit testing, we tried to achieve full coverage for each of the classes that we wrote unit tests for. 
+We tried accounting for all possible cases when it comes to testing to ensure that our web application
+is bug-free. Currently there are some issues with getting coverage after a route redirect. We've tried
+checking that the route returns null but that proved ineffective. If there's a solution that we discover later down the
+line, we will implement that towards all applicable routes. 
