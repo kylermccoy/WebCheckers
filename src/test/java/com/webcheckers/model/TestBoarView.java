@@ -4,7 +4,7 @@
 package com.webcheckers.model;
 
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -78,8 +78,10 @@ public class TestBoarView {
      */
     @Test
     public void test_iterator_wParam(){
-        assertEquals(boardView.getRedBoard(),boardView.iterator(true));
-        assertEquals(boardView.getWhiteBoard(),boardView.iterator(false));
+        Iterator<Row> Red = boardView.getRedBoard().iterator();
+        Iterator<Row> White = boardView.getWhiteBoard().iterator();
+        assertSame(White.getClass(),boardView.iterator(true).getClass());
+        assertSame(Red.getClass(),boardView.iterator(false).getClass());
     }
 
 }
