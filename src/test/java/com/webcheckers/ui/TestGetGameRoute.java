@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import spark.*;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -18,6 +19,7 @@ import static org.mockito.Mockito.*;
  *
  * @author Brian Mirabito @ RIT CS Student
  */
+
 
 
 public class TestGetGameRoute {
@@ -30,13 +32,11 @@ public class TestGetGameRoute {
     private Gson gson;
     private Response response;
     private PlayerLobby playerLobby;
-    private CheckersGame checkersGame;
     private Player user;
     private Player opponent;
     private TemplateEngine engine;
     private Request request;
     private Session session;
-    private Player nullPlayer;
 
     /* This section initializes mocked objects to test with */
     @BeforeEach
@@ -47,12 +47,10 @@ public class TestGetGameRoute {
         response = mock(Response.class);
         engine = mock(TemplateEngine.class);
         gson = new Gson();
-        gameCenter = mock(GameCenter.class);
-        playerLobby = mock(PlayerLobby.class);
-        checkersGame = mock(CheckersGame.class);
+        gameCenter = new GameCenter();
+        playerLobby = new PlayerLobby(gameCenter);
         user = new Player("Brian");
         opponent = new Player("Kyle");
-        nullPlayer = null;
 
         gameRoute = new GetGameRoute(engine, gameCenter, gson, playerLobby);
     }
@@ -63,16 +61,8 @@ public class TestGetGameRoute {
         when(engine.render(any(ModelAndView.class))).thenAnswer(engineTester.makeAnswer());
         // Return the current user when asked
         when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(user);
-        // Return the opponent as white
-        when(checkersGame.getWhitePlayer()).thenReturn(opponent);
-        // Return the user as red
-        when(checkersGame.getRedPlayer()).thenReturn(user);
-        // Return red as active
-        when(checkersGame.getActiveColor()).thenReturn(CheckersGame.color.RED);
-        // Return the mocked game when referenced
-        when(gameCenter.getCheckersGame(any(Player.class))).thenReturn(checkersGame);
 
-        when(gameCenter.getCheckersGame(nullPlayer)).thenReturn(null);
+        gameCenter.startGame(user, opponent);
 
         // Test statements
         gameRoute.handle(request, response);
@@ -84,5 +74,31 @@ public class TestGetGameRoute {
         engineTester.assertViewModelAttribute("redPlayer", user);
         engineTester.assertViewModelAttribute("whitePlayer", opponent);
         engineTester.assertViewModelAttribute("activeColor", CheckersGame.color.RED);
+    }
+
+    @Test
+    public void test_nullPlayer(){
+        user = null;
+        when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(user);
+        when(session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY)).thenReturn(null);
+        try{
+            gameRoute.handle(request, response);
+        }catch(HaltException e){
+            assertTrue(e instanceof HaltException);
+        }
+
+    }
+
+    @Test void test_getGame(){
+        final TemplateEngineTester engineTester = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(engineTester.makeAnswer());
+
+        gameCenter.startGame(user, opponent);
+        gameCenter.playerLeftGame(opponent);
+
+        when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(user);
+        when(session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY)).thenReturn(opponent);
+
+        gameRoute.handle(request, response);
     }
 }
