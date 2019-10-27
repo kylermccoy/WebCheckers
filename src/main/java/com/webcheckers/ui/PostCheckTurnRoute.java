@@ -79,7 +79,7 @@ public class PostCheckTurnRoute implements Route {
       }
       return gson.toJson(Message.info("false")); // It is not the player's turn
     }
-    return gson.toJson(Message.error("false")); // This should never be reached : FORBIDDEN ZONE >:D
+    return gson.toJson(Message.info("false")); // This should never be reached : FORBIDDEN ZONE >:D
   }
 
 }
