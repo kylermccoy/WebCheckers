@@ -92,7 +92,7 @@ public class MoveValidator {
     public static boolean playerHasPieces(ArrayList<Row> board, CheckersGame.color color){
         for(int i = 0; i <= 7; i++){
             for(int j = 0; j <= 7; j++){
-                if (board.get(i).getSpaces().get(j).isOccupied() && (board.get(i).getSpaces().get(j).getPiece().isRed() && color.isRed())){
+                if (board.get(i).getSpaces().get(j).isOccupied() && (board.get(i).getSpaces().get(j).getPiece().isRed() == color.isRed())){
                     return true ;
                 }
             }

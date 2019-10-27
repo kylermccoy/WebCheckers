@@ -8,15 +8,25 @@ import java.util.ArrayList;
  */
 public class CheckersGame {
 
+    protected enum State {
+        IN_PLAY, WON, RESIGNED
+    }
+
     // Players
     private Player redPlayer;
     private Player whitePlayer;
+    private Player winner ;
+    private Player loser ;
 
-    // Active Color variable, an enum
+    // Active State and Color variable, an enum
     private color activeColor;
+    private State state ;
 
     // Active Mode
     private viewMode mode ;
+
+    // Active Turn
+    private Turn activeTurn ;
 
     // GameID variables
     private int GameID;
@@ -51,6 +61,9 @@ public class CheckersGame {
         this.whitePlayer = playerTwo;
         this.activeColor = color.RED;
         this.mode = viewMode.PLAY ;
+        this.state = State.IN_PLAY ;
+        this.loser = null ;
+        this.winner = null ;
 
         this.board = new BoardView() ;
 
@@ -59,6 +72,8 @@ public class CheckersGame {
             gamesCreated++;
             this.GameID = gamesCreated;
         }
+
+        this.activeTurn = new Turn(this) ;
     }
 
     //
@@ -130,16 +145,100 @@ public class CheckersGame {
         }
     }
 
-    // public swappers
-
-    /***
-     * switches the current active color.
-     */
-    public void swapActiveColor(){
-        if(this.activeColor.equals(color.RED)){
-            this.activeColor = color.WHITE ;
-        }else{
-            this.activeColor = color.RED ;
+    public Player getPlayerActive(){
+        if (activeTurn == null){
+            return winner ;
         }
+        return this.activeTurn.getPlayer() ;
+    }
+
+    public void changeActivePlayer() {
+        Player activePlayer = activeTurn.getPlayer() ;
+        color activePlayerColor = getPlayerColor(activePlayer) ;
+        Player nextPlayer ;
+        color nextPlayerColor ;
+
+        if (activePlayer.equals(redPlayer)){
+            nextPlayer = whitePlayer ;
+            nextPlayerColor = color.WHITE ;
+        } else {
+            nextPlayer = redPlayer ;
+            nextPlayerColor = color.RED ;
+        }
+
+        makeKings() ;
+
+        boolean nextPlayerHasPieces = MoveValidator.playerHasPieces(board.getRedBoard(), nextPlayerColor) ;
+        boolean nextPlayerHasMoves = MoveValidator.areMovesAvailableForPlayer(board, nextPlayer, nextPlayerColor) ;
+
+        boolean isPlayerOutOfMoves = !MoveValidator.areMovesAvailableForPlayer(board, activePlayer, activePlayerColor) ;
+
+        if (!nextPlayerHasPieces){
+            recordEndGame(activePlayer, nextPlayer) ;
+        }else if (nextPlayerHasPieces && isPlayerOutOfMoves){
+            recordEndGame(nextPlayer, activePlayer) ;
+        }else if (nextPlayerHasMoves && nextPlayerHasPieces){
+            activeColor = nextPlayerColor ;
+            activeTurn = new Turn(this  ) ;
+        }
+
+    }
+
+    public void recordEndGame(Player winner, Player loser){
+        state = State.WON ;
+
+        this.winner = winner ;
+        this.loser = loser ;
+
+        activeTurn = null ;
+    }
+
+    public void makeKings(){
+        ArrayList<Row> redBoard = board.getRedBoard() ;
+
+        for (int cell = 0; cell < 8; cell++){
+            if (redBoard.get(0).getSpaces().get(cell).isOccupied() && redBoard.get(0).getSpaces().get(cell).getPiece().isRed()){
+                redBoard.get(0).getSpaces().get(cell).getPiece().makeKing();
+            }
+        }
+
+        for (int cell = 0; cell < 8; cell++){
+            if (redBoard.get(7).getSpaces().get(cell).isOccupied() && !redBoard.get(7).getSpaces().get(cell).getPiece().isRed()){
+                redBoard.get(7).getSpaces().get(cell).getPiece().makeKing();
+            }
+        }
+    }
+
+    public Message submitTurn(Player player){
+        if (player.equals(getPlayerActive())){
+            Message finalizedMessage = getTurn().isFinalized() ;
+            if (finalizedMessage.getType() == Message.MessageType.info) {
+                board.update(getTurn().getLatestBoard()) ;
+                changeActivePlayer();
+            }
+            return finalizedMessage ;
+        }else {
+            return new Message("It is not your turn.", Message.MessageType.error) ;
+        }
+    }
+
+    public boolean isResigned(){
+        return state == State.RESIGNED ;
+    }
+
+    public boolean isWon(){
+        return state == State.WON ;
+    }
+
+    public Turn getTurn(){
+        return activeTurn ;
+    }
+
+    public Player getWinner(){
+        return winner ;
+    }
+
+    public Player getLoser(){
+        return loser ;
     }
 }

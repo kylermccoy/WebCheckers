@@ -1,6 +1,6 @@
 package com.webcheckers.model;
 
-import com.sun.tools.javac.comp.Check;
+
 
 /**
  * This is the model for a single player entity.
@@ -58,6 +58,15 @@ public class Player {
   @Override
   public synchronized String toString() {
     return this.username;
+  }
+
+  @Override
+  public boolean equals(Object object){
+    if (object instanceof Player){
+        Player temp = (Player) object ;
+        return this.username.equals(temp.username) ;
+    }
+    return false ;
   }
 
 }

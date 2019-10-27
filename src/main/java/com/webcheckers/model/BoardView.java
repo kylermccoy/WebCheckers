@@ -64,6 +64,11 @@ public class BoardView implements Iterable {
         return board;
     }
 
+    public void update(ArrayList<Row> update){
+        this.rowsRed = update ;
+        this.rowsWhite = rotateBoard(rowsRed) ;
+    }
+
     /**
      * method that rotates the board cells for the perspective of the white player
      * @param redBoard red board perspective

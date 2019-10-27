@@ -2,7 +2,10 @@ package com.webcheckers.ui;
 
 import com.google.gson.Gson;
 import com.webcheckers.appl.GameCenter;
+import com.webcheckers.model.Message;
+import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
+import com.webcheckers.model.Turn;
 import spark.*;
 
 import java.util.Objects;
@@ -41,10 +44,26 @@ public class PostValidateMoveRoute implements Route {
                 throw new Error("The move is invalid") ;
             }
             Player player = request.session().attribute(GetHomeRoute.CURRENT_USER_ATTR);
+            Turn turn = gameCenter.getPlayerTurn(player) ;
+            String positionAsJSON = request.body() ;
+            LOG.finest(String.format("JSON body: [%s]", positionAsJSON));
+
+            if (positionAsJSON.isEmpty()) {
+                return formatMessageJson(Message.MessageType.error, NO_POSITION_PROVIDED_MSG) ;
+            }
+
+            Move requestedMove = gson.fromJson(positionAsJSON, Move.class) ;
+
+            return turn.validateMove(requestedMove).toJson() ;
 
         }catch(Error e){
-            e.printStackTrace();
+            LOG.warning(e.getMessage());
+            return formatMessageJson(Message.MessageType.error, "You can't move to a space occupied by a piece!") ;
         }
-        return null ;
+    }
+
+    public Object formatMessageJson( Message.MessageType messageType, String messageText){
+        Message message = new Message(messageText, messageType) ;
+        return gson.toJson(message) ;
     }
 }

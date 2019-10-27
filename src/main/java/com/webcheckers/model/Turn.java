@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 
+import java.util.ArrayList;
 import java.util.Stack;
 import java.util.logging.Logger;
 
@@ -31,7 +32,8 @@ public class Turn {
     private CheckersGame.color playerColor ;
     private State state ;
     private Move lastValidMove ;
-    private Stack<CheckersGame> pendingMoves ;
+    private Stack<ArrayList<Row>> pendingMoves ;
+    private ArrayList<Row> starting ;
 
     /**
      * Parameterized constructor
@@ -42,6 +44,7 @@ public class Turn {
         LOG.info(String.format("I am a new turn for the [%s] player", board.getActiveColor().toString())) ;
 
         this.board = board;
+        this.starting = board.getBoard().getRedBoard() ;
         this.playerColor = board.getActiveColor() ;
         if(this.playerColor.equals(CheckersGame.color.RED)){
             this.player = board.getRedPlayer();
@@ -61,7 +64,7 @@ public class Turn {
         move.setPieceColor(playerColor) ;
         move.setPlayer(player) ;
 
-        BoardView boardView = this.board.getBoard() ;
+        ArrayList<Row> boardView = getLatestBoard() ;
 
         LOG.finest("The board we are using for this validateMove()");
         LOG.finest(boardView.toString());
@@ -71,6 +74,105 @@ public class Turn {
         Message moveValidMsg = new Message("Move is invalid.", Message.MessageType.error) ;
 
         //switch statements for each state
-        return null ;
+        switch (state) {
+            case EMPTY_TURN:
+                if (move.isSingleSpace() && MoveValidator.areJumpsAvailableForPlayer(boardView, playerColor)) {
+                    moveValidMsg = new Message(JUMP_MOVE_AVAILABLE_MSG, Message.MessageType.error) ;
+                }else if (MoveValidator.validateMove(boardView, move)) {
+                    String message = (move.isSingleSpace()) ? VALID_SINGLE_MOVE_MSG : VALID_JUMP_MOVE_MSG ;
+                    moveValidMsg = new Message(message, Message.MessageType.info) ;
+                }
+                break;
+            case SINGLE_MOVE:
+                moveValidMsg = new Message(SINGLE_MOVE_ONLY_MSG, Message.MessageType.error) ;
+                break;
+            case JUMP_MOVE:
+                if (move.isSingleSpace()){
+                    moveValidMsg = new Message(JUMP_MOVE_ONLY_MSG, Message.MessageType.error) ;
+                }else if (MoveValidator.validateMove(boardView, move)){
+                    moveValidMsg = new Message(VALID_JUMP_MOVE_MSG, Message.MessageType.info) ;
+                }
+                break;
+        }
+
+        if (moveValidMsg.getType() == Message.MessageType.info){
+            recordMove(move) ;
+        }
+        LOG.info(String.format("Move validated. Result [%s]", moveValidMsg.toString()));
+        LOG.finest(String.format("%s Player [%s] has %d queued moves in [%s] state", playerColor, player.getName(), pendingMoves.size(), state));
+        return moveValidMsg ;
+    }
+
+    public boolean recordMove(Move move){
+        LOG.info(String.format("%s Player [%s] turn - executing move %s", playerColor, player.getName(), move.toString()));
+        ArrayList<Row> matrix = getLatestBoard() ;
+        if (move.isJump()){
+            Position position = move.getMidpoint() ;
+            int cellMid = position.getCell() ;
+            int rowMid = position.getRow() ;
+            Space spaceMid = matrix.get(rowMid).getSpaces().get(cellMid) ;
+            spaceMid.removePiece() ;
+        }
+        Position positionStart = move.getStart() ;
+        int cellStart = positionStart.getCell() ;
+        int rowStart = positionStart.getRow() ;
+        Space spaceStart = matrix.get(rowStart).getSpaces().get(cellStart) ;
+        Position positionEnd = move.getEnd() ;
+        int cellEnd = positionEnd.getCell() ;
+        int rowEnd = positionEnd.getRow() ;
+        Space spaceEnd = matrix.get(rowEnd).getSpaces().get(cellEnd) ;
+
+        spaceEnd.movePieceFrom(spaceStart) ;
+        LOG.finest("Move successfully made on board");
+
+        pendingMoves.push(matrix) ;
+        lastValidMove = move ;
+        setStateAfterMove(move) ;
+        return true ;
+    }
+
+    public void setStateAfterMove(Move move){
+        if (move.isSingleSpace()) {
+            state = State.SINGLE_MOVE ;
+        }else if (move.isJump()){
+            state = State.JUMP_MOVE ;
+        }
+    }
+
+    public boolean backUpMove(){
+        if (!pendingMoves.isEmpty()){
+            pendingMoves.pop() ;
+            LOG.info(String.format("Removing last move from %s's history", player.getName()));
+            if (pendingMoves.isEmpty()){
+                state = State.EMPTY_TURN ;
+                LOG.finest(String.format("%s has reversed all planned moves", player.getName()));
+            }
+            return true ;
+        }
+        return false ;
+    }
+
+    public Message isFinalized(){
+        Message finalizedMessage = new Message(TURN_FINISHED_MSG, Message.MessageType.info) ;
+        switch (state) {
+            case SINGLE_MOVE:
+                return finalizedMessage ;
+            case JUMP_MOVE:
+                if (MoveValidator.canContinueJump(getLatestBoard(), lastValidMove.getEnd(), playerColor)) {
+                    return new Message(JUMP_MOVE_PARTIAL_MSG, Message.MessageType.error) ;
+                }else {
+                    return finalizedMessage ;
+                }
+            default:
+                return new Message(NO_MOVES_MSG, Message.MessageType.error) ;
+        }
+    }
+
+    public ArrayList<Row> getLatestBoard(){
+        return (pendingMoves.empty()) ? starting : pendingMoves.peek() ;
+    }
+
+    public Player getPlayer(){
+        return this.player ;
     }
 }
