@@ -40,13 +40,13 @@ public class PostValidateMoveRoute implements Route {
         LOG.finer("PostValidateMoveRoute invoked");
 
         try {
-            if(request.body().contains("null")){
+            String positionAsJSON = request.body() ;
+            if(positionAsJSON.contains("null")){
                 throw new Error("The move is invalid") ;
             }
             final Session httpSession = request.session();
             final Player player = httpSession.attribute(GetHomeRoute.CURRENT_USER_KEY);
             Turn turn = gameCenter.getPlayerTurn(player) ;
-            String positionAsJSON = request.body() ;
             LOG.finest(String.format("JSON body: [%s]", positionAsJSON));
 
             if (positionAsJSON.isEmpty()) {
