@@ -153,7 +153,7 @@ public class MoveValidator {
             Space space = matrix.get(position.getRow()).getSpaces().get(position.getCell()) ;
             Piece piece = matrix.get(move.getStart().getRow()).getSpaces().get(move.getStart().getCell()).getPiece() ;
             if(space.isOccupied()){
-                if (!(space.getPiece().isKing() && piece.isRed())){
+                if ( !(space.getPiece().isRed() && piece.isRed()) ){
                     conditionTruth = true ;
                 }
             }

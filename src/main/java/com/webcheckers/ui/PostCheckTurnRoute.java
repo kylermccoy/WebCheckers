@@ -3,7 +3,7 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.webcheckers.appl.GameCenter;
 import com.webcheckers.model.CheckersGame;
-import com.webcheckers.model.Message;
+import com.webcheckers.util.Message ;
 import com.webcheckers.model.Player;
 import spark.Request;
 import spark.Response;
@@ -35,7 +35,7 @@ public class PostCheckTurnRoute implements Route {
     @Override
     public Object handle(Request request, Response response){
         LOG.finer("PostCheckTurnRoute is invoked.");
-        Player currentPlayer = request.session().attribute("Player");
+        final Player currentPlayer = request.session().attribute(GetHomeRoute.CURRENT_USER_KEY);
 
         CheckersGame game = gameCenter.getCheckersGame(currentPlayer) ;
 
@@ -44,10 +44,10 @@ public class PostCheckTurnRoute implements Route {
         }
 
         if (game.isResigned()) {
-            request.session().attribute("message", new Message(String.format("%s has resigned, %s has won the game!", game.getLoser().getName(), game.getWinner().getName()), Message.MessageType.info)) ;
+            request.session().attribute("message", Message.info(String.format("%s has resigned, %s has won the game!", game.getLoser().getName(), game.getWinner().getName()))) ;
             return formatMessageJson(opponentResigned) ;
         }else if (game.isWon()){
-            return new Message(String.format("Game won by %s", game.getWinner().getName()), Message.MessageType.error).toJson() ;
+            return gson.toJson(Message.error(String.format("Game won by %s", game.getWinner().getName())));
         }else if (currentPlayer.equals(game.getPlayerActive())) {
             return formatMessageJson(thisPlayersTurn) ;
         }else {
@@ -56,6 +56,6 @@ public class PostCheckTurnRoute implements Route {
     }
 
     public Object formatMessageJson(String messageText){
-        return gson.toJson(new Message(messageText, Message.MessageType.info)) ;
+        return gson.toJson(Message.info(messageText)) ;
     }
 }

@@ -192,6 +192,8 @@ public class WebServer {
 
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson,gameCenter));
 
+    post(BACKUP_MOVE_URL, new PostBackUpMoveRoute(gson, gameCenter));
+
     post(CHECK_TURN_URL, new PostCheckTurnRoute(gameCenter, gson));
 
     // Post sign-in request

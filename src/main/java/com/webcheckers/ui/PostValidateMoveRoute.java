@@ -57,7 +57,7 @@ public class PostValidateMoveRoute implements Route {
                 return formatMessageJson(NO_POSITION_PROVIDED_MSG) ;
             }
 
-            return turn.validateMove(requestedMove).toJson() ;
+            return gson.toJson(turn.validateMove(requestedMove)) ;
 
         }catch(Error e){
             LOG.warning(e.getMessage());

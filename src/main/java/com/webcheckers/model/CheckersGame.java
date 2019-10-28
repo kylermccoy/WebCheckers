@@ -1,6 +1,7 @@
 package com.webcheckers.model;
 
 import java.util.ArrayList;
+import com.webcheckers.util.Message ;
 
 /**
  * Class for player and game logic
@@ -211,13 +212,13 @@ public class CheckersGame {
     public Message submitTurn(Player player){
         if (player.equals(getPlayerActive())){
             Message finalizedMessage = getTurn().isFinalized() ;
-            if (finalizedMessage.getType() == Message.MessageType.info) {
+            if (finalizedMessage.getType()==Message.Type.INFO) {
                 board.update(getTurn().getLatestBoard()) ;
                 changeActivePlayer();
             }
             return finalizedMessage ;
         }else {
-            return new Message("It is not your turn.", Message.MessageType.error) ;
+            return Message.error("It is not your turn.") ;
         }
     }
 

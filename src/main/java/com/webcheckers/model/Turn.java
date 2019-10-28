@@ -3,6 +3,7 @@ package com.webcheckers.model;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.logging.Logger;
+import com.webcheckers.util.Message ;
 
 /**
  * Turn handles the lifecycle of a player's turn
@@ -67,31 +68,31 @@ public class Turn {
 
         boolean isMoveValid = false ;
 
-        Message moveValidMsg = new Message("Move is invalid.", Message.MessageType.error) ;
+        Message moveValidMsg = Message.error("Move is invalid.") ;
 
         //switch statements for each state
         switch (state) {
             case EMPTY_TURN:
                 if (move.isSingleSpace() && MoveValidator.areJumpsAvailableForPlayer(boardView, playerColor)) {
-                    moveValidMsg = new Message(JUMP_MOVE_AVAILABLE_MSG, Message.MessageType.error) ;
+                    moveValidMsg = Message.error(JUMP_MOVE_AVAILABLE_MSG) ;
                 }else if (MoveValidator.validateMove(boardView, move)) {
                     String message = (move.isSingleSpace()) ? VALID_SINGLE_MOVE_MSG : VALID_JUMP_MOVE_MSG ;
-                    moveValidMsg = new Message(message, Message.MessageType.info) ;
+                    moveValidMsg = Message.info(message) ;
                 }
                 break;
             case SINGLE_MOVE:
-                moveValidMsg = new Message(SINGLE_MOVE_ONLY_MSG, Message.MessageType.error) ;
+                moveValidMsg = Message.error(SINGLE_MOVE_ONLY_MSG) ;
                 break;
             case JUMP_MOVE:
                 if (move.isSingleSpace()){
-                    moveValidMsg = new Message(JUMP_MOVE_ONLY_MSG, Message.MessageType.error) ;
+                    moveValidMsg = Message.error(JUMP_MOVE_ONLY_MSG) ;
                 }else if (MoveValidator.validateMove(boardView, move)){
-                    moveValidMsg = new Message(VALID_JUMP_MOVE_MSG, Message.MessageType.info) ;
+                    moveValidMsg = Message.info(VALID_JUMP_MOVE_MSG) ;
                 }
                 break;
         }
 
-        if (moveValidMsg.getType() == Message.MessageType.info){
+        if (moveValidMsg.getType() == Message.Type.INFO){
             recordMove(move) ;
         }
         LOG.info(String.format("Move validated. Result [%s]", moveValidMsg.toString()));
@@ -149,18 +150,18 @@ public class Turn {
     }
 
     public Message isFinalized(){
-        Message finalizedMessage = new Message(TURN_FINISHED_MSG, Message.MessageType.info) ;
+        Message finalizedMessage = Message.info(TURN_FINISHED_MSG) ;
         switch (state) {
             case SINGLE_MOVE:
                 return finalizedMessage ;
             case JUMP_MOVE:
                 if (MoveValidator.canContinueJump(getLatestBoard(), lastValidMove.getEnd(), playerColor)) {
-                    return new Message(JUMP_MOVE_PARTIAL_MSG, Message.MessageType.error) ;
+                    return Message.error(JUMP_MOVE_PARTIAL_MSG) ;
                 }else {
                     return finalizedMessage ;
                 }
             default:
-                return new Message(NO_MOVES_MSG, Message.MessageType.error) ;
+                return Message.error(NO_MOVES_MSG) ;
         }
     }
 
