@@ -91,6 +91,11 @@ public class WebServer {
    */
   public static final String VALIDATE_MOVE_URL = "/validateMove" ;
 
+  /**
+   * The URL pattern to submit a turn
+   */
+  public static final String SUBMIT_TURN_URL = "/submitTurn";
+
   //
   // Attributes
   //
@@ -195,6 +200,9 @@ public class WebServer {
     post(BACKUP_MOVE_URL, new PostBackUpMoveRoute(gson, gameCenter));
 
     post(CHECK_TURN_URL, new PostCheckTurnRoute(gameCenter, gson));
+
+    // Post submit turn request
+    post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gson, gameCenter));
 
     // Post sign-in request
     post(SIGN_IN_URL, new PostSignInRoute(lobby, templateEngine));
