@@ -46,11 +46,10 @@ public class PostSubmitTurnRoute implements Route {
         Player player = session.attribute(GetHomeRoute.CURRENT_USER_KEY);
         CheckersGame game = gameCenter.getCheckersGame(player);
 
-        if(game.getActiveColor() != game.getPlayerColor(player)){
+        if(game.getActiveColor() != game.getPlayerColor(player)) {
             return gson.toJson(NO_TURN);
         }
-        // in progress
-        // need some sort of turn execution from game
+        game.submitTurn(player);
         return gson.toJson(COMPLETE);
     }
 }
