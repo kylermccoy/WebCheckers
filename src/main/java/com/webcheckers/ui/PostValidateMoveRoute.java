@@ -2,7 +2,7 @@ package com.webcheckers.ui;
 
 import com.google.gson.Gson;
 import com.webcheckers.appl.GameCenter;
-import com.webcheckers.model.Message;
+import com.webcheckers.util.Message;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
 import com.webcheckers.model.Turn;
@@ -37,34 +37,35 @@ public class PostValidateMoveRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response){
+
+        final Session httpSession = request.session();
         LOG.finer("PostValidateMoveRoute invoked");
 
         try {
-            String positionAsJSON = request.body() ;
+            String positionAsJSON = request.queryParams("actionData");
+            Move requestedMove = gson.fromJson(positionAsJSON, Move.class) ;
+
+
             if(positionAsJSON.contains("null")){
                 throw new Error("The move is invalid") ;
             }
-            final Session httpSession = request.session();
             final Player player = httpSession.attribute(GetHomeRoute.CURRENT_USER_KEY);
             Turn turn = gameCenter.getPlayerTurn(player) ;
             LOG.finest(String.format("JSON body: [%s]", positionAsJSON));
 
             if (positionAsJSON.isEmpty()) {
-                return formatMessageJson(Message.MessageType.error, NO_POSITION_PROVIDED_MSG) ;
+                return formatMessageJson(NO_POSITION_PROVIDED_MSG) ;
             }
-
-            Move requestedMove = gson.fromJson(positionAsJSON, Move.class) ;
 
             return turn.validateMove(requestedMove).toJson() ;
 
         }catch(Error e){
             LOG.warning(e.getMessage());
-            return formatMessageJson(Message.MessageType.error, "You can't move to a space occupied by a piece!") ;
+            return formatMessageJson("You can't move to a space occupied by a piece!") ;
         }
     }
 
-    public Object formatMessageJson( Message.MessageType messageType, String messageText){
-        Message message = new Message(messageText, messageType) ;
-        return gson.toJson(message) ;
+    public Object formatMessageJson(String messageText){
+        return gson.toJson(Message.error(messageText)) ;
     }
 }
