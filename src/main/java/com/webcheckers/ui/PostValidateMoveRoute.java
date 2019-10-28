@@ -43,7 +43,8 @@ public class PostValidateMoveRoute implements Route {
             if(request.body().contains("null")){
                 throw new Error("The move is invalid") ;
             }
-            Player player = request.session().attribute(GetHomeRoute.CURRENT_USER_ATTR);
+            final Session httpSession = request.session();
+            final Player player = httpSession.attribute(GetHomeRoute.CURRENT_USER_KEY);
             Turn turn = gameCenter.getPlayerTurn(player) ;
             String positionAsJSON = request.body() ;
             LOG.finest(String.format("JSON body: [%s]", positionAsJSON));

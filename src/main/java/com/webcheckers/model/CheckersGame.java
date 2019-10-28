@@ -73,7 +73,7 @@ public class CheckersGame {
             this.GameID = gamesCreated;
         }
 
-        this.activeTurn = new Turn(this) ;
+        this.activeTurn = new Turn(this, playerOne, color.RED) ;
     }
 
     //
@@ -178,8 +178,7 @@ public class CheckersGame {
         }else if (nextPlayerHasPieces && isPlayerOutOfMoves){
             recordEndGame(nextPlayer, activePlayer) ;
         }else if (nextPlayerHasMoves && nextPlayerHasPieces){
-            activeColor = nextPlayerColor ;
-            activeTurn = new Turn(this  ) ;
+            activeTurn = new Turn(this  , nextPlayer, nextPlayerColor) ;
         }
 
     }

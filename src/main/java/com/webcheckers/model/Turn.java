@@ -40,17 +40,13 @@ public class Turn {
      * A turn is identified by the player, the board they are playing on and their color
      * @param board
      */
-    public Turn(CheckersGame board){
+    public Turn(CheckersGame board, Player player, CheckersGame.color color){
         LOG.info(String.format("I am a new turn for the [%s] player", board.getActiveColor().toString())) ;
 
         this.board = board;
         this.starting = board.getBoard().getRedBoard() ;
-        this.playerColor = board.getActiveColor() ;
-        if(this.playerColor.equals(CheckersGame.color.RED)){
-            this.player = board.getRedPlayer();
-        }else{
-            this.player = board.getWhitePlayer() ;
-        }
+        this.playerColor = color ;
+        this.player = player ;
 
         this.pendingMoves = new Stack<>() ;
         this.state = State.EMPTY_TURN ;

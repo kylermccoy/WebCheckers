@@ -72,6 +72,16 @@ public class WebServer {
   public static final String GAME_URL = "/game";
 
   /**
+   * The URL pattern to request the backing up of a move
+   */
+  public static final String BACKUP_MOVE_URL = "/backupMove" ;
+
+  /**
+   * The URL pattern to request the checking of a turn
+   */
+  public static final String CHECK_TURN_URL = "/checkTurn" ;
+
+  /**
    * The URL pattern to start the game process
    */
   public static final String REQUEST_GAME_URL = "/requestgame";
@@ -179,6 +189,10 @@ public class WebServer {
     post(REQUEST_GAME_URL, new PostGameRoute(templateEngine, lobby, gameCenter));
 
     get(GAME_URL, new GetGameRoute(templateEngine, gameCenter, lobby));
+
+    post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson,gameCenter));
+
+    post(CHECK_TURN_URL, new PostCheckTurnRoute(gameCenter, gson));
 
     // Post sign-in request
     post(SIGN_IN_URL, new PostSignInRoute(lobby, templateEngine));
