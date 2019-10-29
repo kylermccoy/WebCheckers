@@ -36,14 +36,12 @@ public class Space {
             }else{
                 this.color = spaceColor.DARK ;
             }
-            this.state = State.OCCUPIED ;
         }else{
             if(cellIdx%2==0){
                 this.color = spaceColor.DARK ;
             }else{
                 this.color = spaceColor.LIGHT ;
             }
-            this.state = State.OCCUPIED ;
         }
     }
 
@@ -61,6 +59,7 @@ public class Space {
      */
     public void placePiece(Piece piece) {
         if(this.isValid()){
+            this.state = State.OCCUPIED ;
             this.piece = piece ;
         }
     }
@@ -82,6 +81,7 @@ public class Space {
     public Piece removePiece(){
         Piece temp = this.piece ;
         this.piece = null ;
+        this.state = State.OPEN ;
         return temp ;
     }
 

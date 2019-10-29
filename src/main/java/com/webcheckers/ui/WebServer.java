@@ -199,7 +199,7 @@ public class WebServer {
 
     post(BACKUP_MOVE_URL, new PostBackUpMoveRoute(gson, gameCenter));
 
-    post(CHECK_TURN_URL, new PostCheckTurnRoute(gameCenter, gson));
+    post(CHECK_TURN_URL, new PostCheckTurnRoute(lobby, gameCenter, gson, templateEngine));
 
     // Post submit turn request
     post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gson, gameCenter));

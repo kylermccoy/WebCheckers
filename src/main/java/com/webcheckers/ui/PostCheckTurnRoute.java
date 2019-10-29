@@ -2,60 +2,84 @@ package com.webcheckers.ui;
 
 import com.google.gson.Gson;
 import com.webcheckers.appl.GameCenter;
+import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.CheckersGame;
-import com.webcheckers.util.Message ;
 import com.webcheckers.model.Player;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import com.webcheckers.util.Message;
+import spark.*;
 
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * The UI controller to POST the checkTurn Page
+ *
+ * @author Justin Yau @ RIT CS Student
+ */
 public class PostCheckTurnRoute implements Route {
+
     private static final Logger LOG = Logger.getLogger(PostCheckTurnRoute.class.getName());
-    private final Gson gson ;
-    private final GameCenter gameCenter ;
 
-    private final String opponentResigned = "true/"/*"Your opponent has resigned from the game"*/ ;
-    private final String thisPlayersTurn = "true" ;
-    private final String otherPlayersTurn = "false" ;
-    private final String GAME_ENDED_STRING = "The game has ended!" ;
+    // Webserver provided information
+    private final TemplateEngine templateEngine;
+    private final PlayerLobby lobby;
+    private final GameCenter center;
+    private final Gson gson;
 
-    public PostCheckTurnRoute(GameCenter gameCenter, Gson gson) {
-        Objects.requireNonNull(gameCenter,"GameCenter must not be null") ;
-        Objects.requireNonNull(gson, "gson must not be null") ;
-
-        this.gameCenter = gameCenter ;
-        this.gson = gson ;
-
-        LOG.config("PostCheckTurnRoute is initialized");
+    /**
+     * Create the Spark Route (UI controller) to handle all {@code POST /checkTurn} HTTP requests.
+     *
+     * @param lobby
+     *   the PlayerLobby which contains a list of all players
+     * @param center
+     *    the GameCenter which contains all the game information and active players
+     * @param gson
+     *    the Gson object to convert objects into JSON
+     * @param templateEngine
+     *   the HTML template rendering engine
+     */
+    public PostCheckTurnRoute(final PlayerLobby lobby, final GameCenter center, final Gson gson, final TemplateEngine templateEngine) {
+        this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+        this.lobby = Objects.requireNonNull(lobby, "playerLobby is required");
+        this.center = Objects.requireNonNull(center, "gameCenter is required");
+        this.gson = Objects.requireNonNull(gson, "gson is required");
+        //
+        LOG.config("PostCheckTurnRoute is initialized.");
     }
 
+    /**
+     * Updates the WebCheckers Game page.
+     *
+     * @param request
+     *   the HTTP request
+     * @param response
+     *   the HTTP response
+     *
+     * @return
+     *   AJAX Response with message Body containing a string of whether it is the player's turn or not OR if their opponent
+     *   resigned.
+     */
     @Override
-    public Object handle(Request request, Response response){
-        LOG.finer("PostCheckTurnRoute is invoked.");
-        final Player currentPlayer = request.session().attribute(GetHomeRoute.CURRENT_USER_KEY);
+    public Object handle(Request request, Response response) {
+        LOG.fine("PostCheckTurnRoute is invoked.");
 
-        CheckersGame game = gameCenter.getCheckersGame(currentPlayer) ;
+        // retrieve the game object
+        final Session session = request.session();
+        final Player player = session.attribute(GetHomeRoute.CURRENT_USER_KEY);
 
-        if (game==null){
-            return formatMessageJson(GAME_ENDED_STRING) ;
+        if(player != null && this.center.isPlayerInGame(player)) {
+            if(!this.center.isPlayerInGame(this.center.getOpponent(player))) { // Opponent resigned
+                return gson.toJson(Message.info("true"));
+            }
+            CheckersGame game = this.center.getCheckersGame(player);
+            boolean isRedPlayer = game.getRedPlayer() == player;
+            if((isRedPlayer && game.getActiveColor() == CheckersGame.color.RED) ||
+                    (!isRedPlayer && game.getActiveColor() == CheckersGame.color.WHITE)) { // It is now the person's turn
+                return gson.toJson(Message.info("true"));
+            }
+            return gson.toJson(Message.info("false")); // It is not the player's turn
         }
-
-        if (game.isResigned()) {
-            request.session().attribute("message", Message.info(String.format("%s has resigned, %s has won the game!", game.getLoser().getName(), game.getWinner().getName()))) ;
-            return formatMessageJson(opponentResigned) ;
-        }else if (game.isWon()){
-            return gson.toJson(Message.error(String.format("Game won by %s", game.getWinner().getName())));
-        }else if (currentPlayer.equals(game.getPlayerActive())) {
-            return formatMessageJson(thisPlayersTurn) ;
-        }else {
-            return formatMessageJson(otherPlayersTurn) ;
-        }
+        return gson.toJson(Message.info("false")); // This should never be reached : FORBIDDEN ZONE >:D
     }
 
-    public Object formatMessageJson(String messageText){
-        return gson.toJson(Message.info(messageText)) ;
-    }
 }
