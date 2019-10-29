@@ -198,7 +198,7 @@ public class WebServer {
 
     post(REQUEST_GAME_URL, new PostGameRoute(templateEngine, lobby, gameCenter));
 
-    get(GAME_URL, new GetGameRoute(templateEngine, gameCenter, lobby));
+    get(GAME_URL, new GetGameRoute(templateEngine, gameCenter, gson, lobby));
 
     // Post resign-game request
     post(RESIGN_GAME_URL, new PostResignGameRoute(lobby, gameCenter, gson, templateEngine));
