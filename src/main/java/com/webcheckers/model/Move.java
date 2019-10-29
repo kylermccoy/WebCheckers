@@ -43,8 +43,8 @@ public class Move {
 
     public Position getMidpoint(){
         if (!isSingleSpace()){
-            int midRow = Math.abs(getEnd().getRow() - getStart().getRow())/2 ;
-            int midCell = Math.abs(getEnd().getCell() - getStart().getCell())/2 ;
+            int midRow = getStart().getRow() + (getEnd().getRow() - getStart().getRow()) / 2 ;
+            int midCell = getStart().getCell() + (getEnd().getCell() - getStart().getCell()) / 2 ;
 
             return new Position(midRow, midCell) ;
         }else{

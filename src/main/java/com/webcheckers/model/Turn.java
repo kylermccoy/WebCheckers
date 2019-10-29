@@ -68,7 +68,7 @@ public class Turn {
 
         boolean isMoveValid = false ;
 
-        Message moveValidMsg = Message.error("Move is invalid.") ;
+        Message moveValidMsg = Message.error("Move must be one space diagonally.") ;
 
         //switch statements for each state
         switch (state) {

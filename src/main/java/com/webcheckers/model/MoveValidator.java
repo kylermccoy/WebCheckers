@@ -33,18 +33,14 @@ public class MoveValidator {
 
         LOG.fine(String.format("Determining if %s player has any moves left.", color));
 
-        ArrayList<Row> board;
-        if(color.equals(CheckersGame.color.RED)){
-            board = boardView.getRedBoard() ;
-        }else{
-            board = boardView.getWhiteBoard() ;
-        }
+        ArrayList<Row> board = boardView.getRedBoard();
+
         boardWalk:
         {
             for (int y = 0; y < 8; y++) {
                 for (int x = 0; x < 8; x++) {
 
-                    if (board.get(y).getSpaces().get(x).isOccupied() && (color.isRed() && board.get(y).getSpaces().get(x).getPiece().isRed())) {
+                    if (board.get(y).getSpaces().get(x).isOccupied() && (color.isRed() == board.get(y).getSpaces().get(x).getPiece().isRed())) {
 
                         Position currentPosition = new Position(y, x);
 
@@ -153,7 +149,7 @@ public class MoveValidator {
             Space space = matrix.get(position.getRow()).getSpaces().get(position.getCell()) ;
             Piece piece = matrix.get(move.getStart().getRow()).getSpaces().get(move.getStart().getCell()).getPiece() ;
             if(space.isOccupied()){
-                if ( !(space.getPiece().isRed() && piece.isRed()) ){
+                if ( !(space.getPiece().isRed() == piece.isRed()) ){
                     conditionTruth = true ;
                 }
             }
@@ -195,7 +191,7 @@ public class MoveValidator {
 
     private static boolean canJump(ArrayList<Row> board, int row, int cell, CheckersGame.color color){
         Space current = board.get(row).getSpaces().get(cell) ;
-        if (current.isOccupied() && (current.getPiece().isRed() && color.isRed())){
+        if (current.isOccupied() && (current.getPiece().isRed() == color.isRed())){
             Move testMove ;
             Position start = new Position(row, cell) ;
             if (cell + 2 < 8){
@@ -235,7 +231,7 @@ public class MoveValidator {
                     }
                 }
                 if (row - 2 >= 0){
-                    testMove = new Move(start, new Position(row - JUMP_DIFFERENCE, cell + JUMP_DIFFERENCE)) ;
+                    testMove = new Move(start, new Position(row - JUMP_DIFFERENCE, cell - JUMP_DIFFERENCE)) ;
                     if (board.get(testMove.getStart().getRow()).getSpaces().get(testMove.getStart().getCell()).getPiece().isRed()){
                         testMove.setPieceColor(CheckersGame.color.RED);
                     }else{

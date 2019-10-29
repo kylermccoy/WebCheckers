@@ -153,19 +153,11 @@ public class CheckersGame {
         return this.activeTurn.getPlayer() ;
     }
 
-    public void changeActivePlayer() {
-        Player activePlayer = activeTurn.getPlayer() ;
-        color activePlayerColor = getPlayerColor(activePlayer) ;
-        Player nextPlayer ;
-        color nextPlayerColor ;
-
-        if (activePlayer.equals(redPlayer)){
-            nextPlayer = whitePlayer ;
-            nextPlayerColor = color.WHITE ;
-        } else {
-            nextPlayer = redPlayer ;
-            nextPlayerColor = color.RED ;
-        }
+    public void changeActivePlayer(Player player) {
+        Player activePlayer = player ;
+        color activePlayerColor = getPlayerColor(player) ;
+        Player nextPlayer  = getOpponent(player);
+        color nextPlayerColor = getPlayerColor(nextPlayer);
 
         makeKings() ;
 
@@ -179,7 +171,8 @@ public class CheckersGame {
         }else if (nextPlayerHasPieces && isPlayerOutOfMoves){
             recordEndGame(nextPlayer, activePlayer) ;
         }else if (nextPlayerHasMoves && nextPlayerHasPieces){
-            activeTurn = new Turn(this  , nextPlayer, nextPlayerColor) ;
+            activeColor = nextPlayerColor ;
+            activeTurn = new Turn(this, nextPlayer, nextPlayerColor) ;
         }
 
     }
@@ -214,7 +207,7 @@ public class CheckersGame {
             Message finalizedMessage = getTurn().isFinalized() ;
             if (finalizedMessage.getType()==Message.Type.INFO) {
                 board.update(getTurn().getLatestBoard()) ;
-                changeActivePlayer();
+                changeActivePlayer(player);
             }
             return finalizedMessage ;
         }else {

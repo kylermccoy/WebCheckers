@@ -49,7 +49,6 @@ public class PostSubmitTurnRoute implements Route {
         if(game.getActiveColor() != game.getPlayerColor(player)) {
             return gson.toJson(NO_TURN);
         }
-        game.submitTurn(player);
-        return gson.toJson(COMPLETE);
+        return gson.toJson(game.submitTurn(player)) ;
     }
 }
