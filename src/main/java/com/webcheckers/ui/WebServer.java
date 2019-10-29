@@ -77,6 +77,11 @@ public class WebServer {
   public static final String BACKUP_MOVE_URL = "/backupMove" ;
 
   /**
+   * The URL pattern to request the resign game page.
+   */
+  public static final String RESIGN_GAME_URL = "/resignGame";
+
+  /**
    * The URL pattern to request the checking of a turn
    */
   public static final String CHECK_TURN_URL = "/checkTurn" ;
@@ -194,6 +199,9 @@ public class WebServer {
     post(REQUEST_GAME_URL, new PostGameRoute(templateEngine, lobby, gameCenter));
 
     get(GAME_URL, new GetGameRoute(templateEngine, gameCenter, lobby));
+
+    // Post resign-game request
+    post(RESIGN_GAME_URL, new PostResignGameRoute(lobby, gameCenter, gson, templateEngine));
 
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson,gameCenter));
 
