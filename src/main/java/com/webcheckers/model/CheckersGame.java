@@ -171,9 +171,9 @@ public class CheckersGame {
         }else if (nextPlayerHasPieces && isPlayerOutOfMoves){
             recordEndGame(nextPlayer, activePlayer) ;
         }else if (nextPlayerHasMoves && nextPlayerHasPieces){
-            //activeColor = nextPlayerColor ;
-            //activeTurn = new Turn(this, nextPlayer, nextPlayerColor) ;
-            recordEndGame(nextPlayer, activePlayer) ;
+            activeColor = nextPlayerColor ;
+            activeTurn = new Turn(this, nextPlayer, nextPlayerColor) ;
+            //recordEndGame(nextPlayer, activePlayer) ;
         }
 
     }
