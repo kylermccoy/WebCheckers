@@ -136,13 +136,34 @@ public class Turn {
         }
     }
 
+    public void undoMove(Move move) {
+        ArrayList<Row> matrix = getLatestBoard() ;
+        if (move.isJump()){
+            Position position = move.getMidpoint() ;
+            int cellMid = position.getCell() ;
+            int rowMid = position.getRow() ;
+            Space spaceMid = matrix.get(rowMid).getSpaces().get(cellMid) ;
+            spaceMid.placePiece(new Piece(!move.getColor().isRed())); ;
+        }
+        Position positionStart = move.getStart() ;
+        int cellStart = positionStart.getCell() ;
+        int rowStart = positionStart.getRow() ;
+        Space spaceStart = matrix.get(rowStart).getSpaces().get(cellStart) ;
+        Position positionEnd = move.getEnd() ;
+        int cellEnd = positionEnd.getCell() ;
+        int rowEnd = positionEnd.getRow() ;
+        Space spaceEnd = matrix.get(rowEnd).getSpaces().get(cellEnd) ;
+
+        spaceEnd.movePieceFrom(spaceStart) ;
+    }
+
     public boolean backUpMove(){
         if (!pendingMoves.isEmpty()){
             pendingMoves.pop();
-            recordMove(new Move(lastValidMove.getEnd(), lastValidMove.getStart()));
-            pendingMoves.pop();
-            lastValidMove = null;
-            state = State.EMPTY_TURN;
+            Move replace = new Move(lastValidMove.getEnd(), lastValidMove.getStart()) ;
+            replace.setPlayer(player);
+            replace.setPieceColor(playerColor);
+            undoMove(replace) ;
 
             LOG.info(String.format("Removing last move from %s's history", player.getName()));
             if (pendingMoves.isEmpty()){
