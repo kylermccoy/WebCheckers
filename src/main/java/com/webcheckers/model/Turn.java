@@ -112,7 +112,7 @@ public class Turn {
             for (int j = 0; j < 8; j++){
                 if (latest.get(i).getSpaces().get(j).isOccupied()) {
                     Piece replace = new Piece(latest.get(i).getSpaces().get(j).getPiece().isRed()) ;
-                    if (copy.get(i).getSpaces().get(j).getPiece().isKing()) {
+                    if (latest.get(i).getSpaces().get(j).getPiece().isKing()) {
                         replace.makeKing();
                     }
                     copy.get(i).getSpaces().get(j).placePiece(replace);
@@ -124,6 +124,7 @@ public class Turn {
             int cellMid = position.getCell() ;
             int rowMid = position.getRow() ;
             Space spaceMid = copy.get(rowMid).getSpaces().get(cellMid) ;
+            spaceMid.removePiece() ;
         }
         Position positionStart = move.getStart() ;
         int cellStart = positionStart.getCell() ;
