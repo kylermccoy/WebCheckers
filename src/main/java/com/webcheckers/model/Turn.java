@@ -45,7 +45,7 @@ public class Turn {
         LOG.info(String.format("I am a new turn for the [%s] player", board.getActiveColor().toString())) ;
 
         this.board = board;
-        this.starting = board.getBoard().getRedBoard() ;
+        this.starting = board.getBoard().getRedBoard();
         this.playerColor = color ;
         this.player = player ;
 
@@ -68,7 +68,7 @@ public class Turn {
 
         boolean isMoveValid = false ;
 
-        Message moveValidMsg = Message.error("Move must be one space diagonally.") ;
+        Message moveValidMsg = Message.error("Move must be one space diagonally forward.") ;
 
         //switch statements for each state
         switch (state) {
@@ -138,7 +138,12 @@ public class Turn {
 
     public boolean backUpMove(){
         if (!pendingMoves.isEmpty()){
-            pendingMoves.pop() ;
+            pendingMoves.pop();
+            recordMove(new Move(lastValidMove.getEnd(), lastValidMove.getStart()));
+            pendingMoves.pop();
+            lastValidMove = null;
+            state = State.EMPTY_TURN;
+
             LOG.info(String.format("Removing last move from %s's history", player.getName()));
             if (pendingMoves.isEmpty()){
                 state = State.EMPTY_TURN ;
