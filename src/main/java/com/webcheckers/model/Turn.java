@@ -106,27 +106,42 @@ public class Turn {
 
     public boolean recordMove(Move move){
         LOG.info(String.format("%s Player [%s] turn - executing move %s", playerColor, player.getName(), move.toString()));
-        ArrayList<Row> matrix = getLatestBoard() ;
+        ArrayList<Row> latest = getLatestBoard() ;
+        ArrayList<Row> copy = new ArrayList<>();
+        for(int i = 0; i < 8; i++){
+            copy.add(new Row(i)) ;
+        }
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++){
+                if (latest.get(i).getSpaces().get(j).isOccupied()) {
+                    Piece replace = new Piece(latest.get(i).getSpaces().get(j).getPiece().isRed()) ;
+                    if (copy.get(i).getSpaces().get(j).getPiece().isKing()) {
+                        replace.makeKing();
+                    }
+                    copy.get(i).getSpaces().get(j).placePiece(replace);
+                }
+            }
+        }
         if (move.isJump()){
             Position position = move.getMidpoint() ;
             int cellMid = position.getCell() ;
             int rowMid = position.getRow() ;
-            Space spaceMid = matrix.get(rowMid).getSpaces().get(cellMid) ;
+            Space spaceMid = copy.get(rowMid).getSpaces().get(cellMid) ;
             lastRemovedPieceKing = spaceMid.removePiece().isKing() ;
         }
         Position positionStart = move.getStart() ;
         int cellStart = positionStart.getCell() ;
         int rowStart = positionStart.getRow() ;
-        Space spaceStart = matrix.get(rowStart).getSpaces().get(cellStart) ;
+        Space spaceStart = copy.get(rowStart).getSpaces().get(cellStart) ;
         Position positionEnd = move.getEnd() ;
         int cellEnd = positionEnd.getCell() ;
         int rowEnd = positionEnd.getRow() ;
-        Space spaceEnd = matrix.get(rowEnd).getSpaces().get(cellEnd) ;
+        Space spaceEnd = copy.get(rowEnd).getSpaces().get(cellEnd) ;
 
         spaceEnd.movePieceFrom(spaceStart) ;
         LOG.finest("Move successfully made on board");
 
-        pendingMoves.push(matrix) ;
+        pendingMoves.push(copy) ;
         lastValidMove = move ;
         setStateAfterMove(move) ;
         return true ;
@@ -168,10 +183,6 @@ public class Turn {
     public boolean backUpMove(){
         if (!pendingMoves.isEmpty()){
             pendingMoves.pop();
-            Move replace = new Move(lastValidMove.getEnd(), lastValidMove.getStart()) ;
-            replace.setPlayer(player);
-            replace.setPieceColor(playerColor);
-            undoMove(replace) ;
 
             LOG.info(String.format("Removing last move from %s's history", player.getName()));
             if (pendingMoves.isEmpty()){
