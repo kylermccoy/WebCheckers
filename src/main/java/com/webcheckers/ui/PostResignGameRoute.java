@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 import spark.*;
@@ -66,7 +67,9 @@ public class PostResignGameRoute implements Route {
         final Player player = session.attribute(GetHomeRoute.CURRENT_USER_KEY);
 
         if(player != null && this.center.isPlayerInGame(player)) {
+            CheckersGame game = this.center.getCheckersGame(player);
             this.center.playerLeftGame(player);
+            game.playerResigned();
             session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, null);
             return gson.toJson(Message.info("true"));
         }

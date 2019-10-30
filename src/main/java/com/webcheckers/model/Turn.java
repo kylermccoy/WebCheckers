@@ -36,7 +36,7 @@ public class Turn {
     private Stack<ArrayList<Row>> pendingMoves ;
     private ArrayList<Row> starting ;
 
-    private boolean lastRemovedPieceKing ;
+    private Piece lastRemovedPiece ;
 
     /**
      * Parameterized constructor
@@ -54,7 +54,7 @@ public class Turn {
         this.pendingMoves = new Stack<>() ;
         this.state = State.EMPTY_TURN ;
 
-        lastRemovedPieceKing = false ;
+        lastRemovedPiece = null ;
 
         LOG.fine(String.format("Turn initialized in [%s] state", this.state)) ;
     }
@@ -112,7 +112,7 @@ public class Turn {
             int cellMid = position.getCell() ;
             int rowMid = position.getRow() ;
             Space spaceMid = matrix.get(rowMid).getSpaces().get(cellMid) ;
-            lastRemovedPieceKing = spaceMid.removePiece().isKing() ;
+            lastRemovedPiece = spaceMid.removePiece();
         }
         Position positionStart = move.getStart() ;
         int cellStart = positionStart.getCell() ;
@@ -147,10 +147,7 @@ public class Turn {
             int cellMid = position.getCell() ;
             int rowMid = position.getRow() ;
             Space spaceMid = matrix.get(rowMid).getSpaces().get(cellMid) ;
-            Piece replace = new Piece(!move.getColor().isRed()) ;
-            if (lastRemovedPieceKing) {
-                replace.makeKing();
-            }
+            Piece replace = lastRemovedPiece ;
             spaceMid.placePiece(replace); ;
         }
         Position positionStart = move.getStart() ;

@@ -72,12 +72,21 @@ public class GetGameRoute implements Route {
         httpSession.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, game.getOpponent(player));
         opponent = httpSession.attribute(GetGameRoute.CURRENT_OPPONENT_KEY);
       }
-      else if(!gameCenter.isPlayerInGame(opponent)) {
+      else if(game.isResigned()) {
         modeOptions.put("isGameOver", true);
         modeOptions.put("gameOverMessage", opponent.getName() + " has resigned.");
         httpSession.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, null);
         game = gameCenter.getCheckersGame(player);
         gameCenter.playerLeftGame(player);
+      } else if(game.isWon()) {
+        modeOptions.put("isGameOver", true);
+        if(game.getWinner() == player) {
+          modeOptions.put("gameOverMessage", "You won the game! Congratulations!");
+        } else {
+          modeOptions.put("gameOverMessage", "You lost the game! Better luck next time!");
+        }
+        gameCenter.playerLeftGame(player);
+        httpSession.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, null);
       }
     }
 
