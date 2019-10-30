@@ -36,7 +36,6 @@ public class Turn {
     private Stack<ArrayList<Row>> pendingMoves ;
     private ArrayList<Row> starting ;
 
-    private boolean lastRemovedPieceKing ;
 
     /**
      * Parameterized constructor
@@ -53,8 +52,6 @@ public class Turn {
 
         this.pendingMoves = new Stack<>() ;
         this.state = State.EMPTY_TURN ;
-
-        lastRemovedPieceKing = false ;
 
         LOG.fine(String.format("Turn initialized in [%s] state", this.state)) ;
     }
@@ -127,7 +124,6 @@ public class Turn {
             int cellMid = position.getCell() ;
             int rowMid = position.getRow() ;
             Space spaceMid = copy.get(rowMid).getSpaces().get(cellMid) ;
-            lastRemovedPieceKing = spaceMid.removePiece().isKing() ;
         }
         Position positionStart = move.getStart() ;
         int cellStart = positionStart.getCell() ;
@@ -153,31 +149,6 @@ public class Turn {
         }else if (move.isJump()){
             state = State.JUMP_MOVE ;
         }
-    }
-
-    public void undoMove(Move move) {
-        ArrayList<Row> matrix = getLatestBoard() ;
-        if (move.isJump()){
-            Position position = move.getMidpoint() ;
-            int cellMid = position.getCell() ;
-            int rowMid = position.getRow() ;
-            Space spaceMid = matrix.get(rowMid).getSpaces().get(cellMid) ;
-            Piece replace = new Piece(!move.getColor().isRed()) ;
-            if (lastRemovedPieceKing) {
-                replace.makeKing();
-            }
-            spaceMid.placePiece(replace); ;
-        }
-        Position positionStart = move.getStart() ;
-        int cellStart = positionStart.getCell() ;
-        int rowStart = positionStart.getRow() ;
-        Space spaceStart = matrix.get(rowStart).getSpaces().get(cellStart) ;
-        Position positionEnd = move.getEnd() ;
-        int cellEnd = positionEnd.getCell() ;
-        int rowEnd = positionEnd.getRow() ;
-        Space spaceEnd = matrix.get(rowEnd).getSpaces().get(cellEnd) ;
-
-        spaceEnd.movePieceFrom(spaceStart) ;
     }
 
     public boolean backUpMove(){
