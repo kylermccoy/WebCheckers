@@ -15,6 +15,10 @@ public class Space {
     public enum spaceColor{
         DARK, LIGHT
     }
+    public enum State {
+        OPEN, OCCUPIED, INVALID
+    }
+    private State state ;
 
     /**
      * Constructor for Space
@@ -24,9 +28,11 @@ public class Space {
     public Space(int row, int cellIdx){
         this.cellIdx = cellIdx ;
         this.piece = null ;
+        this.state = State.OPEN ;
         if(row%2==0){
             if(cellIdx%2==0){
                 this.color = spaceColor.LIGHT ;
+
             }else{
                 this.color = spaceColor.DARK ;
             }
@@ -53,6 +59,7 @@ public class Space {
      */
     public void placePiece(Piece piece) {
         if(this.isValid()){
+            this.state = State.OCCUPIED ;
             this.piece = piece ;
         }
     }
@@ -74,7 +81,33 @@ public class Space {
     public Piece removePiece(){
         Piece temp = this.piece ;
         this.piece = null ;
+        this.state = State.OPEN ;
         return temp ;
+    }
+
+    public boolean movePieceFrom(Space source) {
+        if (source == null){
+            return false ;
+        }
+        if (state != State.OPEN) {
+            return false ;
+        }
+        if (source.getPiece() == null){
+            return false ;
+        }
+        addPiece(source.getPiece()) ;
+        source.removePiece() ;
+        return true ;
+    }
+
+    public State addPiece(Piece piece){
+        if (state == State.OPEN) {
+            this.piece = piece ;
+            state = State.OCCUPIED ;
+            return state ;
+        }else {
+            return state ;
+        }
     }
 
     /**

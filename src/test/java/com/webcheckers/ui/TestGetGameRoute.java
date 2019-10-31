@@ -24,81 +24,113 @@ import static org.mockito.Mockito.*;
 
 public class TestGetGameRoute {
 
-    // Sign-in Route
-    private GetGameRoute gameRoute;
+  // Sign-in Route
+  private GetGameRoute gameRoute;
 
-    // Mocked Objects
-    private GameCenter gameCenter;
-    private Gson gson;
-    private Response response;
-    private PlayerLobby playerLobby;
-    private Player user;
-    private Player opponent;
-    private TemplateEngine engine;
-    private Request request;
-    private Session session;
+  // Mocked Objects
+  private GameCenter gameCenter;
+  private Gson gson;
+  private Response response;
+  private PlayerLobby playerLobby;
+  private Player user;
+  private Player opponent;
+  private TemplateEngine engine;
+  private Request request;
+  private Session session;
 
-    /* This section initializes mocked objects to test with */
-    @BeforeEach
-    public void initializeGameRoute() {
-        request = mock(Request.class);
-        session = mock(Session.class);
-        when(request.session()).thenReturn(session);
-        response = mock(Response.class);
-        engine = mock(TemplateEngine.class);
-        gson = new Gson();
-        gameCenter = new GameCenter();
-        playerLobby = new PlayerLobby(gameCenter);
-        user = new Player("Brian");
-        opponent = new Player("Kyle");
+  /* This section initializes mocked objects to test with */
+  @BeforeEach
+  public void initializeGameRoute() {
+    request = mock(Request.class);
+    session = mock(Session.class);
+    when(request.session()).thenReturn(session);
+    response = mock(Response.class);
+    engine = mock(TemplateEngine.class);
+    gson = new Gson();
+    gameCenter = new GameCenter();
+    playerLobby = new PlayerLobby(gameCenter);
+    user = new Player("Brian");
+    opponent = new Player("Kyle");
 
-        gameRoute = new GetGameRoute(engine, gameCenter, gson, playerLobby);
+    gameRoute = new GetGameRoute(engine, gameCenter, gson, playerLobby);
+  }
+
+  @Test
+  public void test_GameFax() {
+    final TemplateEngineTester engineTester = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(engineTester.makeAnswer());
+    // Return the current user when asked
+    when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(user);
+
+    gameCenter.startGame(user, opponent);
+
+    // Test statements
+    gameRoute.handle(request, response);
+    engineTester.assertViewModelExists();
+    engineTester.assertViewModelIsaMap();
+    engineTester.assertViewName("game.ftl");
+    engineTester.assertViewModelAttribute("currentUser", user);
+    engineTester.assertViewModelAttribute("gameID", null);
+    engineTester.assertViewModelAttribute("redPlayer", user);
+    engineTester.assertViewModelAttribute("whitePlayer", opponent);
+    engineTester.assertViewModelAttribute("activeColor", CheckersGame.color.RED);
+  }
+
+  @Test
+  public void test_nullPlayer(){
+    user = null;
+    when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(user);
+    when(session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY)).thenReturn(null);
+    try{
+      gameRoute.handle(request, response);
+    }catch(HaltException e){
+      assertTrue(e instanceof HaltException);
     }
 
-    @Test
-    public void test_GameFax() {
-        final TemplateEngineTester engineTester = new TemplateEngineTester();
-        when(engine.render(any(ModelAndView.class))).thenAnswer(engineTester.makeAnswer());
-        // Return the current user when asked
-        when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(user);
+  }
 
-        gameCenter.startGame(user, opponent);
+  @Test void test_getGame(){
+    final TemplateEngineTester engineTester = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(engineTester.makeAnswer());
 
-        // Test statements
-        gameRoute.handle(request, response);
-        engineTester.assertViewModelExists();
-        engineTester.assertViewModelIsaMap();
-        engineTester.assertViewName("game.ftl");
-        engineTester.assertViewModelAttribute("currentUser", user);
-        engineTester.assertViewModelAttribute("gameID", null);
-        engineTester.assertViewModelAttribute("redPlayer", user);
-        engineTester.assertViewModelAttribute("whitePlayer", opponent);
-        engineTester.assertViewModelAttribute("activeColor", CheckersGame.color.RED);
+    gameCenter.startGame(user, opponent);
+    CheckersGame game = gameCenter.getCheckersGame(user);
+    gameCenter.playerLeftGame(opponent);
+    game.playerResigned();
+
+    when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(user);
+    when(session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY)).thenReturn(opponent);
+
+    try{
+      gameRoute.handle(request, response);
+    }catch(HaltException e){
+      assertTrue(e instanceof HaltException);
     }
+  }
 
-    @Test
-    public void test_nullPlayer(){
-        user = null;
-        when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(user);
-        when(session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY)).thenReturn(null);
-        try{
-            gameRoute.handle(request, response);
-        }catch(HaltException e){
-            assertTrue(e instanceof HaltException);
-        }
+  @Test void test_endGameWon(){
+    final TemplateEngineTester engineTester = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(engineTester.makeAnswer());
 
-    }
+    gameCenter.startGame(user, opponent);
+    CheckersGame game = gameCenter.getCheckersGame(user);
+    game.recordEndGame(user, opponent);
 
-    @Test void test_getGame(){
-        final TemplateEngineTester engineTester = new TemplateEngineTester();
-        when(engine.render(any(ModelAndView.class))).thenAnswer(engineTester.makeAnswer());
+    when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(user);
+    when(session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY)).thenReturn(opponent);
+    gameRoute.handle(request, response);
+  }
 
-        gameCenter.startGame(user, opponent);
-        gameCenter.playerLeftGame(opponent);
+  @Test void test_endGameLost(){
+    final TemplateEngineTester engineTester = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(engineTester.makeAnswer());
 
-        when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(user);
-        when(session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY)).thenReturn(opponent);
+    gameCenter.startGame(user, opponent);
+    CheckersGame game = gameCenter.getCheckersGame(user);
+    game.recordEndGame(opponent, user);
 
-        gameRoute.handle(request, response);
-    }
+    when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(user);
+    when(session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY)).thenReturn(opponent);
+    gameRoute.handle(request, response);
+  }
 }

@@ -25,7 +25,7 @@ public class BoardView implements Iterable {
     public BoardView(){
         this.rowsBlank = makeRows() ;
         this.rowsRed = fillBoard() ;
-        this.rowsWhite = rotateBoard(this.rowsRed) ;
+        this.rowsWhite = rotate(this.rowsRed) ;
     }
 
     public ArrayList<Row> getRedBoard() {
@@ -64,6 +64,11 @@ public class BoardView implements Iterable {
         return board;
     }
 
+    public void update(ArrayList<Row> update){
+        this.rowsRed = update ;
+        this.rowsWhite = rotate(rowsRed) ;
+    }
+
     /**
      * method that rotates the board cells for the perspective of the white player
      * @param redBoard red board perspective
@@ -82,6 +87,20 @@ public class BoardView implements Iterable {
             redstartrow-- ;
         }
         return copy ;
+    }
+
+    public ArrayList<Row> rotate(ArrayList<Row> redBoard){
+        ArrayList<Row> boardWhite = new ArrayList<>();
+        for (int i = 7; i >= 0; i--){
+            ArrayList<Space> spaceWhite = new ArrayList<>();
+            Row whiteRow = new Row(i) ;
+            for (int j = 7; j >= 0; j--){
+                spaceWhite.add(redBoard.get(i).getSpaces().get(j)) ;
+            }
+            whiteRow.setSpaces(spaceWhite);
+            boardWhite.add(whiteRow) ;
+        }
+        return boardWhite ;
     }
 
     /**

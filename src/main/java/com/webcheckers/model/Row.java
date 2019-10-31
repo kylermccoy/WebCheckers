@@ -43,6 +43,9 @@ public class Row implements Iterable {
         return this.spaces ;
     }
 
+    public void setSpaces(ArrayList<Space> spaces){
+        this.spaces = spaces ;
+    }
     /**
      * iterator of the rows, places spaces in eight columns of the row
      * @return iterable spaces
