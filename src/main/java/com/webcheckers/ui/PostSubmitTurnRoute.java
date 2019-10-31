@@ -13,10 +13,7 @@ import spark.Session;
 public class PostSubmitTurnRoute implements Route {
 
     // Set messages to reference when contacting the server
-    public static final Message COMPLETE = Message.info("Turn valid");
     public static final Message NO_TURN = Message.error("Not players turn");
-    // public static final Message MISSED_JUMP = Message.error("User has jump somewhere else");
-    // public static final Message MISSED_MULTI_JUMP = Message.error("User has incomplete multi-jump");
 
     // Used to handle the responses
     private Gson gson;
