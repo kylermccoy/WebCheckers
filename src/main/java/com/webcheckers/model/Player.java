@@ -12,9 +12,6 @@ public class Player {
   // Field where the player username will be stored
   private String username;
 
-  // Field where whether or not the player is in-game or not will be stored
-  private boolean inGame;
-
   /**
    * Create a new player entity with a reserved username
    *
@@ -23,24 +20,6 @@ public class Player {
    */
   public Player(String username) {
     this.username = username;
-    this.inGame = false;
-  }
-
-  /**
-   * Returns whether or not the player is in-game
-   * @return
-   *      Whether or not the player is in-game
-   */
-  public boolean isInGame() {
-    return this.inGame;
-  }
-
-  /**
-   * Sets whether or not the player is in-game
-   * @param inGame - The new state of whether or not the player is in-game
-   */
-  public void toggleGame(boolean inGame) {
-    this.inGame = inGame;
   }
 
   /**

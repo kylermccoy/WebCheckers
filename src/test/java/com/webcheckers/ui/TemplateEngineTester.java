@@ -20,7 +20,7 @@ public class TemplateEngineTester {
   /** Holds the View-Model map from the Spark ModelAndView object. */
   public Object model;
   /** Holds the View name from the Spark ModelAndView object. */
-  private String viewName;
+  public String viewName;
 
   /**
    * Make a Mockito {@link Answer} object to capture the {@link ModelAndView}

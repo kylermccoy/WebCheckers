@@ -104,7 +104,7 @@ public class PlayerLobby {
       Player play = this.players.get(entry);
       if(play != p && center.getCheckersGame(play) == null) { // Player is not the current player and not in-game
         lobbyList += "<li class='player-item'> <a class='player' href='/game?opponentName=" +
-                play.getName() + "'>" + entry + " </a> </li>";
+                      play.getName() + "'>" + entry + " </a> </li>";
         count++;
       }
     }

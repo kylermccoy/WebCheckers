@@ -23,9 +23,10 @@ public class GetSignInRoute implements Route {
 
   // CONSTANT KEYS TO KEEP TRACK OF VIEW ATTRIBUTES AND IMPORTANT INFORMATION
   public static final Message SIGN_IN_REQUEST = Message.info("To sign in, please enter a unique username!");
-  public final String VIEW_NAME = "signin.ftl";
+  public static final String VIEW_NAME = "signin.ftl";
   public static final String TITLE_ATTR = "title";
   public static final String TITLE = "Sign in!";
+  public static final String MESSAGE_ATTR = "message";
 
   // WebServer provided information
   private final TemplateEngine templateEngine;
@@ -75,7 +76,7 @@ public class GetSignInRoute implements Route {
     } else {
 
       vm.put(TITLE_ATTR, TITLE);
-      vm.put("message", SIGN_IN_REQUEST);
+      vm.put(MESSAGE_ATTR, SIGN_IN_REQUEST);
 
       // render the View
       return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
