@@ -96,6 +96,11 @@ public class WebServer {
    */
   public static final String SUBMIT_TURN_URL = "/submitTurn";
 
+  /**
+   * The URL pattern to spectate a game
+   */
+  public static final String SPECTATE_GAME_URL = "/spectate/game";
+
   //
   // Attributes
   //
@@ -211,6 +216,8 @@ public class WebServer {
 
     // Post check-turn request
     post(CHECK_TURN_URL, new PostCheckTurnRoute(lobby, gameCenter, gson, templateEngine));
+
+    get(SPECTATE_GAME_URL, new GetSpectatorGameRoute(templateEngine, gson, gameCenter));
 
     //
     LOG.config("WebServer is initialized.");

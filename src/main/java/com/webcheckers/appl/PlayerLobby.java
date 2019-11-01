@@ -104,11 +104,12 @@ public class PlayerLobby {
     for(String entry : this.players.keySet()) {
       Player play = this.players.get(entry);
       CheckersGame game = center.getCheckersGame(play);
-      if(play != p && game == null) { // Player is not the current player and not in-game
+      CheckersGame spectatingGame = center.getSpectatingGame(play);
+      if(play != p && (game == null || game.isResigned()) && spectatingGame == null) { // Player is not the current player and not in-game and not spectating
         lobbyList += "<li class='player-item'> <a class='player' href='/game?opponentName=" +
                       play.getName() + "'>" + entry + " </a></li>";
         count++;
-      } else if(game != null && center.getOpponent(play) != null) {
+      } else if(game != null && !game.isResigned()) { // Active game to spectate here
         int gameID = game.getGameID();
         lobbyList += "<li class='player-item'> <a class='player' href='/spectate/game?gameID=" + gameID + "'> Spectate " + play.getName()+ "</a> </li>";
         count++;

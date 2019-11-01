@@ -56,8 +56,8 @@ public class GetGameRoute implements Route {
     modeOptions.put("isGameOver", false);
     modeOptions.put("gameOverMessage", "");
 
-    if(gameCenter.getCheckersGame(player) == null) { // Game has not been initiated or a user logged out
-      if(extractedPlayer == null || player == null) {
+    if(gameCenter.getCheckersGame(player) == null) { // Game has not been initiated or a user logged out or user is spectating
+      if(extractedPlayer == null || player == null || (gameCenter.isPlayerInGame(extractedPlayer) && !gameCenter.getCheckersGame(extractedPlayer).isResigned())) {
         response.redirect(WebServer.HOME_URL);
         halt();
         return null;

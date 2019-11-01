@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -93,8 +94,13 @@ public class GetHomeRoute implements Route {
 
     // If player is already logged in, display the current list of signed-in players
     if(player != null) {
-      if(center.getCheckersGame(player) != null) {
+      CheckersGame spectatingGame = center.getSpectatingGame(player);
+      if(center.getCheckersGame(player) != null) { // Player is in-game bring them back
         response.redirect(WebServer.GAME_URL);
+        halt();
+        return null;
+      } else if(spectatingGame != null) { // Player is spectating bring them back
+        response.redirect(WebServer.SPECTATE_GAME_URL + "?gameID=" + spectatingGame.getGameID());
         halt();
         return null;
       }
