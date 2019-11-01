@@ -55,7 +55,7 @@ based upon the  [American rules](http://www.se.rit.edu/~swen-261/projects/WebChe
 The enhancements of interest to Team D in order of preference are:
 
 1.  _Spectator Mode_: Other players may view an on-going game that they are not playing.
-2.  _Player Help_: Extend the Game View to support the ability to request help.
+2.  _Replay Mode_: Games can be stored and then reviewed at a later date.
 
 
 ## Application Domain
@@ -129,6 +129,9 @@ game actions, like validating a move, checking the turn.
 
 *  PostCheckTurnRoute
 *  PostResignGameRoute
+*  PostSpectatorCheckTurnRoute
+*  PostValidateMoveRoute
+*  PostSubmitTurnRoute
 
 HTTPRoutes: Unlike the Ajax routes, routes under this classification must be re-rendered each time. These HTTP routes are
 responsible for displaying views (a GET request) and updating data from the client (a POST request).
@@ -136,6 +139,8 @@ responsible for displaying views (a GET request) and updating data from the clie
 * GetGameRoute
 * GetHomeRoute
 * GetSigninRoute
+* GetSpectatorGameRoute
+* GetSpectatorStopWatchingRoute
 * PostSignoutRoute
 * PostSigninRoute
 * WebServer
