@@ -1,5 +1,6 @@
 package com.webcheckers.appl;
 
+import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 
 import java.util.HashMap;
@@ -102,9 +103,14 @@ public class PlayerLobby {
     int count = 0;
     for(String entry : this.players.keySet()) {
       Player play = this.players.get(entry);
-      if(play != p && center.getCheckersGame(play) == null) { // Player is not the current player and not in-game
+      CheckersGame game = center.getCheckersGame(play);
+      if(play != p && game == null) { // Player is not the current player and not in-game
         lobbyList += "<li class='player-item'> <a class='player' href='/game?opponentName=" +
-                      play.getName() + "'>" + entry + " </a> </li>";
+                      play.getName() + "'>" + entry + " </a></li>";
+        count++;
+      } else if(game != null && center.getOpponent(play) != null) {
+        int gameID = game.getGameID();
+        lobbyList += "<li class='player-item'> <a class='player' href='/spectate/game?gameID=" + gameID + "'> Spectate " + play.getName()+ "</a> </li>";
         count++;
       }
     }

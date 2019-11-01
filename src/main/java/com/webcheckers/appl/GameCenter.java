@@ -5,6 +5,7 @@ import com.webcheckers.model.Player;
 import com.webcheckers.model.Turn;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class for handling the creation of a game and management of who is in a game and what game specifically they are in
@@ -19,6 +20,8 @@ public class GameCenter {
     private HashMap<Player, Player> playersInGame;
     // map of players that will may have inverted views
     private HashMap<Player, Boolean> playersInverted;
+    // map of active games and their game ids
+    private HashMap<Integer, CheckersGame> gameLookup;
 
     /**
      * Constructor to initiate a new GameCenter
@@ -27,6 +30,7 @@ public class GameCenter {
         playersInGame = new HashMap<>() ;
         activeGames = new HashMap<>();
         playersInverted = new HashMap<>();
+        gameLookup = new HashMap<>();
     }
 
     /***
@@ -39,6 +43,7 @@ public class GameCenter {
         CheckersGame game = new CheckersGame(one, two);
         addInGamePlayers(one, two);
         addToGame(one, game);
+        gameLookup.put(game.getGameID(), game);
         playersInverted.put(one, false);
         playersInverted.put(two, true);
         addToGame(two, game); // Pass inverted game view here
@@ -60,6 +65,12 @@ public class GameCenter {
      * @param one Player to be removed
      */
     public void playerLeftGame(Player one) {
+        CheckersGame game = this.activeGames.get(one);
+        if(getOpponent(one) == null && game != null) {
+            // Remove the specified entry from the Map
+            this.gameLookup.remove(game.getGameID());
+            System.out.println("A OKAY");
+        }
         this.playersInGame.remove(one);
         this.playersInverted.remove(one);
         this.activeGames.remove(one);

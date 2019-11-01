@@ -98,6 +98,7 @@ public class GetGameRoute implements Route {
       vm.put("whitePlayer", game.getWhitePlayer());
       vm.put("activeColor", game.getActiveColor());
       vm.put("board", game.getBoard());
+      vm.put("gameID", game.getGameID());
       vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
       vm.put("invertedView", this.gameCenter.isPlayerViewInverted(player));
       vm.put("viewMode", "PLAY");
