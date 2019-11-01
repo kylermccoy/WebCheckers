@@ -87,16 +87,6 @@ public class WebServer {
   public static final String BACKUP_MOVE_URL = "/backupMove" ;
 
   /**
-   * The URL pattern to request the resign game page.
-   */
-  public static final String RESIGN_GAME_URL = "/resignGame";
-
-  /**
-   * The URL pattern to request the checking of a turn
-   */
-  public static final String CHECK_TURN_URL = "/checkTurn" ;
-
-  /**
    * The URL pattern to start the game process
    */
   public static final String REQUEST_GAME_URL = "/requestgame";

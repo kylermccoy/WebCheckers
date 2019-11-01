@@ -67,13 +67,4 @@ public class TestCheckersGame {
         assertEquals(p1,checkersGame.getOpponent(p2));
         assertEquals(p2,checkersGame.getOpponent(p1));
     }
-
-    @Test
-    /***
-     * Test swapActiveColor()
-     */
-    public void test_swapActiveColor(){
-        checkersGame.swapActiveColor();
-        assertEquals("WHITE",checkersGame.getActiveColor().toString());
-    }
 }
