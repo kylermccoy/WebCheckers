@@ -13,7 +13,7 @@ public class TestCheckersGame {
     public void initializeTest(){
        p1 = new Player("tester1");
        p2 = new Player("tester2");
-      checkersGame = new CheckersGame(p1,p2);
+      checkersGame = new CheckersGame(p1,p2, 1);
     }
 
 

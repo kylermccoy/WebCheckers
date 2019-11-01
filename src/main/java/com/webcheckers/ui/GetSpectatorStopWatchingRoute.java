@@ -57,7 +57,7 @@ public class GetSpectatorStopWatchingRoute implements Route {
     final Player player = session.attribute(GetHomeRoute.CURRENT_USER_KEY);
     // retrieve the gameID and game
     final String extractedID = request.queryParams("gameID");
-    final int gameID = (extractedID == null ? -1 : Integer.parseInt(extractedID));
+    final int gameID = (extractedID == null || extractedID.compareTo("") == 0 ? -1 : Integer.parseInt(extractedID));
 
 
     // Player is signed in and gameID matches the spectating game

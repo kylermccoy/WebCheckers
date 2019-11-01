@@ -68,7 +68,7 @@ public class GetSpectatorGameRoute implements Route {
     final Player player = session.attribute(GetHomeRoute.CURRENT_USER_KEY);
     // retrieve the gameID and game
     final String extractedID = request.queryParams("gameID");
-    final int gameID = (extractedID == null ? -1 : Integer.parseInt(extractedID));
+    final int gameID = (extractedID == null || extractedID.compareTo("") == 0 ? -1 : Integer.parseInt(extractedID));
     CheckersGame game = (gameID == -1 ? null : this.center.getGameByID(gameID));
 
     // Player is not signed in so go back to the homepage or the player is signed in but inputted the wrong gameID

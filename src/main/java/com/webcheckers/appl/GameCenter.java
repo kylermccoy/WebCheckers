@@ -27,6 +27,8 @@ public class GameCenter {
     private HashMap<Integer, CheckersGame> gameLookup;
     // list of all spectating players
     private HashMap<Player, CheckersGame> spectators;
+    // number of games created
+    private int gamesCreated;
 
     /**
      * Constructor to initiate a new GameCenter
@@ -37,6 +39,7 @@ public class GameCenter {
         playersInverted = new HashMap<>();
         gameLookup = new HashMap<>();
         spectators = new HashMap<>();
+        gamesCreated = 0;
     }
 
     /***
@@ -46,7 +49,8 @@ public class GameCenter {
      * @return CheckersGame
      */
     public CheckersGame startGame(Player one, Player two){
-        CheckersGame game = new CheckersGame(one, two);
+        gamesCreated++;
+        CheckersGame game = new CheckersGame(one, two, gamesCreated);
         addInGamePlayers(one, two);
         addToGame(one, game);
         gameLookup.put(game.getGameID(), game);
