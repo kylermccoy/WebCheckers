@@ -72,7 +72,8 @@ public class GetSpectatorGameRoute implements Route {
     CheckersGame game = (gameID == -1 ? null : this.center.getGameByID(gameID));
 
     // Player is not signed in so go back to the homepage or the player is signed in but inputted the wrong gameID
-    if((player != null && game == null && gameID != -1) || player == null) {
+    // Player is not in-game
+    if((player != null && this.center.getCheckersGame(player) != null) || (player != null && game == null && gameID != -1) || player == null) {
       response.redirect(WebServer.HOME_URL);
       halt();
       return null;
