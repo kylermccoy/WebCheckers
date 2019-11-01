@@ -52,6 +52,10 @@ public class SessionTimeoutWatchdog implements HttpSessionBindingListener {
     this.lobby.playerLoggedOut(p);
     if(center.isPlayerInGame(p)) {
       center.playerLeftGame(p);
+      center.getCheckersGame(p).playerResigned();
+    }
+    if(this.center.getSpectatingGame(p) != null) {
+      this.center.stopSpectating(p);
     }
     session.attribute(GetHomeRoute.CURRENT_USER_KEY, null);
     session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, null);

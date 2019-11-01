@@ -33,7 +33,7 @@ public class GetSpectatorGameRoute implements Route {
   private final Gson gson;
 
   /**
-   * Create the Spark Route (UI controller) to handle all {@code GET /signin} HTTP requests.
+   * Create the Spark Route (UI controller) to handle all {@code GET /spectate/game} HTTP requests.
    *
    * @param templateEngine
    *   the HTML template rendering engine
@@ -71,7 +71,7 @@ public class GetSpectatorGameRoute implements Route {
     CheckersGame game = (gameID == -1 ? null : this.center.getGameByID(gameID));
 
     // Player is not signed in so go back to the homepage or the player is signed in but inputted the wrong gameID
-    if((player != null && game == null && gameID == -1) || player == null) {
+    if((player != null && game == null && gameID != -1) || player == null) {
       response.redirect(WebServer.HOME_URL);
       halt();
       return null;
@@ -82,6 +82,11 @@ public class GetSpectatorGameRoute implements Route {
 
     // We need to add user to spectate list. First time here
     if(spectating_game == null) {
+      if(game == null) { // User just directed to this page without spectating anything
+        response.redirect(WebServer.HOME_URL);
+        halt();
+        return null;
+      }
       this.center.startSpectating(player, game);
     } else {
       game = spectating_game;
