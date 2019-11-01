@@ -20,12 +20,13 @@ import static spark.Spark.halt;
  */
 public class GetSpectatorGameRoute implements Route {
 
-  private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
+  private static final Logger LOG = Logger.getLogger(GetSpectatorGameRoute.class.getName());
 
   // CONSTANT KEYS TO KEEP TRACK OF VIEW ATTRIBUTES AND IMPORTANT INFORMATION
   public static final String VIEW_NAME = "game.ftl";
   public static final String TITLE_ATTR = "title";
   public static final String MESSAGE_ATTR = "message";
+  public static final String LAST_COLOR_KEY = "LAST_COLOR";
 
   // WebServer provided information
   private final TemplateEngine templateEngine;
@@ -92,6 +93,9 @@ public class GetSpectatorGameRoute implements Route {
       game = spectating_game;
     }
 
+    // Update the last turn color
+    session.attribute(LAST_COLOR_KEY, game.getActiveColor());
+
     final Map<String, Object> modeOptions = new HashMap<>(2);
     modeOptions.put("isGameOver", false);
     modeOptions.put("gameOverMessage", "");
@@ -99,6 +103,7 @@ public class GetSpectatorGameRoute implements Route {
     if(game.isResigned()) {
       modeOptions.put("isGameOver", true);
       modeOptions.put("gameOverMessage", "A player has resigned!");
+      session.attribute(LAST_COLOR_KEY, null);
     } else if(game.isWon()) {
       modeOptions.put("isGameOver", true);
       if(game.getWinner() == player) {
@@ -106,6 +111,7 @@ public class GetSpectatorGameRoute implements Route {
       } else {
         modeOptions.put("gameOverMessage", game.getLoser() + " lost the game!");
       }
+      session.attribute(LAST_COLOR_KEY, null);
     }
 
     // Create the view map to insert objects into

@@ -102,9 +102,14 @@ public class WebServer {
   public static final String SPECTATE_GAME_URL = "/spectate/game";
 
   /**
-   * The URL pattern to spectate a game
+   * The URL pattern to stop spectating a game
    */
   public static final String SPECTATE_STOP_WATCH_URL = "/spectator/stopWatching";
+
+  /**
+   * The URL pattern to check the turn of a game as a spectator
+   */
+  public static final String SPECTATE_CHECK_TURN_ROUTE = "/spectator/checkTurn";
 
   //
   // Attributes
@@ -227,6 +232,9 @@ public class WebServer {
 
     // Get spectate-stop-watching request
     get(SPECTATE_STOP_WATCH_URL, new GetSpectatorStopWatchingRoute(templateEngine, gameCenter));
+
+    // Post spectator-check-turn request
+    post(SPECTATE_CHECK_TURN_ROUTE, new PostSpectatorCheckTurnRoute(templateEngine, gson, gameCenter));
 
     //
     LOG.config("WebServer is initialized.");
