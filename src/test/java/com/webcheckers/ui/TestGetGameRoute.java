@@ -70,7 +70,7 @@ public class TestGetGameRoute {
     engineTester.assertViewModelIsaMap();
     engineTester.assertViewName("game.ftl");
     engineTester.assertViewModelAttribute("currentUser", user);
-    engineTester.assertViewModelAttribute("gameID", null);
+    engineTester.assertViewModelAttribute("gameID", 1);
     engineTester.assertViewModelAttribute("redPlayer", user);
     engineTester.assertViewModelAttribute("whitePlayer", opponent);
     engineTester.assertViewModelAttribute("activeColor", CheckersGame.color.RED);

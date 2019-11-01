@@ -72,10 +72,9 @@ public class GameCenter {
      */
     public void playerLeftGame(Player one) {
         CheckersGame game = this.activeGames.get(one);
-        if(getOpponent(one) == null && game != null) {
+        if(!isPlayerInGame(getOpponent(one)) && game != null) {
             // Remove the specified entry from the Map
             this.gameLookup.remove(game.getGameID());
-            System.out.println("A OKAY");
         }
         this.playersInGame.remove(one);
         this.playersInverted.remove(one);

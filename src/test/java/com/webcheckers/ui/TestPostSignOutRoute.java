@@ -100,4 +100,28 @@ public class TestPostSignOutRoute {
     assertNull(myModelView.model);
   }
 
+  /* This tests for when the route is subjected to a user that is signed in and spectating */
+  @Test
+  public void test_signedInSpectator() {
+    Player player = playerLobby.newPlayerInstance("Test");
+    Player player1 = playerLobby.newPlayerInstance("Test1");
+    center.startGame(player, player1);
+    Player player2 = playerLobby.newPlayerInstance("Test2");
+    center.startSpectating(player2, center.getGameByID(1));
+    when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(player2);
+    final Response response = mock(Response.class);
+
+    final TemplateEngineTester myModelView = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(myModelView.makeAnswer());
+
+    // Invoke the test
+    try{
+      signOut.handle(request, response);
+    }catch(HaltException e){
+      assertTrue(e instanceof HaltException);
+    }
+
+    assertNull(myModelView.model);
+  }
+
 }

@@ -64,4 +64,16 @@ public class TestSessionTimeoutWatchdog {
     assertNull(session.attribute(GetHomeRoute.CURRENT_USER_KEY));
   }
 
+  /* Tests watchdog value unbound event when player is signed in and in-game*/
+  @Test
+  public void testValueUnboundSpectator() {
+    HttpSessionBindingEvent event = mock(HttpSessionBindingEvent.class);
+    Player p1 = mock(Player.class);
+    Player p2 = mock(Player.class);
+    center.startGame(p2, p1);
+    center.startSpectating(p, center.getGameByID(1));
+    watchdog.valueUnbound(event);
+    assertNull(session.attribute(GetHomeRoute.CURRENT_USER_KEY));
+  }
+
 }

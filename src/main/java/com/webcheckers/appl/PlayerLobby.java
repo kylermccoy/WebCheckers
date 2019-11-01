@@ -100,7 +100,6 @@ public class PlayerLobby {
       return "<li class='player-item'> There are no other players available to play at this time </li>";
     }
     String lobbyList = "";
-    int count = 0;
     for(String entry : this.players.keySet()) {
       Player play = this.players.get(entry);
       CheckersGame game = center.getCheckersGame(play);
@@ -108,15 +107,10 @@ public class PlayerLobby {
       if(play != p && (game == null || game.isResigned()) && spectatingGame == null) { // Player is not the current player and not in-game and not spectating
         lobbyList += "<li class='player-item'> <a class='player' href='/game?opponentName=" +
                       play.getName() + "'>" + entry + " </a></li>";
-        count++;
       } else if(game != null && !game.isResigned()) { // Active game to spectate here
         int gameID = game.getGameID();
         lobbyList += "<li class='player-item'> <a class='player' href='/spectate/game?gameID=" + gameID + "'> Spectate " + play.getName()+ "</a> </li>";
-        count++;
       }
-    }
-    if(count == 0) {
-      return "<li class='player-item'> There are no other players available to play at this time </li>";
     }
     return lobbyList;
   }
