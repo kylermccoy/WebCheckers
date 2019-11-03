@@ -58,7 +58,7 @@ public class TestPostCheckTurnRoute {
     when(engine.render(any(ModelAndView.class))).thenAnswer(myModelView.makeAnswer());
 
     // Invoke the test
-    assertEquals(gson.toJson(Message.error("false")), checkTurn.handle(request, response));
+    assertEquals(gson.toJson(Message.info("false")), checkTurn.handle(request, response));
   }
 
   /* This tests for when the route is subjected to a user that is not signed in */
@@ -70,7 +70,7 @@ public class TestPostCheckTurnRoute {
     when(engine.render(any(ModelAndView.class))).thenAnswer(myModelView.makeAnswer());
 
     // Invoke the test
-    assertEquals(gson.toJson(Message.error("false")), checkTurn.handle(request, response));
+    assertEquals(gson.toJson(Message.info("false")), checkTurn.handle(request, response));
   }
 
   /* This tests for when the route is subjected to a user that is signed in and in-game but the opponent resigned */
