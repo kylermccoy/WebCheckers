@@ -42,6 +42,13 @@ public class GetGameRoute implements Route {
         this.gson = gson;
     }
 
+    /***
+     * renders the Game page on to the GUI
+     * @param request request to update GUI
+     * @param response response to update GUI
+     * @return returns the needed info to the game.ftl file to do the render
+     * @throws Exception throws object DNE exception
+     */
     @Override
     public Object handle(Request request, Response response) {
 
