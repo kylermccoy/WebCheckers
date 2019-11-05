@@ -47,11 +47,11 @@ public class TestSubmitTurnRoute {
     }
 
     @Test
-    public void test_completedMove(){/*
-        when(game.getActiveColor()).thenReturn(CheckersGame.color.RED);
-        when(game.getPlayerColor(any())).thenReturn(CheckersGame.color.RED);
-        String expected = gson.toJson(PostSubmitTurnRoute.COMPLETE);
-        String actual = (String)submitTurnRoute.handle(request, null);
-        assertEquals(expected, actual);*/
+    public void test_notPlayersTurnMsg(){
+        when(game.getActiveColor()).thenReturn(CheckersGame.color.RED.RED);
+        when(game.getPlayerColor(any())).thenReturn(CheckersGame.color.RED.WHITE);
+        String expectedValue = gson.toJson(PostSubmitTurnRoute.NO_TURN);
+        String actualValue = (String) submitTurnRoute.handle(request, null);
+        assertEquals(expectedValue, actualValue);
     }
 }
