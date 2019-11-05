@@ -2,6 +2,7 @@ package com.webcheckers.appl;
 
 import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
+import com.webcheckers.model.Turn;
 
 import java.util.HashMap;
 
@@ -110,5 +111,14 @@ public class GameCenter {
      */
     public Player getOpponent(Player p){
         return  playersInGame.containsKey(p) ? playersInGame.get(p) : null;
+    }
+
+    public Turn getPlayerTurn(Player player) {
+        final CheckersGame game = getCheckersGame(player) ;
+
+        if (player.equals(game.getPlayerActive())){
+            return game.getTurn() ;
+        }
+        return null ;
     }
 }

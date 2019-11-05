@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.appl.GameCenter;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -75,7 +76,9 @@ public class PostSignOutRoute implements Route {
     } else {
       lobby.playerLoggedOut(player);
       if(this.center.getCheckersGame(player) != null) { // Remove from active games
-          this.center.playerLeftGame(player);
+        CheckersGame game = this.center.getCheckersGame(player);
+        this.center.playerLeftGame(player);
+        game.playerResigned();
       }
       session.attribute(GetHomeRoute.CURRENT_USER_KEY, null);
       session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, null);
