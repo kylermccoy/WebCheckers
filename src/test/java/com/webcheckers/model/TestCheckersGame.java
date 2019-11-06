@@ -67,4 +67,21 @@ public class TestCheckersGame {
         assertEquals(p1,checkersGame.getOpponent(p2));
         assertEquals(p2,checkersGame.getOpponent(p1));
     }
+
+    @Test
+    public void test_makeKings(){
+        checkersGame.makeKings();
+    }
+
+    @Test
+    public void test_submitTurn(){
+        checkersGame.submitTurn(p2) ;
+        checkersGame.submitTurn(p1) ;
+    }
+
+    @Test
+    public void test_changeActivePlayer(){
+        checkersGame.changeActivePlayer(p1) ;
+        checkersGame.changeActivePlayer(p2);
+    }
 }

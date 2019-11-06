@@ -24,4 +24,12 @@ public class TestPlayer {
     public void test_toString(){
         assertEquals("p1",this.p1.toString());
     }
+
+    @Test
+    public void test_equals() {
+        final Player p1 = new Player("dabid") ;
+        final Position p2 = new Position(0, 0) ;
+
+        assertNotEquals(p1, p2);
+    }
 }

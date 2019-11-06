@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestBoarView {
+public class TestBoardView {
     private BoardView boardView;
 
     /*Initialize mocked objects to test with*/
@@ -82,6 +82,11 @@ public class TestBoarView {
         Iterator<Row> White = boardView.getWhiteBoard().iterator();
         assertSame(White.getClass(),boardView.iterator(true).getClass());
         assertSame(Red.getClass(),boardView.iterator(false).getClass());
+    }
+
+    @Test
+    public void test_print(){
+        boardView.boardPrint();
     }
 
 }
