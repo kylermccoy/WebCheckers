@@ -31,7 +31,6 @@ public class CheckersGame {
 
     // GameID variables
     private int GameID;
-    private int gamesCreated;
 
     //BoardView
     private BoardView board ;
@@ -57,7 +56,7 @@ public class CheckersGame {
      * @param playerOne Player 1, regular board view
      * @param playerTwo Player 2, inverted board view
      */
-    public CheckersGame (Player playerOne, Player playerTwo) {
+    public CheckersGame (Player playerOne, Player playerTwo, int gamesCreated) {
         this.redPlayer = playerOne;
         this.whitePlayer = playerTwo;
         this.activeColor = color.RED;
@@ -70,7 +69,6 @@ public class CheckersGame {
 
         // Creates a unique GameID for each game created
         synchronized (BoardView.class){
-            gamesCreated++;
             this.GameID = gamesCreated;
         }
 

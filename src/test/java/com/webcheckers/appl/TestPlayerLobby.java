@@ -62,7 +62,7 @@ public class TestPlayerLobby {
     Player p2 = p.newPlayerInstance("Test1");
     assertNotEquals("<li class='player-item'> There are no other players available to play at this time </li>", p.giveRoster(p0));
     c.startGame(p0, p2);
-    assertEquals("<li class='player-item'> There are no other players available to play at this time </li>", p.giveRoster(p0));
+    assertNotEquals("<li class='player-item'> There are no other players available to play at this time </li>", p.giveRoster(p0));
   }
 
   /* This section tests the getPlayer method */

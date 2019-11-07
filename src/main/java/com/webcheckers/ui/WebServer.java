@@ -87,11 +87,6 @@ public class WebServer {
   public static final String BACKUP_MOVE_URL = "/backupMove" ;
 
   /**
-   * The URL pattern to start the game process
-   */
-  public static final String REQUEST_GAME_URL = "/requestgame";
-
-  /**
    *  The URL pattern to validate the move
    */
   public static final String VALIDATE_MOVE_URL = "/validateMove" ;
@@ -100,6 +95,21 @@ public class WebServer {
    * The URL pattern to submit a turn
    */
   public static final String SUBMIT_TURN_URL = "/submitTurn";
+
+  /**
+   * The URL pattern to spectate a game
+   */
+  public static final String SPECTATE_GAME_URL = "/spectate/game";
+
+  /**
+   * The URL pattern to stop spectating a game
+   */
+  public static final String SPECTATE_STOP_WATCH_URL = "/spectator/stopWatching";
+
+  /**
+   * The URL pattern to check the turn of a game as a spectator
+   */
+  public static final String SPECTATE_CHECK_TURN_ROUTE = "/spectator/checkTurn";
 
   //
   // Attributes
@@ -196,18 +206,11 @@ public class WebServer {
     // Shows the Checkers game Sign-in page.
     get(SIGN_IN_URL, new GetSignInRoute(templateEngine));
 
-    post(REQUEST_GAME_URL, new PostGameRoute(templateEngine, lobby, gameCenter));
-
     get(GAME_URL, new GetGameRoute(templateEngine, gameCenter, gson, lobby));
-
-    // Post resign-game request
-    post(RESIGN_GAME_URL, new PostResignGameRoute(lobby, gameCenter, gson, templateEngine));
 
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson,gameCenter));
 
     post(BACKUP_MOVE_URL, new PostBackUpMoveRoute(gson, gameCenter));
-
-    post(CHECK_TURN_URL, new PostCheckTurnRoute(lobby, gameCenter, gson, templateEngine));
 
     // Post submit turn request
     post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gson, gameCenter));
@@ -223,6 +226,15 @@ public class WebServer {
 
     // Post check-turn request
     post(CHECK_TURN_URL, new PostCheckTurnRoute(lobby, gameCenter, gson, templateEngine));
+
+    // Get spectate-game request
+    get(SPECTATE_GAME_URL, new GetSpectatorGameRoute(templateEngine, gson, gameCenter));
+
+    // Get spectate-stop-watching request
+    get(SPECTATE_STOP_WATCH_URL, new GetSpectatorStopWatchingRoute(templateEngine, gameCenter));
+
+    // Post spectator-check-turn request
+    post(SPECTATE_CHECK_TURN_ROUTE, new PostSpectatorCheckTurnRoute(templateEngine, gson, gameCenter));
 
     //
     LOG.config("WebServer is initialized.");

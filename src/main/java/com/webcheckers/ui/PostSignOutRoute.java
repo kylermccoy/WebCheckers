@@ -80,6 +80,9 @@ public class PostSignOutRoute implements Route {
         this.center.playerLeftGame(player);
         game.playerResigned();
       }
+      if(this.center.getSpectatingGame(player) != null) {
+        this.center.stopSpectating(player);
+      }
       session.attribute(GetHomeRoute.CURRENT_USER_KEY, null);
       session.attribute(GetGameRoute.CURRENT_OPPONENT_KEY, null);
       session.attribute(TIMEOUT_SESSION_KEY, null);

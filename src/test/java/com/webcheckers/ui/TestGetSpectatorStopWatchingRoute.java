@@ -10,15 +10,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Name: TestPostSignOutRoute
- * Description: UNIT Tester for PostSignOut UI controller tier component
+ * Name: TestGetSpectatorStopWatchingRoute
+ * Description: UNIT Tester for GetSpectatorStopWatching UI controller tier component
  *
  * @author Justin Yau @ RIT CS Student
  */
-public class TestPostSignOutRoute {
+public class TestGetSpectatorStopWatchingRoute {
 
-  // PostSignOutRoute Object
-  private PostSignOutRoute signOut;
+  // GetSpectatorStopWatching object
+  private GetSpectatorStopWatchingRoute spectatorGame;
 
   // Mocked Objects
   private Request request;
@@ -29,7 +29,7 @@ public class TestPostSignOutRoute {
 
   /* This section initializes mocked objects to test with */
   @BeforeEach
-  public void initializeSignOut() {
+  public void initializeRoute() {
     request = mock(Request.class);
     session = mock(Session.class);
     when(request.session()).thenReturn(session);
@@ -37,10 +37,10 @@ public class TestPostSignOutRoute {
     center = new GameCenter();
     playerLobby = new PlayerLobby(center);
 
-    signOut = new PostSignOutRoute(playerLobby, center, engine);
+    spectatorGame = new GetSpectatorStopWatchingRoute(engine, center);
   }
 
-  /* This tests for when the route is subjected to a user that is not signed in */
+  /* This test simulates when the user is not signed in */
   @Test
   public void test_notSignedIn() {
     final Response response = mock(Response.class);
@@ -50,7 +50,7 @@ public class TestPostSignOutRoute {
 
     // Invoke the test
     try{
-      signOut.handle(request, response);
+      spectatorGame.handle(request, response);
     }catch(HaltException e){
       assertTrue(e instanceof HaltException);
     }
@@ -58,57 +58,20 @@ public class TestPostSignOutRoute {
     assertNull(myModelView.model);
   }
 
-  /* This tests for when the route is subjected to a user that is signed in */
+  /* This test simulates when the user is signed in and the game id is valid and is the game they're spectating */
   @Test
-  public void test_signedInNotInGame() {
+  public void test_signedInGameValid() {
     Player player = playerLobby.newPlayerInstance("Test");
     when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(player);
-    final Response response = mock(Response.class);
 
-    final TemplateEngineTester myModelView = new TemplateEngineTester();
-    when(engine.render(any(ModelAndView.class))).thenAnswer(myModelView.makeAnswer());
-
-    // Invoke the test
-    try{
-      signOut.handle(request, response);
-    }catch(HaltException e){
-      assertTrue(e instanceof HaltException);
-    }
-
-    assertNull(myModelView.model);
-  }
-
-  /* This tests for when the route is subjected to a user that is signed in and in-game */
-  @Test
-  public void test_signedInGame() {
-    Player player = playerLobby.newPlayerInstance("Test");
     Player player1 = playerLobby.newPlayerInstance("Test1");
-    center.startGame(player, player1);
-    when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(player);
-    final Response response = mock(Response.class);
-
-    final TemplateEngineTester myModelView = new TemplateEngineTester();
-    when(engine.render(any(ModelAndView.class))).thenAnswer(myModelView.makeAnswer());
-
-    // Invoke the test
-    try{
-      signOut.handle(request, response);
-    }catch(HaltException e){
-      assertTrue(e instanceof HaltException);
-    }
-
-    assertNull(myModelView.model);
-  }
-
-  /* This tests for when the route is subjected to a user that is signed in and spectating */
-  @Test
-  public void test_signedInSpectator() {
-    Player player = playerLobby.newPlayerInstance("Test");
-    Player player1 = playerLobby.newPlayerInstance("Test1");
-    center.startGame(player, player1);
     Player player2 = playerLobby.newPlayerInstance("Test2");
-    center.startSpectating(player2, center.getGameByID(1));
-    when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(player2);
+
+    center.startGame(player1, player2);
+    center.startSpectating(player, center.getGameByID(1));
+
+    when(request.queryParams("gameID")).thenReturn("1");
+
     final Response response = mock(Response.class);
 
     final TemplateEngineTester myModelView = new TemplateEngineTester();
@@ -116,7 +79,66 @@ public class TestPostSignOutRoute {
 
     // Invoke the test
     try{
-      signOut.handle(request, response);
+      spectatorGame.handle(request, response);
+    }catch(HaltException e){
+      assertTrue(e instanceof HaltException);
+    }
+
+    assertNull(myModelView.model);
+  }
+
+  /* This test simulates when the user is signed in and the game id is not valid */
+  @Test
+  public void test_signedInGameInValid() {
+    Player player = playerLobby.newPlayerInstance("Test");
+    when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(player);
+
+    Player player1 = playerLobby.newPlayerInstance("Test1");
+    Player player2 = playerLobby.newPlayerInstance("Test2");
+
+    center.startGame(player1, player2);
+    center.startSpectating(player, center.getGameByID(1));
+
+    when(request.queryParams("gameID")).thenReturn("2");
+
+    final Response response = mock(Response.class);
+
+    final TemplateEngineTester myModelView = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(myModelView.makeAnswer());
+
+    // Invoke the test
+    try{
+      spectatorGame.handle(request, response);
+    }catch(HaltException e){
+      assertTrue(e instanceof HaltException);
+    }
+
+    assertNull(myModelView.model);
+  }
+
+  /* This test simulates when the user is signed in and the game ID is valid but not the right one */
+  @Test
+  public void test_signedInGameInValid1() {
+    Player player = playerLobby.newPlayerInstance("Test");
+    when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(player);
+
+    Player player1 = playerLobby.newPlayerInstance("Test1");
+    Player player2 = playerLobby.newPlayerInstance("Test2");
+
+    center.startGame(player1, player2);
+    center.startGame(player1, player2);
+    center.startSpectating(player, center.getGameByID(1));
+
+    when(request.queryParams("gameID")).thenReturn("2");
+
+    final Response response = mock(Response.class);
+
+    final TemplateEngineTester myModelView = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(myModelView.makeAnswer());
+
+    // Invoke the test
+    try{
+      spectatorGame.handle(request, response);
     }catch(HaltException e){
       assertTrue(e instanceof HaltException);
     }

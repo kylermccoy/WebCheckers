@@ -137,4 +137,29 @@ public class TestGetHomeRoute {
 
     assertNull(myModelView.model);
   }
+
+  /* Tests to make sure that everything is normal when user is signed in and spectating */
+  @Test
+  public void test_signedInSpectator() {
+    Player player = playerLobby.newPlayerInstance("Test");
+    Player player1 = playerLobby.newPlayerInstance("Test1");
+    Player player2 = playerLobby.newPlayerInstance("Test2");
+    when(session.attribute(GetHomeRoute.CURRENT_USER_KEY)).thenReturn(player);
+    center.startGame(player2, player1);
+    center.startSpectating(player, center.getGameByID(1));
+
+    final Response response = mock(Response.class);
+
+    final TemplateEngineTester myModelView = new TemplateEngineTester();
+    when(engine.render(any(ModelAndView.class))).thenAnswer(myModelView.makeAnswer());
+
+    // Invoke the test
+    try{
+      home.handle(request, response);
+    }catch(HaltException e){
+      assertTrue(e instanceof HaltException);
+    }
+
+    assertNull(myModelView.model);
+  }
 }

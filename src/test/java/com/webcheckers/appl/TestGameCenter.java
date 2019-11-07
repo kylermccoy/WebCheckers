@@ -58,4 +58,28 @@ public class TestGameCenter {
         assertFalse(gameCenter.isPlayerInGame(p1));
         assertNull(gameCenter.getCheckersGame(p1));
     }
+
+    @Test
+    public void test_playersLeftGameOne(){
+        GameCenter gameCenter = new GameCenter();
+        gameCenter.startGame(p1, p2);
+        gameCenter.playerLeftGame(p1);
+        gameCenter.playerLeftGame(p2);
+        assertFalse(gameCenter.isPlayerInGame(p1));
+        assertFalse(gameCenter.isPlayerInGame(p2));
+        assertNull(gameCenter.getCheckersGame(p1));
+        assertNull(gameCenter.getCheckersGame(p2));
+    }
+
+    @Test
+    public void test_spectator(){
+        GameCenter gameCenter = new GameCenter();
+        gameCenter.startGame(p1, p2);
+        assertEquals(gameCenter.getCheckersGame(p1), gameCenter.getGameByID(1));
+        assertNull(gameCenter.getSpectatingGame(p3));
+        gameCenter.startSpectating(p3, gameCenter.getGameByID(1));
+        assertEquals(gameCenter.getGameByID(1), gameCenter.getSpectatingGame(p3));
+        gameCenter.stopSpectating(p3);
+        assertNull(gameCenter.getSpectatingGame(p3));
+    }
 }
