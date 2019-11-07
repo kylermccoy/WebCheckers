@@ -17,7 +17,7 @@ public class TestTurn {
     public void test_isFinalized() {
         final Player player = new Player("david") ;
         final Player p2 = new Player("gary") ;
-        final CheckersGame board = new CheckersGame(player, p2) ;
+        final CheckersGame board = new CheckersGame(player, p2, 1) ;
         final Turn turn = new Turn(board, player, CheckersGame.color.RED);
 
         assertEquals(Message.error(Turn.NO_MOVES_MSG).getText(), turn.isFinalized().getText());
@@ -33,7 +33,7 @@ public class TestTurn {
     public void test_setStateAfterMove() {
         final Player player = new Player("david") ;
         final Player p2 = new Player("gary") ;
-        final CheckersGame board = new CheckersGame(player, p2) ;
+        final CheckersGame board = new CheckersGame(player, p2, 1) ;
         final Turn turn = new Turn(board, player, CheckersGame.color.RED);
 
         final Move move = new Move(new Position(0,0), new Position(2,2)) ;
@@ -50,7 +50,7 @@ public class TestTurn {
     public void test_getLatestBoard() {
         final Player player = new Player("david") ;
         final Player p2 = new Player("gary") ;
-        final CheckersGame board = new CheckersGame(player, p2) ;
+        final CheckersGame board = new CheckersGame(player, p2, 1) ;
         final Turn turn = new Turn(board, player, CheckersGame.color.WHITE);
 
         assertNotEquals(null, turn.getLatestBoard());
@@ -66,7 +66,7 @@ public class TestTurn {
     public void test_recordMove() {
         final Player player = new Player("david") ;
         final Player p2 = new Player("gary") ;
-        final CheckersGame board = new CheckersGame(player, p2) ;
+        final CheckersGame board = new CheckersGame(player, p2, 1) ;
         final Turn turn = new Turn(board, player, CheckersGame.color.WHITE);
 
         assertNotEquals(null, turn.getLatestBoard());
@@ -82,7 +82,7 @@ public class TestTurn {
     public void test_backUpMove() {
         final Player player = new Player("david") ;
         final Player p2 = new Player("gary") ;
-        final CheckersGame board = new CheckersGame(player, p2) ;
+        final CheckersGame board = new CheckersGame(player, p2, 1) ;
         final Turn turn = new Turn(board, player, CheckersGame.color.WHITE);
 
         final Move move = new Move(new Position(0,0), new Position(2,2)) ;
@@ -100,7 +100,7 @@ public class TestTurn {
     public void test_validateMove() {
         Player player = new Player("david") ;
         Player p2 = new Player("gary") ;
-        CheckersGame board = new CheckersGame(player, p2) ;
+        CheckersGame board = new CheckersGame(player, p2, 1) ;
         Turn turn = new Turn(board, player, CheckersGame.color.WHITE);
 
         Move move = new Move(new Position(0,0), new Position(1,1)) ;
