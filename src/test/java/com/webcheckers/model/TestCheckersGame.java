@@ -69,11 +69,19 @@ public class TestCheckersGame {
     }
 
     @Test
-    /***
-     * Test swapActiveColor()
-     */
-    public void test_swapActiveColor(){
-        //checkersGame.swapActiveColor();
-        //assertEquals("WHITE",checkersGame.getActiveColor().toString());
+    public void test_makeKings(){
+        checkersGame.makeKings();
+    }
+
+    @Test
+    public void test_submitTurn(){
+        checkersGame.submitTurn(p2) ;
+        checkersGame.submitTurn(p1) ;
+    }
+
+    @Test
+    public void test_changeActivePlayer(){
+        checkersGame.changeActivePlayer(p1) ;
+        checkersGame.changeActivePlayer(p2);
     }
 }

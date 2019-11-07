@@ -146,4 +146,16 @@ public class SpaceTest {
         assertSame("Invalid", spaceLight.getStatus());
     }
 
+    @Test
+    public void test_movePieceFrom(){
+        final Space s1 = new Space(0 ,0) ;
+        final Space s2 = new Space(1, 1) ;
+
+        assertFalse(s1.movePieceFrom(null));
+        assertFalse(s1.movePieceFrom(s2));
+        s1.placePiece(new Piece(true));
+        assertFalse(s1.movePieceFrom(s2));
+
+    }
+
 }
