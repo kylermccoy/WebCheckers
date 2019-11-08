@@ -1,0 +1,12 @@
+Instructios to test the program:
+
+1) Download the zip
+2) Move the zip to the directory where you want the program to be downloaded
+3) Extract the zip file
+4) Open the project at the team-project-2191-swen-261-10-d-superalphago directory
+5) Open terminal
+6) Type in mvn compile exec:java
+7) Go to localhost:4567 in any browser (NOTE SCRIPTS MAY NOT WORK IN IE)
+8) Please note that our program may differ from the MVP in the sense that in-game players would not appear on the player list. 
+THIS WAS INTENTIONAL AND DELAUS APPROVED IT AFTER THE FIRST SPRINT REVIEW.
+9) Unfortunately, there is no specific way to test the end game. So you will need to test end game by winning or losing the game.
