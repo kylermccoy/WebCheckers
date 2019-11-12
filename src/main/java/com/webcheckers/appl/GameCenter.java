@@ -1,14 +1,10 @@
 package com.webcheckers.appl;
 
-import com.sun.tools.javac.comp.Check;
 import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 import com.webcheckers.model.Turn;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Class for handling the creation of a game and management of who is in a game and what game specifically they are in
