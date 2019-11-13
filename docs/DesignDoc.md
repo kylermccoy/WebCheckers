@@ -223,6 +223,28 @@ _Figure 7: Static Model for Game System_
 ![Sequence Diagram for Game System](game-system-sequence-model.png)
 _Figure 8: Sequence Diagram for Game System_
 
+## System: Spectate Game
+
+This section will describe the functionality of how we spectate a checkers game.
+
+### Purpose of system
+
+This system aims to allow the player to spectate a game of checkers that is currently being played by 2 other players.
+They would be able to start spectating by clicking on spectate {PLAYER NAME} on the homepage. The user will be redirected
+automatically to the game view of the game they selected. The user will then receive live updated periodically and will
+be able to stop spectating at any time.
+
+### Static Models
+
+![Static Model for Spectator System](spectate-system-static-model.png)
+
+_Figure 7: Static Model for Spectator System_
+
+### Dynamic Models
+
+![Sequence Diagram for Spectator System](spectator-system-dynamic-model.png)
+_Figure 8: Sequence Diagram for Spectator System_
+
 ### Design Improvements
 > _Discuss design improvements that you would make if the project were
 > to continue. These improvement should be based on your direct
