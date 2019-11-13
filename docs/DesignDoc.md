@@ -239,11 +239,8 @@ This section will provide information about the testing performed
 and the results of the testing._
 
 ### Acceptance Testing
-> _Report on the number of user stories that have passed all their
-> acceptance criteria tests, the number that have some acceptance
-> criteria tests failing, and the number of user stories that
-> have not had any testing yet. Highlight the issues found during
-> acceptance testing and if there are any concerns._
+14/14 user stories have passed their acceptance criteria tests as of date. We have not found any 
+issues with the latest version. 
 
 ### Unit Testing and Code Coverage
 For unit testing, we tried to achieve full coverage for each of the classes that we wrote unit tests for. 
