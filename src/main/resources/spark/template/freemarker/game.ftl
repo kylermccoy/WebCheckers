@@ -54,6 +54,7 @@
         <fieldset id="game-toolbar">
           <legend>Controls</legend>
           <div class="toolbar"></div>
+          <button id="get-help" onclick="on()" type="submit">GET-HELP</button>
         </fieldset>
 
       </div>
@@ -84,13 +85,48 @@
       </table>
     </div>
   </div>
+    <div id="overlay">
+      <button id="close" onclick="off()" type="submit">CLOSE</button>
+      <body>
+      <h1>Please refer to the following website for the
+      standard American checkers game rule.</h1>
+      <a href="https://www.itsyourturn.com/t_helptopic2030.html" target="_blank"><font color="white"> https://www.itsyourturn.com/t_helptopic2030.html</font></a>
+      <h1>Following links contains helpful videos for advanced tricks</h1>
+      <a href="https://www.youtube.com/watch?v=Lfo3yfrbUs0" target="_blank"><font color="white">https://www.youtube.com/watch?v=Lfo3yfrbUs0</font></a>
+      <p></p>
+      <a href="https://www.youtube.com/watch?v=-O2MiBpoFNc" target="_blank"><font color="white">https://www.youtube.com/watch?v=-O2MiBpoFNc</font></a>
+      </body>
+    </div>
 
+    <style>
+      #overlay {
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.9);
+        z-index: 2;
+        cursor: pointer;
+      }
+    </style>
 </div>
 </div>
 
 <audio id="audio" src="http://www.soundjay.com/button/beep-07.mp3" autostart="false" ></audio>
 
 <script data-main="/js/game/index" src="/js/require.js"></script>
+<script>
+  function on(){
+    document.getElementById("overlay").style.display="block";
+  }
+  function off(){
+    document.getElementById("overlay").style.display="none";
+  }
+</script>
 
 </body>
 </html>
