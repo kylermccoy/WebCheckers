@@ -1,0 +1,91 @@
+commit 26d2991e111fa58b5fd5a74f4c6b62b0dbb74305
+Merge: 91e416a 72f124b
+Author: Luyang Lin <jl5965@rit.edu>
+Date:   Tue Sep 24 17:57:21 2019 -0400
+
+    Luyang name
+
+commit 91e416acd232b0d4aca98d324c947bd17738860a
+Author: Luyang Lin <jl5965@rit.edu>
+Date:   Tue Sep 24 17:54:11 2019 -0400
+
+    Luyang Lin name update
+
+commit 6623a2a80143681ee6689871db8c8611a61de1f8
+Merge: 0dcee00 82f6336
+Author: Luyang Lin <jl5965@rit.edu>
+Date:   Tue Sep 24 17:53:01 2019 -0400
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       README.md
+
+commit 72f124b99435af01d684d432ffc55277fc3640bd
+Merge: 21ecaa9 82f6336
+Author: Kyle McCoy <krm7269@rit.edu>
+Date:   Tue Sep 24 17:52:04 2019 -0400
+
+    Merge branch 'master' of https://github.com/RIT-SWEN-261-10/team-project-2191-swen-261-10-d-superalphago
+
+commit 21ecaa93597bb6a46e849ed17c826eebb0070c1b
+Author: Kyle McCoy <krm7269@rit.edu>
+Date:   Tue Sep 24 17:51:38 2019 -0400
+
+    added my name
+
+commit 82f6336ac9a0223bb13e53aa107d1c4cd158b4e2
+Author: Justin Yau <justiceman8998@gmail.com>
+Date:   Tue Sep 24 17:49:31 2019 -0400
+
+    Added name to README.md
+
+commit 0dcee0002458ccf77d4b48664c36240ed535afee
+Author: Luyang Lin <jl5965@rit.edu>
+Date:   Tue Sep 24 17:47:22 2019 -0400
+
+    Luyang added name to README.md
+
+commit 5464be0e7249a2fe114b3086f5bf03d570ca114b
+Author: Brian Mirabito <bjm9265@rit.edu>
+Date:   Tue Sep 24 17:44:36 2019 -0400
+
+    Added name
+
+commit ab7314976df9948342907d1e0452cc552b138a77
+Author: Justin Yau <justiceman8998@gmail.com>
+Date:   Tue Sep 24 17:39:15 2019 -0400
+
+    Added name to README
+
+commit 6389b2bb78088c84fdcb2cdd6243be17d62a03fb
+Author: Brian Mirabito <42974146+bjm9265@users.noreply.github.com>
+Date:   Tue Sep 24 17:38:38 2019 -0400
+
+    Update README.md
+
+commit cc0a57ed88309083216e0f7aa6c7c6a0cc5705bf
+Author: KennBMartinez <kbmvse@rit.edu>
+Date:   Fri May 31 16:46:59 2019 -0400
+
+    Updates for you to always include disclaimers
+
+commit 58a0d2291cd13129702c22c1d52aa5c44b4f150a
+Author: KennBMartinez <kbmvse@rit.edu>
+Date:   Fri May 31 16:39:27 2019 -0400
+
+    For your benefit.
+    
+    Share if you think something else is needed.
+
+commit ce03d52fe9e6b3b6c9d824d65d9e77777fe1e31e
+Author: KennBMartinez <kbmvse@rit.edu>
+Date:   Fri May 31 16:35:55 2019 -0400
+
+    Initial WEBCHECKERS SEED REPO 2188-2191
+
+commit 7e7b18fcb7e7d1297d8985bf430ed1f27fa92151
+Author: KennBMartinez <kbmvse@rit.edu>
+Date:   Fri May 31 16:32:48 2019 -0400
+
+    Initial commit
