@@ -246,14 +246,46 @@ _Figure 7: Static Model for Spectator System_
 _Figure 8: Sequence Diagram for Spectator System_
 
 ### Design Improvements
-> _Discuss design improvements that you would make if the project were
-> to continue. These improvement should be based on your direct
-> analysis of where there are problems in the code base which could be
-> addressed with design changes, and describe those suggested design
-> improvements. After completion of the Code metrics exercise, you
-> will also discuss the resutling metric measurements.  Indicate the
-> hot spots the metrics identified in your code base, and your
-> suggested design improvements to address those hot spots._
+
+![Code Metric Results](code-metric-result.png)
+_Figure 9: Code Metric Results_
+
+After running the four different metrics test profiles and seeing how our project handles them, we have found a few areas that would be subject to redesign/reimplementation. 
+
+We found that our project had high complexity and coupling mainly in the model package, which is causing our project instability rating to be higher than what would be optimal in our group’s opinion. Since we were able to identify that the cause of this was mainly in the model package our approach would be to help to alleviate the load on some of the bigger classes and to try and create some helper classes or methods within the classes instead of keeping our large methods that handle a lot of work inside them. By alleviating the coupling in our model class, our average afferent coupling by a lot as that is the main value causing the average to be high. 
+
+On the other side, our UI package is the reason for our high efferent coupling value as the package alone has an efferent coupling value of 96. However, we didn’t see this as too large of a problem because just by the nature of the classes and packages that the UI tier uses, a higher efferent coupling value is inevitable. 
+
+Lastly, we thought that our project will benefit from added Javadoc comments. After seeing our low project average, we thought that bringing it up would be a simple task that would make our project easier to understand by anyone who wanted to work on it or learn from it.
+
+### UI Changes
+
+I would recommend to make the navigation bar much more visible by
+making it bigger or something related. A first time user may be puzzled as
+to what they would need to do when they first reach the homepage as the
+page welcomes them but does not direct them to sign in and they don’t
+notice the nav bar. I would also change the welcome message to direct
+them to sign in, if they are not already.
+
+The website should also be checking if the game ended periodically
+for players who are in their turn currently. If a player who is waiting for their
+move resigns, the player who is making the move is not notified until they
+make a move and try to submit it or refresh the page. This may confuse
+users as to what happened.
+
+Certain fonts should also be bolded to make it easier to read and the
+message texts should be shortened to a nice brief sentence so the user
+does not get disturbed with a wall of text. More enticing buttons would also
+make a nice addition for the users to click on when starting a game or
+spectating a game.
+
+Instead of providing the rules to users, I could make it intuitive by
+implementing an all possible moves viewer for users so that they could see
+all the moves that are legal when they click a piece. This would reduce the
+chances that an error is made significantly if the users are able to notice
+the suggestions and make the gameplay much more smooth. This feature
+would be enabled by default and can be disabled if players want to have a
+more serious game of checkers.
 
 ## Testing
 
@@ -261,7 +293,7 @@ This section will provide information about the testing performed
 and the results of the testing._
 
 ### Acceptance Testing
-14/14 user stories have passed their acceptance criteria tests as of date. We have not found any 
+20/20 user stories have passed their acceptance criteria tests as of date. We have not found any 
 issues with the latest version. 
 
 ### Unit Testing and Code Coverage
