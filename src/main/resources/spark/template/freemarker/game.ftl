@@ -54,7 +54,7 @@
         <fieldset id="game-toolbar">
           <legend>Controls</legend>
           <div class="toolbar"></div>
-          <button id="get-help" onclick="on()" type="submit">GET-HELP</button>
+          <button id="get-help" onclick="on()" type="submit">HELP</button>
         </fieldset>
 
       </div>
@@ -85,33 +85,97 @@
       </table>
     </div>
   </div>
-    <div id="overlay" onclick="off()">
-      <button id="close" onclick="off()" type="submit">CLOSE</button>
+    <div id="background" onclick="off()"></div>
+    <div id="overlay">
       <body>
-      <h1>Please refer to the following website for the
-      standard American checkers game rule.</h1>
-      <a href="https://www.itsyourturn.com/t_helptopic2030.html" target="_blank"><font color="white"> https://www.itsyourturn.com/t_helptopic2030.html</font></a>
-      <h1>Following links contains helpful videos for advanced tricks</h1>
-      <a href="https://www.youtube.com/watch?v=Lfo3yfrbUs0" target="_blank"><font color="white">https://www.youtube.com/watch?v=Lfo3yfrbUs0</font></a>
-      <p></p>
-      <a href="https://www.youtube.com/watch?v=-O2MiBpoFNc" target="_blank"><font color="white">https://www.youtube.com/watch?v=-O2MiBpoFNc</font></a>
+      <h1>Help Menu <button class="overlayright" onclick="off()">X</button></h1>
+        <div class="overlaycontainer">
+          <div class="overlaytitle"> Interface Help </div>
+          <div class="overlayanchor">
+            <ul class="overlaylist">
+              <li> - Drag and drop pieces to make a move when it's your turn. Move legality is checked automatically. </li>
+              <li> - Press the resign button if you would like to resign from the game. </li>
+              <li> - Press the submit turn button when you are satisfied with your last legal move. </li>
+              <li> - Press the backup button if you would like to undo your last legal move and make a different move. </li>
+              <li> - Short on time? You can sign out at any time by pressing the sign-out found in the navigation bar. </li>
+              <li> - You can click anywhere outside the box to exit the help interface. </li>
+            </ul>
+          </div>
+          <div class="overlaytitle"> Standard American Checkers Game Rule </div>
+          <a class="overlayanchor" href="https://www.itsyourturn.com/t_helptopic2030.html" target="_blank">https://www.itsyourturn.com/t_helptopic2030.html</a>
+          <div class="overlaytitle"> Helpful Videos for Advanced Tricks </div>
+          <a class="overlayanchor" href="https://www.youtube.com/watch?v=Lfo3yfrbUs0" target="_blank">https://www.youtube.com/watch?v=Lfo3yfrbUs0</a> <br />
+          <a class="overlayanchor" href="https://www.youtube.com/watch?v=-O2MiBpoFNc" target="_blank">https://www.youtube.com/watch?v=-O2MiBpoFNc</a>
+        </div>
       </body>
     </div>
 
     <style>
-      #overlay {
-        position: fixed;
-        display: none;
-        width: 50%;
-        height: 50%;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0,0,0,0.9);
-        z-index: 2;
+
+      .overlayright {
+        float: right;
+        color: black;
+        width: 10px;
+        height: 10px;
+        border: none;
+        outline: 0;
+        background: rgba(0,0,0,0);
+        padding: 0;
         cursor: pointer;
       }
+
+      .overlayright:active, .overlayright:focus {
+        outline: 0;
+      }
+
+      .overlaylist {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .overlaycontainer {
+        padding: 10px;
+      }
+
+      .overlaytitle {
+        color: black;
+        font-weight: 600;
+        font-size: 18px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+
+      .overlayanchor {
+        color: black;
+        text-decoration: none;
+        font-size: 15px;
+      }
+
+      #background {
+        position: fixed;
+        display: none;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.75);
+        z-index: 10;
+      }
+
+      #overlay {
+        position: absolute;
+        display: none;
+        width: 50%;
+        top: 25%;
+        left: 25%;
+        right: 0;
+        bottom: 0;
+        color: black;
+        cursor: default;
+        background-color: white;
+        z-index: 1000;
+      }
+
     </style>
 </div>
 </div>
@@ -121,10 +185,12 @@
 <script data-main="/js/game/index" src="/js/require.js"></script>
 <script>
   function on(){
+    document.getElementById("background").style.display="block";
     document.getElementById("overlay").style.display="block";
   }
   function off(){
     document.getElementById("overlay").style.display="none";
+    document.getElementById("background").style.display="none";
   }
 </script>
 
