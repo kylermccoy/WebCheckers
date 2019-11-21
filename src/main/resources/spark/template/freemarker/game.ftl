@@ -85,7 +85,7 @@
       </table>
     </div>
   </div>
-    <div id="overlay">
+    <div id="overlay" onclick="off()">
       <button id="close" onclick="off()" type="submit">CLOSE</button>
       <body>
       <h1>Please refer to the following website for the
@@ -102,8 +102,8 @@
       #overlay {
         position: fixed;
         display: none;
-        width: 100%;
-        height: 100%;
+        width: 50%;
+        height: 50%;
         top: 0;
         left: 0;
         right: 0;
