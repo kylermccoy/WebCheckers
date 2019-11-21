@@ -293,7 +293,7 @@ This section will provide information about the testing performed
 and the results of the testing._
 
 ### Acceptance Testing
-14/14 user stories have passed their acceptance criteria tests as of date. We have not found any 
+20/20 user stories have passed their acceptance criteria tests as of date. We have not found any 
 issues with the latest version. 
 
 ### Unit Testing and Code Coverage
