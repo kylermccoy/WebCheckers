@@ -246,14 +246,17 @@ _Figure 7: Static Model for Spectator System_
 _Figure 8: Sequence Diagram for Spectator System_
 
 ### Design Improvements
-> _Discuss design improvements that you would make if the project were
-> to continue. These improvement should be based on your direct
-> analysis of where there are problems in the code base which could be
-> addressed with design changes, and describe those suggested design
-> improvements. After completion of the Code metrics exercise, you
-> will also discuss the resutling metric measurements.  Indicate the
-> hot spots the metrics identified in your code base, and your
-> suggested design improvements to address those hot spots._
+
+![Code Metric Results](code-metric-result.png)
+_Figure 9: Code Metric Results
+
+After running the four different metrics test profiles and seeing how our project handles them, we have found a few areas that would be subject to redesign/reimplementation. 
+
+We found that our project had high complexity and coupling mainly in the model package, which is causing our project instability rating to be higher than what would be optimal in our group’s opinion. Since we were able to identify that the cause of this was mainly in the model package our approach would be to help to alleviate the load on some of the bigger classes and to try and create some helper classes or methods within the classes instead of keeping our large methods that handle a lot of work inside them. By alleviating the coupling in our model class, our average afferent coupling by a lot as that is the main value causing the average to be high. 
+
+On the other side, our UI package is the reason for our high efferent coupling value as the package alone has an efferent coupling value of 96. However, we didn’t see this as too large of a problem because just by the nature of the classes and packages that the UI tier uses, a higher efferent coupling value is inevitable. 
+
+Lastly, we thought that our project will benefit from added Javadoc comments. After seeing our low project average, we thought that bringing it up would be a simple task that would make our project easier to understand by anyone who wanted to work on it or learn from it.
 
 ## Testing
 
