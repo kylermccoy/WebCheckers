@@ -63,6 +63,7 @@ The enhancements of interest to Team D in order of preference are:
 This section describes the application domain.
 
 ![The WebCheckers Domain Model](domain-model.png)
+
 _Figure 1: Domain analysis of the Web Application_
 
 ###  Overview of the domain
@@ -85,6 +86,7 @@ This section describes the application architecture.
 The following Tiers/Layers model shows a high-level view of the webapp's architecture.
 
 ![The Tiers & Layers of the Architecture](architecture-tiers-and-layers.png)
+
 _Figure 2: Diagram of the WebCheckers Architectural Structure_
 
 As a web application, the user interacts with the system using a
@@ -104,6 +106,7 @@ This section describes the web interface flow; this is how the user views and in
 with the WebCheckers application.
 
 ![The WebCheckers Web Interface Statechart](state-diagram.png)
+
 _Figure 3: A State Chart that represents the different UI Views_
 
 ### Flow of Pages
@@ -167,6 +170,7 @@ will be updated to update the state of the board with the aid of helper function
 This tier's main responsibility is to store the representations of the Board, Space, and Piece for the game.
 
 ![The WebCheckers Structural Class Diagram for Model Tier](model-tier-structural-class-model.png)
+
 _Figure 4: Structural Class Diagram for Model Tier_
 
 The Board component stores the state of the red player's board and white player's board. This will be primarily used by the game
@@ -197,11 +201,13 @@ point to which the system would handle all necessary clean up to allow another u
 ### Static Models
 
 ![Static Model for Login System](login-system-static-model.png)
+
 _Figure 5: Static Model for Login System_
 
 ### Dynamic Models
 
 ![Sequence Diagram for Login System](login-system-sequence-model.png)
+
 _Figure 6: Sequence Diagram for Login System_
 
 ## System: Start Game
@@ -221,6 +227,7 @@ _Figure 7: Static Model for Game System_
 ### Dynamic Models
 
 ![Sequence Diagram for Game System](game-system-sequence-model.png)
+
 _Figure 8: Sequence Diagram for Game System_
 
 ## System: Spectate Game
@@ -243,6 +250,7 @@ _Figure 9: Static Model for Spectator System_
 ### Dynamic Models
 
 ![Sequence Diagram for Spectator System](spectator-system-dynamic-model.png)
+
 _Figure 10: Sequence Diagram for Spectator System_
 
 ## System : Validate Move
@@ -256,7 +264,14 @@ This system aims to validate a player's move when a player moves a piece during 
 ### Static Models
 
 ![Static Model for Validation System](Validate-Move-Static-Model.png)
+
 _Figure 11: Static Model for Validation System_
+
+### Dynamic Models
+
+![Sequence_Diagram for Validation System](Validation-Sequence-Diagram.png)
+
+_Figure 12: Sequence Diagram for Validation System_
 
 ### Design Improvements
 
