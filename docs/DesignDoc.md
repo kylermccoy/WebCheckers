@@ -55,7 +55,7 @@ based upon the  [American rules](http://www.se.rit.edu/~swen-261/projects/WebChe
 The enhancements of interest to Team D in order of preference are:
 
 1.  _Spectator Mode_: Other players may view an on-going game that they are not playing.
-2.  _Replay Mode_: Games can be stored and then reviewed at a later date.
+2.  _Game Help_: Players may click a button that provides them assistance in how to play the game.
 
 
 ## Application Domain
@@ -238,17 +238,31 @@ be able to stop spectating at any time.
 
 ![Static Model for Spectator System](spectate-system-static-model.png)
 
-_Figure 7: Static Model for Spectator System_
+_Figure 9: Static Model for Spectator System_
 
 ### Dynamic Models
 
 ![Sequence Diagram for Spectator System](spectator-system-dynamic-model.png)
-_Figure 8: Sequence Diagram for Spectator System_
+_Figure 10: Sequence Diagram for Spectator System_
+
+## System : Validate Move
+
+This sections will describe the functionality of how we validate a player's move.
+
+### Purpose of System
+
+This system aims to validate a player's move when a player moves a piece during that player's turn. When a player makes a move they will notified if their move is valid. If their move isn't valid the system will reset their piece and provide them a message stating why the move was invalid. Once the player makes a valid move, the submit move button will be made clickable.
+
+### Static Models
+
+![Static Model for Validation System](Validate-Move-Static-Model.png)
+_Figure 11: Static Model for Validation System_
 
 ### Design Improvements
 
 ![Code Metric Results](code-metric-result.png)
-_Figure 9: Code Metric Results_
+
+_Figure 13: Code Metric Results_
 
 After running the four different metrics test profiles and seeing how our project handles them, we have found a few areas that would be subject to redesign/reimplementation. 
 
