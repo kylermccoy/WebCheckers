@@ -269,7 +269,7 @@ _Figure 11: Static Model for Validation System_
 
 ### Dynamic Models
 
-![Sequence_Diagram for Validation System](Validation-Sequence-Diagram.png)
+![Sequence Diagram for Validation System](Validation-Sequence-Diagram.png)
 
 _Figure 12: Sequence Diagram for Validation System_
 
